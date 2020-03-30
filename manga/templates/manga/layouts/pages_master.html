@@ -1,0 +1,335 @@
+<!doctype html>
+<!-- {% load static %} -->
+<html lang="en" data-pgc-set-master>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Manga Hive</title>
+        <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <link href="/static/style.css" rel="stylesheet">
+        <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"> -->
+        <link rel="stylesheet" href="/static/font-awesome/css/all.css">
+        <link rel="stylesheet" href="/static/components/pg.chocka-blocks/css/cb-style.css">
+    </head>
+    <body id="body-element" class="w-100 vh-100">
+        <div class="back-to-top-div d-none" id="back-to-top-div">
+            <button class="btn btn-outline-dark" id="back-to-top-button" onclick="window.scrollTo(0,0)">
+                <i class="fas fa-arrow-up"></i>
+            </button>
+        </div>
+        <div class="d-none overlay slide-in-top" id="overlay">
+</div>
+        <div class="row d-flex w-100 flex-row flex-nowrap mx-0">
+            <div class="left-navigation-strip-container d-none d-md-block">
+                <div class="left-navigation-strip position-relative bg-dark">
+                    <nav class="nav justify-content-center align-content-center align-items-center text-white border-white sidebar" id="navigation-drawer-strip">
+                        <button class="btn-dark active nav-link left-navigation-strip-toggler" onclick="expandSideNav()">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <a class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark" href="/" onclick="fetch_manga_list('default')"><i class="fas fa-home"></i></a>
+                        <a class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark" href="/manga_list"><i class="fas fa-list"></i></a>
+                        <a class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark" href="/#newly_added_section"><i class="fas fa-plus"></i></a>
+                        <a class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark" href="/#popular_manga_section"><i class="fas fa-fire"></i></a>
+                        <button class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark" onclick="fetch_manga_list('my_bookmarks')">
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                        <button class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark" onclick="fetch_manga_list('my_favorites')">
+                            <i class="fas fa-star"></i>
+                        </button>
+                        <button class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark" onclick="fetch_manga_list('my_watchlist')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark" onclick="fetch_manga_list('my_collections')">
+                            <i class="fas fa-clipboard-list"></i>
+                        </button>
+                    </nav>                     
+                </div>
+            </div>
+            <div class="flex-fill">
+                <nav class="navbar mobile-only-top-nav navbar-dark btn-dark active d-flex flex-row d-md-none">
+                    <button class="navbar-toggler btn btn-dark active" type="button" onclick="expandSideNav()" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div>
+                        <button class="text-sm-center text-white d-inline-block btn btn-dark active mx-auto" data-toggle="collapse" type="button" data-target="#filters-menu">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                        <button class="text-sm-center btn btn-dark active d-inline-block text-white mx-auto" href="#" onclick="toggleFullScreen()" id="fullscreen-toggling-button">
+                            <i class="fas fa-expand" id="fullscreen-toggling-icon"></i>
+                        </button>
+                        <a class="text-sm-center text-white d-inline-block btn btn-dark active mx-auto" href="/account/"> <i class="fas fa-user"></i></a>
+                    </div>
+                </nav>
+                <nav class="navbar navbar-dark text-white shy bg-dark d-flex flex-fill row mx-0 flex-column p-0">
+                    <div class="mx-0 d-flex justify-content-end topnav-central-column flex-fill w-100 py-2 flex-sm-column flex-md-row flex-column">
+                        <form class="form-inline flex-fill flex-nowrap px-2 d-flex flex-column" onblur="hide_search_results()" id="search_form" action="/" method="get" name="search_form" data-pg-name="search_form" title="Search for a Manga">
+                            <input class="form-control mr-sm-2 flex-fill w-100" name="search_term" type="search" placeholder="Search" onkeyup="search_manga(this)" aria-label="Search">
+                            <div class="w-100 search_results_container position-relative mr-sm-2 bg-white" id="search_results">
+                                <div class="position-absolute w-100 search_results bg-white"></div>
+                            </div>
+                        </form>
+                        <div class="d-none d-md-flex flex-md-row">
+                            <button class="text-sm-center text-white d-inline-block btn btn-dark mx-auto" data-toggle="collapse" type="button" data-target="#filters-menu" onclick="this.classList.toggle('active');">
+                                <i class="fas fa-filter"></i>
+                            </button>
+                            <button class="text-sm-center btn btn-dark d-inline-block text-white mx-auto" href="#" onclick="toggleFullScreen()" id="fullscreen-toggling-button">
+                                <i class="fas fa-expand" id="fullscreen-toggling-icon"></i>
+                            </button>
+                            <a class="text-sm-center text-white d-inline-block btn btn-dark mx-auto" href="account"> <i class="fas fa-user text-warning"></i></a>
+                        </div>
+                    </div>
+                    <div class="mx-0 d-flex justify-content-end topnav-central-column flex-fill align-items-center btn-dark active flex-nowrap w-100 central-nav-content py-2" data-pgc-edit="page-controls-area">
+                        <div class="d-flex justify-content-center">
+                            <div id="active_filters_controls" class="active_filters_controls">
+                                <button type="button" class="btn py-0 px-2 btn-light disabled" data-toggle="collapse" data-target="#active_filters_list">Active filters&nbsp;
+                                    <span class="badge badge-light p-0" id="active_filters">0</span>
+                                    <span class="sr-only">content filters</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex-fill px-2 flex-row-reverse d-flex">
+                            <div class="form-group form-inline my-0 d-flex flex-nowrap flex-fill"> 
+                                <select id="select_ordering_rule" class="custom-select custom-select-sm ml-auto" onclick="apply_ordering_rule">
+                                    <option value="manga_name">Manga name (A - Z)</option>
+                                    <option value="-manga_name">Manga name (Z - A)</option>
+                                    <option value="-updated_on">Newly Updated</option>
+                                    <option value="-added_on">New Added</option>
+                                    <option value="number_of_chapters">Number of Chapters (ASC)</option>
+                                    <option value="-number_of_chapters">Number of Chapters (DESC)</option>
+                                </select>
+                                <button type="button" class="btn btn-sm mx-2 btn-dark active">
+                                    <i class="fas fa-th-list"></i>
+                                </button>                                 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex btn-dark active w-100 m-0 active-filters-container px-2 py-0" id="active-filters-container">
+                        <div class="justify-content-center active_filters_list w-100 collapse" id="active_filters_list">
+                            <div class="active-filters-stub" id="active-filters-stub">
+                                <div class="stub-item d-flex flex-column justify-items-center align-items-center">
+                                    <div class="stub-image">
+                                        <i class="fa fa-search-minus"></i>
+                                    </div>
+                                    <div class="stub-text">
+                                        <p class="lead">There are no active filters yet </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="author-filters" id="active_author_filters_list">
+</div>
+                            <div class="tag-filters" id="active_tag_filters_list">
+</div>
+                        </div>
+                    </div>
+                    <div class="my-0 py-0 w-100 mx-0 filters-menu-container">
+                        <div id="filters-menu" class="collapse bg-dark w-100">
+                            <div class="bg-dark filters flex-fill row mx-0">
+                                <!-- {% if all_authors %} -->
+                                <section class="col-md-6 d-flex align-items-center flex-column">
+                                    <header class="text-center">
+                                        <h4 class="d-inline filter-section-header"><a href="/filters?type=authors">Authors</a></h4>
+                                    </header>
+                                    <div class="px-4 my-4 w-100">
+                                        <input type="search" class="form-control" placeholder="Search author">
+                                    </div>
+                                    <div class="row mx-0 flex-fill filter-items-section d-flex flex-column flex-nowrap" id="author-filters">
+                                        <div class="carousel col-12 row mx-0 overflow-auto flex-fill d-flex flex-column" id="authors_carousel" data-interval="false" data-touch="true" data-keyboard="true">
+                                            <div class="carousel-inner filter-items row col-12 mx-0 px-0 h-100 flex-fill" id="author_filters">
+                                                <div class="carousel-item active" id="authors_page_1">
+                                                    <div class="page row mx-0">
+                                                        <!-- {% for author in all_authors %} -->
+                                                        <div class="custom-control custom-checkbox filter-item mx-0 col-4"> 
+                                                            <input type="checkbox" class="custom-control-input" data-display-value="{{ author.author_name }}" id="author_{{ author.id }}" name="author_{{ author.id }}" onclick="toggle_global_filter(this)"> 
+                                                            <label class="custom-control-label" for="author_{{ author.id }}">
+                                                                <a href="/manga_list?author_id={{ author.id }}" class="d-inline-block">{{ author.author_name }}</a>
+                                                            </label>                                                             
+                                                        </div>
+                                                        <!-- {% endfor %} -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row d-flex justify-content-center mx-0 py-0 pb-1">
+                                            <ul class="pagination bg-dark my-0"> 
+                                                <li class="page-item">
+                                                    <button class="page-link" onclick="get_previous_authors_page(15)">
+                                                        <i class="fa fa-arrow-left"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="page-item">
+                                                    <select class="page-link active custom-select pr-4" id="current_authors_page" onchange="get_selected_page(this, 15, get_authors_page)">
+                                                        <!-- {% for x in author_pages %} -->
+                                                        <option value='{{ x }}'>{{ x }}</option>
+                                                        <!-- {%endfor %} -->
+                                                    </select>
+                                                </li>
+                                                <li class="page-item">
+                                                    <i class="page-link"> - of - </i>
+                                                </li>
+                                                <li class="page-item">
+                                                    <button class="page-link" id="last_authors_page" onclick="get_last_authors_page()">{{all_authors.paginator.num_pages }}</button>
+                                                </li>
+                                                <li class="page-item">
+                                                    <button class="page-link" onclick="get_next_authors_page(15)">
+                                                        <i class="fa fa-arrow-right"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- {% endif %} -->
+                                <!-- {% if all_tags %} -->
+                                <section class="col-md-6 d-flex align-items-center flex-column">
+                                    <header class="text-center">
+                                        <h4 class="d-inline filter-section-header"><a href="/filters?type=tags">Tags</a></h4>
+                                    </header>
+                                    <div class="px-4 my-4 w-100">
+                                        <input type="search" class="form-control" placeholder="Search tag">
+                                    </div>
+                                    <div class="row mx-0 flex-fill filter-items-section d-flex flex-column flex-nowrap" id="tag-filters">
+                                        <div class="col-12 row carousel mx-0 overflow-auto flex-fill d-flex flex-column" id="tags_carousel" data-interval="false" data-touch="true" data-keyboard="true">
+                                            <div class="filter-items carousel-inner row col-12 mx-0 px-0 h-100 flex-fill" id="tag_filters">
+                                                <div class="carousel-item active" id="tags_page_1">
+                                                    <div class="page row mx-0">
+                                                        <!-- {% for tag in all_tags %} -->
+                                                        <div class="custom-control custom-checkbox filter-item mx-0 col-4"> 
+                                                            <input type="checkbox" class="custom-control-input" data-display-value="{{ tag.tag_name }}" id="tag_{{ tag.id }}" name="tag_{{ tag.id }}" onclick="toggle_global_filter(this)"> 
+                                                            <label class="custom-control-label" for="tag_{{ tag.id }}">
+                                                                <a href="/manga_list?tag_id={{ tag.id }}" class="d-inline-block">{{ tag.tag_name }}</a>
+                                                            </label>                                                             
+                                                        </div>
+                                                        <!-- {% endfor %} -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row d-flex mx-0 py-0 justify-content-center pb-1">
+                                            <ul class="pagination bg-dark my-0"> 
+                                                <li class="page-item">
+                                                    <button class="page-link" onclick="get_previous_tags_page(15)">
+                                                        <i class="fa fa-arrow-left"></i>
+                                                    </button>
+                                                </li>
+                                                <li class="page-item">
+                                                    <select class="page-link active custom-select pr-4" id="current_tags_page" onchange="get_selected_page(this, 15, get_tags_page)">
+                                                        <!-- {% for x in tag_pages %} -->
+                                                        <option value="{{ x }}">{{ x }}</option>
+                                                        <!-- {% endfor %}-->
+                                                    </select>
+                                                </li>
+                                                <li class="page-item">
+                                                    <i class="page-link"> - of - </i>
+                                                </li>
+                                                <li class="page-item">
+                                                    <button class="page-link" id="last_tags_page" onclick="get_last_tags_page()">{{all_tags.paginator.num_pages }}</button>
+                                                </li>
+                                                <li class="page-item">
+                                                    <button class="page-link" onclick="get_next_tags_page(15)">
+                                                        <i class="fa fa-arrow-right"></i>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- {% if predefined_filters -->
+                                <!-- {% endif %} -->
+                                <section class="d-flex align-items-center flex-column col-md-12">
+</section>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                <section class="pg-empty-placeholder content-area flex-fill vh-100" data-pgc-edit="manga_chapters_overview[class]" data-pgc-edit-classes="content-area">
+</section>
+                <section id="cb-footer-1-1" class="cb-footer-block cb-footer-1-1 d-flex flex-row">
+                    <div class="cb-footer1 py-5 bg-dark">
+                        <div class="container"> 
+                            <div class="row">
+                                <div class="col-md-3"> 
+                                    <img src="components/pg.chocka-blocks/images/white.png" alt="Logo" class="img-fluid"> 
+                                    <p class="mt20">MANGAHIVE is a venture of FOCAL POINT</p> 
+                                </div>
+                                <div class="col-md-3">
+                                    <h3>COMMUNITY</h3> 
+                                    <p class="mt20"><i class="fas fa-address-book"></i>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://otakucentral.mangahive.com">Blog</a><br></p> 
+                                    <p><i class="fab fa-discord"></i>&nbsp;&nbsp;&nbsp;<a href="http://discord.com/manga_hive/">Discord</a></p>
+                                    <p><i class="fab fa-twitter"></i>&nbsp;&nbsp;&nbsp;<a href="http://twitter.com/manga_hive/">Twitter</a></p> 
+                                </div>
+                                <div class="col-md-3">
+                                    <h3>USEFUL LINKS</h3> 
+                                    <p class="mt20"><i class="fa fa-plus"></i><a href="/site/about_us">About Us</a></p> 
+                                    <p><i class="fa fa-plus"></i><a class="site-link" href="/site/privacy_policy">Privacy Policy</a></p> 
+                                    <p><i class="fa fa-plus"></i><a class="site-link" href="/site/conditions">Terms &amp; Conditions</a></p> 
+                                    <p><i class="fa fa-plus"></i><a class="site-link" href="/site/notices">Notices</a></p>
+                                </div>
+                                <div class="col-md-3">
+                                    <h3>MORE FUN!</h3>
+                                    <p class="mt20"><a class="sister-site-link" href="http://store.mangahive.com/"><i class="fas fa-external-link-alt"></i>&nbsp; &nbsp; Visit Our Store<br></a></p>
+                                    <p class="mt20"><a class="sister-site-link" href="http://novels.mangahive.com"><i class="fas fa-external-link-alt"></i>&nbsp; &nbsp; Read Light Novels<br></a></p>
+                                    <p class="mt20"><a class="sister-site-link" href="http://anime.mangahive.com"><i class="fas fa-external-link-alt"></i>&nbsp; &nbsp; Watch Anime<br></a></p>
+                                </div>
+                            </div>                             
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="pr-0 vh-100 left-navigation-expanded collapsed" id="navigation-drawer-expanded">
+                <div>
+                    <div class="navigation-drawer-expanded-header btn-dark active">
+                        <div class="d-flex flex-row">
+                            <button class="btn-invisible border-radius-100">
+                                <!-- {% if site_user %}-->
+                                <img src="{{ site_user.image_url }}" class="navigation-drawer-expanded-nav-image">
+                                <!-- {% else %} -->
+                                <img src="assets/img/account/406-4062348_queen-bee-bee-queen-chibi-clipart.png" class="navigation-drawer-expanded-nav-image">
+                                <!-- {% endif %}-->
+                            </button>
+                            <div class="flex-fill d-flex align-items-center justify-content-center text-nowrap px-2">
+                                <!-- {% if site_user %} -->
+                                <a class="lead text-white" href="account/{{ site_user.id }}/account_profile">{{ site_user.username }}</a>
+                                <!-- {% else %} -->
+                                <p class="m-0"> <a class="text-white" href="account/register">Register</a> <span>&nbsp;or&nbsp;</span> <a class="text-warning" href="account/sign_in">Sign In</a> </p>
+                                <!-- {% endif %} -->
+                            </div>
+                            <button type="button" class="close" aria-label="Close">
+                                <span aria-hidden="true" id="collapse-sidenav-button" onclick="collapseSideNav()">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <nav class="nav sidebar bg-dark">
+                    <div class="w-100">
+                        <a class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark active" href="/" onclick="collapseSideNav()"><span class="btn-dark"><i class="fas fa-home"></i></span> HOME</a>
+                        <a class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark" href="/manga_list" onclick="collapseSideNav()"><span class="btn-dark"><i class="fas fa-list"></i></span> MANGA LIST</a>
+                        <a class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark" href="/#newly_added" onclick="collapseSideNav()"><span class="btn-dark"><i class="fas fa-plus"></i></span> NEWLY ADDED</a>
+                        <a class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark" href="/#popular_manga" onclick="collapseSideNav()"><span class="btn-dark"><i class="fas fa-fire"></i></span> MOST POPULAR</a>
+                        <button class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark" onclick="fetch_manga_list('my_bookmarks')">
+                            <span class="btn-dark"><i class="fas fa-bookmark"></i></span> MY BOOKMARKS
+                        </button>
+                        <button class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark" onclick="fetch_manga_list('my_favorites')">
+                            <span class="btn-dark"><i class="fas fa-star"></i></span> MY FAVORITES
+                        </button>
+                        <button class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark" onclick="fetch_manga_list('my_watchlist')">
+                            <span class="btn-dark"><i class="fas fa-eye"></i></span> MY WATCHLIST
+                        </button>
+                        <button class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark" onclick="fetch_manga_list('my_collections')"> 
+                            <span class="btn-dark"><i class="fas fa-clipboard-list"></i></span> COLLECTIONS
+                        </button>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="/static/assets/js/jquery.min.js"></script>
+        <script src="/static/assets/js/popper.js"></script>
+        <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/static/site.js"></script>
+    </body>
+</html>

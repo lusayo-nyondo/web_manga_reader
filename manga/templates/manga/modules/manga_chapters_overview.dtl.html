@@ -1,0 +1,218 @@
+{% extends "manga/layouts/app.dtl.html" %}
+
+{% block module_content %}
+            <div class="flex-fill">
+                <nav class="navbar mobile-only-top-nav navbar-dark btn-dark active d-flex flex-row d-md-none">
+                    <button class="navbar-toggler btn btn-dark active" type="button" onclick="expandSideNav()" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div>
+                        <button class="text-sm-center text-white d-inline-block btn btn-dark active mx-auto" data-toggle="collapse" type="button" data-target="#filters-menu">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                    </div>
+                </nav>
+                <nav class="navbar mb-4 navbar-dark text-white shy bg-dark d-flex flex-fill row mx-0 flex-column p-0">
+                    <div class="mx-0 d-flex justify-content-end topnav-central-column flex-fill w-100 py-2 flex-sm-column flex-md-row flex-column">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                        <form class="form-inline flex-fill flex-nowrap px-2 d-flex flex-column" onblur="hide_search_results()" id="search_form" action="/" method="get" name="search_form" data-pg-name="search_form" title="Search for a Manga">
+                            <div class="form-group form-inline d-flex w-100"> 
+                                <select class="custom-select flex-fill custom-select" id="chapter-select-bottom" onchange="fetch_selected_chapter({{ manga.id }}, this)">
+                                    <option value="-1" selected>Select Chapter: </option>
+                                    {% for chap in chapters %}
+                                    <option value='{{ chap.chapter_number }}'>{{ chap.chapter_name }}</option>
+                                    {% endfor %}
+                                </select>                                         
+                            </div>
+                        </form>
+                    </div>
+                </nav>
+                <section class="content-area" data-pgc-field="manga_chapters_overview">
+                    <div id="manga_overview_section">
+                        <section class="manga_details row mx-0">
+                            <div class="col-md-4 col-12 col-xl-3">
+                                <img src="{{ manga.banner_image_url }}" alternate="Banner Image" class="img-thumbnail w-100 banner-image" id="banner_image"> 
+                            </div>
+                            <div class="col-md-8 col-12 col-xl-9">
+                                <h3 id="manga_name_heading" class="manga-name-heading">{{ manga.manga_name }}</h3>
+                                {% if alternate_names %}
+                                <div id="manga_alternate_names_section" class="manga-alternate-names-section">
+                                    <h5>Associated names</h5>
+                                    <div id="manga_alternate_names">
+                                        {% for alternate_name in alternate_names %}
+                                        <p class="alternate-name d-inline-block" data-pgc-repeat="alternate-name-p">{{ alternate_name.alternate_name }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
+                                {% if tags %}
+                                <div id="manga_tags_section" class="manga-tags-section">
+                                    <h5>Tags</h5>
+                                    <div id="manga_tags">
+                                        {% for tag in tags %}
+                                        <p class="tag d-inline-block"> <a href="/tags/{{ tag.id }}">{{ tag.tag_name }}</a> </p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
+                                {% if authors %}
+                                <div id="manga_authors_section">
+                                    <h5>Authors</h5>
+                                    <div class="manga-authors" id="manga-authors">
+                                        {% for author in authors %}
+                                        <p class="manga-author d-inline-block"> <a href="/authors/{{ author.id }}">{{ author.author_name }}</a></p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
+                                {% if translators %}
+                                <div id="manga_translators_section">
+                                    <h5>Translators</h5>
+                                    <div class="manga-translators" id="manga-translators">
+                                        {% for translator in translators %}
+                                        <p class="manga-translator"> <a href="translators/{{ transator.id }}"> {{ translator.translator_name }} </a> </p>
+                                        {% endfor  %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
+                                <div id="manga_summary_section">
+                                    <h5>Summary</h5>
+                                    <!-- {% if manga.description %} -->
+                                    <p class="manga-summary"> {{ manga.description }} </p>
+                                    <!-- {% endif %} -->
+                                </div>
+
+                                <!-- {% if parent_collections %} -->
+                                <div id="manga_collections_section">
+                                    <h5>Is Part Of: </h5>
+                                    <hr>
+                                    <div id="manga_collections_btn_list">
+                                    <!--{% for collection in parent_collections %} -->
+                                        <button class="btn btn-dark" data-toggle="manga-collection" data-target="{{ collection.id }}">{{ collection.name }}</button>
+                                    <!--{% endfor %} -->
+                                    </div>
+                                </div>
+                                <!-- {% endif %} -->                                 
+                            </div>
+                        </section>
+                        <section class="manga_actions row mx-0">
+                            <div class="col-md-3 manga-action-column" id="watchlist_action_div">
+                                <button
+                                    type="button"
+                                    tooltip="Add this manga to your watchlist."
+                                    class="btn btn-warning text-white my-2"
+                                    id="btn_toggle_watchlist_state"
+                                    data-toggle="watchlist_state"
+                                    {% if user %}
+                                    data-user="{{ user.id }}"
+                                    {% else %}
+                                    data-user="None"
+                                    {% endif %}
+                                    data-manga="{{ manga.id }}"
+                                    data-value="{{ is_manga_in_watchlist }}">
+                                    <i class="action-icon fas fa-eye"></i>
+                                    <span class="action-state">Toggle Watchlist State</span>
+                                </button>
+                                
+                            </div>
+                            <div class="col-md-3 manga-action-column d-flex flex-column justify-content-center">
+                                <span class="text-warning position-relative" id="manga_{{ manga.id }}_rating_span">
+                                    {% for valid_rating in valid_ratings %}
+                                    <span class="rating_star">
+                                        <button
+                                            type="button"
+                                            class="btn text-warning"
+                                            class="btn"
+                                            data-action="rate_manga"
+                                            data-manga="{{ manga.id }}"
+                                            data-value="{{ valid_rating }}">
+                                            {% if valid_rating <= rating %}
+                                            <i class="fas fa-star"></i>
+                                            {% else %}
+                                            <i class="far fa-star"></i>
+                                            {% endif %}
+                                        </button>
+                                    </span>
+                                    {% endfor %}
+                                </span> 
+                            </div>
+                        </section>
+                        <section class="chapters-section row mx-0">
+                            <div class="col-12">
+                                <h3>Chapters</h3>
+                            </div>
+                            <div class="col-12">
+                                <table class="table">
+                                    <thead class="thead-dark"> 
+                                        <tr> 
+                                            <th>#</th> 
+                                            <th>Chapter Name</th> 
+                                            <th>Added on</th>
+                                            <th>Views</th> 
+                                        </tr>                                         
+                                    </thead>                                     
+                                    <tbody>
+                                        <!-- {% for chapter in chapters %} -->
+                                        <tr class="chapter-row" onclick='location.assign("/manga/{{ manga.id }}/chapters/{{ chapter.chapter_number }}")'> 
+                                            <th scope="row">{{ chapter.chapter_number }}</th> 
+                                            <td>{{ chapter.chapter_name }}</td> 
+                                            <td>{{ chapter.added_on }}</td> 
+                                            <td>{{ chapter.views }}</td> 
+                                        </tr>
+                                        <!-- {% endfor %} -->
+                                    </tbody>
+                                </table>                                 
+                            </div>
+                        </section>
+                    </div>
+                    <div id="recommendations-section">
+                        <!-- {% if manga_same_author %} -->
+                        <div id="manga-same-author-section" class="col-12">
+                            <h3>More by this manga's author(s): </h3>
+                            <div class="manga-same-author row mx-0" id="manga-same-author">
+                                <!-- {% for manga in manga_same_author %} -->
+                                <div class="col-md-3 col-sm-4 col-xl-2 manga-card px-2">
+                                    <div class="card mb-3 w-100">
+                                        <img src="{{ manga.banner_image_url }}" class="w-100 cover-image" alt="cover_image">
+                                        <div class="card-body py-1 px-1">
+                                            <h6 class="card-title font-weight-bold text-primary my-0"><a href="/manga/{{ manga.id }}" class="manga-title">{{ manga.manga_name }}</a></h6>
+                                            <!-- {% if manga.tags.all %} -->
+                                            <p class="card-text small my-0 manga-tags"> <!-- {% for tag in manga.tags.all %} --> <a href='tags/{{ tag.id }}' class='tag'>{{ tag.tag_name }}</a> <!-- {% endfor %} --> </p>
+                                            <!-- {% endif %} -->
+                                            <p class="card-text last-updated"> <small class="text-muted">Last updated {{ manga.updated_on }}</small> </p>
+                                        </div>
+                                    </div>                                     
+                                </div>
+                                <!-- {% endfor %} -->
+                            </div>
+                        </div>
+                        <!-- {% endif %} -->
+                        <!-- {% if manga_same_tags %} -->
+                        <div id="manga-same-tags-section" class="col-12">
+                            <h3>More manga with the same tags:&nbsp;</h3>
+                            <div class="manga-same-author row mx-0" id="manga-same-tags">
+                                <!-- {% for manga in manga_same_tags %} -->
+                                <div class="col-md-3 col-sm-4 col-xl-2 manga-card px-2">
+                                    <div class="card mb-3 w-100">
+                                        <img src="{{ manga.banner_image_url }}" class="w-100 cover-image" alt="cover_image">
+                                        <div class="card-body py-1 px-1">
+                                            <h6 class="card-title font-weight-bold text-primary my-0"><a href="/manga/{{ manga.id }}" class="manga-title">{{ manga.manga_name }}</a></h6>
+                                            <!-- {% if manga.tags.all %}-->
+                                            <p class="card-text small my-0 manga-tags"> <!-- {% for tag in manga.tags.all %} --> <a href='tags/{{ tag.id }}' class='tag'>{{ tag.tag_name }}</a> <!-- {% endfor %} --> </p>
+                                            <!-- {% endif %} -->
+                                            <p class="card-text last-updated"><small class="text-muted">Last updated {{ manga.updated_on }}</small></p>
+                                        </div>
+                                    </div>                                     
+                                </div>
+                                <!-- {% endfor %} -->
+                            </div>
+                        </div>
+                        <!-- {% endif %} -->
+                    </div>
+                </section>
+            </div>
+
+{% endblock %}

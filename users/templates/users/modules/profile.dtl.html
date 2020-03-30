@@ -1,0 +1,292 @@
+{% extends 'manga/layouts/app.dtl.html' %}
+
+{% block module_content %}
+<div class="account_profile">
+    <header>
+        <div class="collapse show" id="navbarHeader">
+            <section class="position-relative">
+                <div class="particle_background bg-dark h-100 w-100" id="particle_background"></div>
+                <div class="text-center account_profile_header_section pb-5">
+                    <div class="container">
+                        <h1 class="jumbotron-heading text-white">
+                            <span>Manga Point</span>
+                        </h1>
+                        <div class="profile row mx-0">
+                            <div class="col col-md-6 p-4 profile-image-section">
+                                <style>
+                                    .particle_background {
+                                        position: absolute;
+                                        z-index: -5;
+                                        top: 0;
+                                        min-height: 500px;
+                                        min-width: 500px;
+                                    }
+                                    .profile-image-section {
+                                        background-color: rgba(50, 50, 50, 0.8);
+                                    }
+                                    .profile-image {
+                                        height: 300px;
+                                        width: 300px;
+                                        border-radius: 100%;
+                                    }
+                                </style>
+                                <img src="/static/site_assets/assets/img/account/clipart.png" class="profile-image"/>
+                            </div>
+                            <div class="col col-md-6 p-4 bg-white">
+                                <div class="form" action="/account/edit">
+                                    <div class="form-group row">
+                                        <span class="label col col-3">
+                                            <label for="username">Username: </label>
+                                        </span>
+                                        <span class="input col col-7">
+                                            <input
+                                                id="username"
+                                                type="text"
+                                                class="form-control"
+                                                disabled="disabled"
+                                                value="{{ user.username }}"/>
+                                        </span>
+                                    </div>
+                                    <div class="form-group row">
+                                        <span class="label col col-3">
+                                            <label for="first_name">First name: </label>
+                                        </span>
+                                        <span class="input col col-7">
+                                            <input
+                                                id="first_name"
+                                                type="text"
+                                                class="form-control"
+                                                disabled="disabled"
+                                                value="{{ user.first_name }}"/>
+                                        </span>
+                                    </div>
+                                    <div class="form-group row">
+                                        <span class="label col col-3">
+                                            <label for="last_name">Last Name: </label>
+                                        </span>
+                                        <span class="input col col-7">
+                                            <input
+                                                id="last_name"
+                                                type="text"
+                                                class="form-control"
+                                                disabled="disabled"
+                                                value="{{ user.last_name }}"/>
+                                        </span>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="w-100 row mx-0">
+                                            <span class="label col col-3">
+                                                <label for="user_email">Linked to: </label>
+                                            </span>
+                                            <span class="input col col-7">
+                                                <input
+                                                    id="user_email"
+                                                    type="email"
+                                                    class="form-control"
+                                                    disabled="disabled"
+                                                    value="{{ user.email }}"/>
+                                            </span>
+                                        </div>
+                                        <div class="w-100 row mx-0">
+                                            <span class="col-3"></span>
+                                            <span class="col-7 row mx-0 py-2 my-2">
+                                                <span class="input">
+                                                    <input
+                                                        id="receive_notifications"
+                                                        type="checkbox"
+                                                        disabled="disabled"
+                                                        class="d-inline"
+                                                        {% if user.receive_notifications %}
+                                                        checked="checked"
+                                                        {% endif %}
+                                                        name="receive_notifications"/>
+                                                </span>
+                                                <span class="padding">&nbsp;&nbsp;</span>
+                                                <span class="label">
+                                                    <label for="notify_email_checkbox" class="small d-inline">
+                                                        <span>Receive notifications.</span>
+                                                    </label>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-3"></div>
+                                        <div class="col-7 row mx-0">
+                                            <button
+                                                id="btn_edit_user_details"
+                                                type="button"
+                                                class="btn btn-outline-dark"
+                                                data-toggle="enable_inputs"
+                                                data-targets="username first_name last_name user_email receive_notifications">
+                                                <i class="fa fa-unlock"></i>
+                                                <span>&nbsp;&nbsp;</span>
+                                                <span>Edit</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="navbar navbar-dark bg-dark box-shadow">
+            <div class="container d-flex justify-content-between">
+                <a href="/" class="navbar-brand d-flex align-items-center">
+                    <strong>
+                        <i class="fa fa-arrow-left"></i>
+                        <span>Back to Manga</span>
+                    </strong>
+                </a>
+                <button id="settings_toggler" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-male"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    <main role="main">
+        <div class="py-5 container bg-light">
+            <div class="row">
+                <div class="row mx-0 col-12">
+                    <div class="col-md-3">
+                        <a class="d-block w-100 account_profile_section" href="/manga_site/my_watchlist">
+                            <span class="card mb-4 box-shadow d-flex flex-column justify-items-center justify-content-center align-items-center py-1">
+                                <img class="card-img-top" src="/static/site_assets/assets/img/small_manga_imgs/17926-jaryuu_tensei.jpg"/>
+                                <span class="card-body text-center">
+                                    <span class="card-title lead bold text-bold text-nowrap">
+                                        <i class="fa-eye fas"></i>
+                                        <span>My Watchlist</span>
+                                    </span>
+                                </span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a class="d-block w-100 account_profile_section" href="/manga_site/my_history">
+                            <span class="card mb-4 box-shadow d-flex flex-column justify-items-center justify-content-center align-items-center py-1">
+                                <img class="card-img-top" src="/static/site_assets/assets/img/small_manga_imgs/920-ng919517.jpg"/>
+                                <span class="card-body text-center">
+                                    <span class="card-title lead bold text-bold text-nowrap">
+                                        <i class="fas fa-history"></i>
+                                        <span>My History</span>
+                                    </span>
+                                </span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a class="d-block w-100 account_profile_section" href="/manga_site/my_bookmarks">
+                            <span class="card mb-4 box-shadow d-flex flex-column justify-items-center justify-content-center align-items-center py-1">
+                                <img class="card-img-top" src="/static/site_assets/assets/img/small_manga_imgs/402-cd919002.jpg"/>
+                                <span class="card-body text-center">
+                                    <span class="card-title lead bold text-bold text-nowrap">
+                                        <i class="fas fa-bookmark"></i>
+                                        <span>My Bookmarks</span>
+                                    </span>
+                                </span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a class="d-block w-100 account_profile_section" href="/manga_site/my_favorites">
+                            <span class="card mb-4 box-shadow d-flex flex-column justify-items-center justify-content-center align-items-center py-1">
+                                <img class="card-img-top" src="/static/site_assets/assets/img/small_manga_imgs/402-cd919002.jpg"/>
+                                <span class="card-body text-center">
+                                    <span class="card-title lead bold text-bold text-nowrap">
+                                    <i class="fas fa-bookmark"></i>
+                                    <span>My Favorites</span>
+                                </span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="row">
+                <header class="col-12 text-center py-4">
+                    <h3 class="d-flex justify-items-center justify-content-center">
+                        <span class="mr-2">My Filter Subscriptions</span>
+                        <button type="button" class="btn btn-light" onclick="notify_with_popup('Here, you\'ll find the manga filters that you registered as subscriptions. Not only does this make it convenient for you to find what you\'re looking for, we can also send you notifications of new manga within a particular subscription!')">
+                            <i class="fas fa-question-circle"></i>
+                        </button>
+                    </h3>
+                </header>
+
+                <div class="row col-12 mx-0">
+                    <div class="col-md-3">
+                        <a class="d-block w-100 account_profile_section">
+                            <span class="card mb-4 box-shadow d-flex flex-column justify-items-center justify-content-center align-items-center py-1">
+                                <img class="card-img-top" src="/static/site_assets/assets/img/small_manga_imgs/19429-tang_yin_zai_yi_jie.jpg"/>
+                                <span class="card-body text-center">
+                                    <span class="card-title lead bold text-bold text-nowrap">
+                                        <i class="fas fa-filter"></i>
+                                        <span>&nbsp;Comedy Isekai</span>
+                                    </span>
+                                </span>
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="col-md-3">
+                        <a class="d-block w-100 account_profile_section">
+                            <span class="card mb-4 box-shadow d-flex flex-column justify-items-center justify-content-center align-items-center py-1">
+                                <img class="card-img-top" src="/static/site_assets/assets/img/small_manga_imgs/19429-tang_yin_zai_yi_jie.jpg"/>
+                                <span class="card-body text-center">
+                                    <span class="card-title lead bold text-bold text-nowrap">
+                                        <i class="fas fa-filter"></i>
+                                        <span>&nbsp;Action Adventure</span>
+                                    </span>
+                                </span>
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="col-md-3">
+                        <a class="d-block w-100 account_profile_section">
+                            <span class="card mb-4 box-shadow d-flex flex-column justify-items-center justify-content-center align-items-center py-1">
+                                <img class="card-img-top" src="/static/site_assets/assets/img/small_manga_imgs/19429-tang_yin_zai_yi_jie.jpg"/>
+                                <span class="card-body text-center">
+                                    <span class="card-title lead bold text-bold text-nowrap">
+                                        <i class="fas fa-filter"></i>
+                                        <span>&nbsp;Ecchi Harem</span>
+                                    </span>
+                                </span>
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="col-md-3">
+                        <a class="d-block w-100 account_profile_section">
+                            <span class="card mb-4 box-shadow d-flex flex-column justify-items-center justify-content-center align-items-center py-1">
+                                <img class="card-img-top" src="/static/site_assets/assets/img/small_manga_imgs/19429-tang_yin_zai_yi_jie.jpg"/>
+                                <span class="card-body text-center">
+                                    <span class="card-title lead bold text-bold text-nowrap">
+                                        <i class="fas fa-filter"></i>
+                                        <span>&nbsp;Horror Drama</span>
+                                    </span>
+                                </span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <a class="d-block w-100 account_profile_section"> <span class="card mb-4 box-shadow d-flex flex-column justify-items-center justify-content-center align-items-center py-1"> <img class="card-img-top" src="http://pinegrow.com/placeholders/img14.jpg"/> <span class="card-body text-center"> <span class="card-title lead bold text-bold text-nowrap"><i class="fas fa-plus"></i>
+                Add a subscription</span> </span> </span> </a>
+                </div>
+            </div>-->
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block module_scripts %}
+<script>
+    particlesJS.load('particle_background', "/static/site_assets/js/config/particlejs-config.json", function() {
+        console.log('callback - particles.js config loaded');
+        //var settings_toggler = document.getElementById('settings_toggler');
+        //settings_toggler.click();
+    });
+</script>
+{% endblock %}

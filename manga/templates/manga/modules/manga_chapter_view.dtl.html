@@ -1,0 +1,82 @@
+{% extends "manga/layouts/app.dtl.html" %}
+{% block module_content %}
+                <section class="content-area" data-pgc-field="manga_chapters_overview">
+                    <header class="content-section">
+                        <h1 class='d-flex p-2 m-0'>
+                            <a href="/manga/manga/{{ manga.id }}">
+                                <i class="fa fa-arrow-left content-top-link text-dark"></i>
+                            </a>
+                            <a href="/manga/manga/{{ manga.id }}" class='flex-fill text-center text-dark'>
+                                <span class="d-none d-md-inline-block">{{ manga.manga_name }}</span>
+                            </a>
+                            <div class="p-0 m-0">
+                                <button
+                                    type="button"
+                                    tooltip="Bookmark this chapter."
+                                    class="btn btn-warning"
+                                    id="btn_toggle_bookmark_state"
+                                    {% if user %}
+                                    data-user="{{ user.id }}"
+                                    {% else %}
+                                    data-user="None"
+                                    {% endif %}
+                                    data-toggle="bookmark_state"
+                                    data-manga ="{{ manga.id }}"
+                                    data-chapter="{{ chapter.id }}"
+                                    data-value="{{ is_manga_chapter_in_user_bookmarks }}">
+                                    <i class="fas fa-bookmark"></i>
+                                </button>
+                            </div>
+                        </h1>
+                    </header>
+                    <section class="position-relative">
+                        <div class="chapter-pages-wrapper d-flex justify-content-center pt-5">
+                            {% if pages %}
+                            <div class="chapter-pages text-center px-0 px-md-2" id="chapter-pages">
+                                {% for page in pages %}
+                                <!-- src='{{ page.source_image_url }}'-->
+                                <img
+                                    src='/static/site_assets/assets/img/sample_page.png'
+                                    class='chapter-page scroll'
+                                    id='{{ page.page_number }}'
+                                    alt='page {{ page.page_number }}'/>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                         <div class="row w-100 mx-0 py-0 my-0">
+                            <div class="mx-0 d-flex justify-content-end topnav-central-column flex-fill central-nav-content align-items-center btn-dark active" data-pgc-field="page-controls-area">
+                                <div class="d-flex justify-content-center px-2 flex-fill">
+                                    <div class="form-group form-inline d-flex w-100 mt-3"> 
+                                        <select class="custom-select flex-fill custom-select-sm" id="chapter-select-bottom" onchange="fetch_selected_chapter({{ manga.id }}, this)">
+                                            {% for chap in chapters %}
+                                            {% if chap.chapter_number == chapter.chapter_number %}
+                                            <option selected value='{{ chap.chapter_number }}'>{{ chapter.chapter_name }}</option>
+                                            {% else %}
+                                            <option value='{{ chap.chapter_number }}'>{{ chap.chapter_name }}</option>
+                                            {% endif %}
+                                          {% endfor %}
+                                        </select>                                         
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_previous_chapter()'>
+                                        <i class="fas fa-angle-left"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_next_chapter()'>
+                                        <i class="fas fa-angle-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <header>
+                            <h1 class='d-flex p-2 mb-3'>
+                                <a href="/manga/manga/{{ manga.id }}">
+                                    <i class="fa fa-arrow-left content-top-link text-dark"></i>
+                                </a>
+                                <span class='flex-fill text-center'>{{ manga.manga_name }}</span>
+                            </h1>
+                        </header>
+                    </section>
+                </section>
+{% endblock %}

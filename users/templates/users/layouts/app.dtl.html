@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="A manga website that gives you a truly personalized user experience.">
+        <meta name="author" content="Lusayo Nyondo">
+
+        <title>Account</title>
+        
+        <link href="{% static 'site_assets/css/libs/bootstrap.min.css' %} " rel="stylesheet">
+        <link href="{% static 'site_assets/css/custom/account.css' %} " rel="stylesheet">
+    </head>
+    <body class="d-flex flex-column justify-content-center p-0 account-access">
+        {% block form %}
+        {% endblock %}
+        <div class="text-center w-100 bg-dark h-100 d-flex align-items-center particle_background" id="particle_background"></div>
+        <!-- External JavaScript Libraries -->
+        <script src="{% static 'site_assets/js/libs/jquery.min.js' %}"></script>
+        <script src="{% static 'site_assets/js/libs/popper.js' %}"></script>
+        <script src="{% static 'site_assets/js/libs/bootstrap.min.js' %}"></script>
+        <script src="{% static 'site_assets/js/libs/particles.js' %} "></script>
+
+        <script>
+        	particlesJS.load('particle_background', "{% static 'site_assets/js/config/particlejs-config.json' %}", function() {
+              console.log('callback - particles.js config loaded');
+            });
+        </script>
+    </body>
+</html>

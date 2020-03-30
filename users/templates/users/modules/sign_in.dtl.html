@@ -1,0 +1,26 @@
+{% extends "users/layouts/app.dtl.html" %}
+
+{% block form %}
+        <form class="form-signin bg-white" action="/account/sign_in" method="POST" name="signin_credentials_form">
+            <h1 class="h3 mb-3 font-weight-normal text-center">Sign In</h1>
+            {% if authentication_status %}
+            <div class="alert alert-{{ authentication_message_context }}">
+                <!-- status: {{ authentication_status }} -->
+                {{ authentication_description }}
+            </div>
+            {% endif %}
+            <label for="inputName" class="sr-only">Name address</label>
+            <input type="text" name="username" id="inputName" class="form-control" placeholder="Name address" required="" autofocus="">
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+            <div class="checkbox mb-3 text-left">
+                <label>
+                    <input type="checkbox" value="remember-me" name="remember_me_checkbox"> Remember me
+                </label>
+            </div>
+            <button class="btn btn-lg btn-block btn-outline-dark" type="submit">Sign in</button>
+            <a class="btn-block btn-lg btn btn-dark" href="/account/register">Register</a>
+            <p class="mt-5 mb-3 text-muted">© 2019</p>
+            {% csrf_token %}
+        </form>
+{% endblock %}
