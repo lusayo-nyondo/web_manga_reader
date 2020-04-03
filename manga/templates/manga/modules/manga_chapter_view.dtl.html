@@ -34,9 +34,8 @@
                             {% if pages %}
                             <div class="chapter-pages text-center px-0 px-md-2" id="chapter-pages">
                                 {% for page in pages %}
-                                <!-- src='{{ page.source_image_url }}'-->
                                 <img
-                                    src='/static/site_assets/assets/img/sample_page.png'
+                                    src='{{ page.source_image_url }}'
                                     class='chapter-page scroll'
                                     id='{{ page.page_number }}'
                                     alt='page {{ page.page_number }}'/>
