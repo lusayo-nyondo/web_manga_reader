@@ -38,7 +38,11 @@
             </div>
             <div class="flex-fill px-2 flex-row-reverse d-flex">
                 <div class="form-group form-inline my-0 d-flex flex-nowrap flex-fill">
-                    <select id="select_ordering_rule" class="custom-select custom-select-sm ml-auto" onchange="apply_ordering_rule('{{ filterable_section }}', '{{ filterable_section_items_per_page }}')">
+                    <select id="select_ordering_rule"
+                        class="custom-select custom-select-sm ml-auto"
+                        data-toggle="apply_ordering_rule"
+                        data-fiterable-section='{{ filterable_section }}'
+                        data-items-per-page='{{ filterable_section_items_per_page }}'>
                         <option value="manga_name">Manga name (A - Z)</option>
                         <option value="-manga_name">Manga name (Z - A)</option>
                         <option value="-updated_on" selected="selected">Newly Updated</option>
