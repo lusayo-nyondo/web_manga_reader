@@ -7,7 +7,16 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <span class="d-inline-block mr-2">
-            <button class="text-sm-center text-white d-inline-block btn btn-dark active mx-auto" data-toggle="collapse" type="button" data-target="#filters-menu" onclick="this.classList.toggle('active');">
+            <button
+                type="button"
+                {% if not filterable_section or filterable_section == 'None' %}
+                onclick="window.location.assign('/manga_list');"
+                {% else %}
+                data-toggle="collapse"
+                data-target="#filters-menu"
+                onclick="this.classList.toggle('active');"
+                {% endif %}
+                class="text-sm-center text-white d-inline-block btn btn-dark mx-auto">
                 <i class="fas fa-filter"></i>
             </button>
         </span>
@@ -21,15 +30,24 @@
                 </div>
             </form>
             <div class="d-none d-md-flex flex-md-row mr-2">
-                <button class="text-sm-center text-white d-inline-block btn btn-dark mx-auto" data-toggle="collapse" type="button" data-target="#filters-menu" onclick="this.classList.toggle('active');">
+                <button
+                    type="button"
+                    {% if not filterable_section or filterable_section == 'None' %}
+                    onclick="window.location.assign('/manga_list');"
+                    {% else %}
+                    data-toggle="collapse"
+                    data-target="#filters-menu"
+                    onclick="this.classList.toggle('active');"
+                    {% endif %}
+                    class="text-sm-center text-white d-inline-block btn btn-dark mx-auto">
                     <i class="fas fa-filter"></i>
                 </button>
             </div>
         </div>
-        <div class="mx-0 d-flex justify-content-end topnav-central-column flex-fill align-items-center btn-dark active flex-nowrap w-100 central-nav-content py-2" data-pgc-field="page-controls-area">
+        <div class="mx-0 {% if not filterable_section or filterable_section == 'None' %}d-none{% else %}d-flex{% endif%} justify-content-end topnav-central-column flex-fill align-items-center btn-dark active flex-nowrap w-100 central-nav-content py-2" data-pgc-field="page-controls-area">
             <div class="d-flex justify-content-center">
                 <div id="active_filters_controls" class="active_filters_controls">
-                    <button type="button" class="btn py-0 px-2 btn-light disabled" data-toggle="collapse" data-target="#active_filters_list">Active filters&nbsp;
+                    <button type="button" class="btn py-0 px-2 btn-light disabled" {% if not filterable_section or filterable_section == 'None' %} disabled {% endif %} data-toggle="collapse" data-target="#active_filters_list">Active filters&nbsp;
                         <span class="badge badge-light p-0" id="active_filters">{% if active_tags %}{{ active_tags|length }}{% else %}0{% endif %}</span>
                         <span class="sr-only">content filters</span>
                     </button>
@@ -41,6 +59,7 @@
                     <select id="select_ordering_rule"
                         class="custom-select custom-select-sm ml-auto"
                         data-toggle="apply_ordering_rule"
+                        {% if not filterable_section or filterable_section == 'None' %} disabled {% endif %}
                         data-fiterable-section='{{ filterable_section }}'
                         data-items-per-page='{{ filterable_section_items_per_page }}'>
                         <option value="manga_name">Manga name (A - Z)</option>
