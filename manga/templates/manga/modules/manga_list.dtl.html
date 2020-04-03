@@ -33,19 +33,19 @@
                         <span class="badge badge-light p-0" id="active_filters">{% if active_tags %}{{ active_tags|length }}{% else %}0{% endif %}</span>
                         <span class="sr-only">content filters</span>
                     </button>
-                    
+
                 </div>
             </div>
             <div class="flex-fill px-2 flex-row-reverse d-flex">
-                <div class="form-group form-inline my-0 d-flex flex-nowrap flex-fill"> 
-                    <select id="select_ordering_rule" class="custom-select custom-select-sm ml-auto" onclick="apply_ordering_rule('{{ filterable_section }}', '{{ filterable_section_items_per_page }}')">
+                <div class="form-group form-inline my-0 d-flex flex-nowrap flex-fill">
+                    <select id="select_ordering_rule" class="custom-select custom-select-sm ml-auto" onchange="apply_ordering_rule('{{ filterable_section }}', '{{ filterable_section_items_per_page }}')">
                         <option value="manga_name">Manga name (A - Z)</option>
                         <option value="-manga_name">Manga name (Z - A)</option>
                         <option value="-updated_on" selected="selected">Newly Updated</option>
                         <option value="-added_on">Newly Added</option>
                         <option value="chapter_count">Number of Chapters (ASC)</option>
-                        <option value="-chapter_count">Number of Chapters (DESC)</option>                                     
-                    </select>                                
+                        <option value="-chapter_count">Number of Chapters (DESC)</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -103,11 +103,11 @@
                                     <div class="carousel-item active" id="authors_page_1">
                                         <div class="page row mx-0">
                                             {% for author in all_authors %}
-                                            <div class="custom-control custom-checkbox filter-item mx-0 col-4"> 
-                                                <input type="checkbox" class="custom-control-input" data-display-value="{{ author.author_name }}" id="author_{{ author.id }}" name="author_{{ author.id }}" onclick="toggle_global_filter(this)"> 
+                                            <div class="custom-control custom-checkbox filter-item mx-0 col-4">
+                                                <input type="checkbox" class="custom-control-input" data-display-value="{{ author.author_name }}" id="author_{{ author.id }}" name="author_{{ author.id }}" onclick="toggle_global_filter(this)">
                                                 <label class="custom-control-label" for="author_{{ author.id }}">
                                                     <a href="/manga_list?author_id={{ author.id }}" class="d-inline-block">{{ author.author_name }}</a>
-                                                </label>                                                             
+                                                </label>
                                             </div>
                                             {% endfor %}
                                         </div>
@@ -115,7 +115,7 @@
                                 </div>
                             </div>
                             <div class="row d-flex justify-content-center mx-0 py-0 pb-1">
-                                <ul class="pagination bg-dark my-0"> 
+                                <ul class="pagination bg-dark my-0">
                                     <li class="page-item">
                                         <button class="page-link" onclick="get_previous_authors_page(15)">
                                             <i class="fa fa-arrow-left"></i>
@@ -158,11 +158,11 @@
                                     <div class="carousel-item active" id="tags_page_1">
                                         <div class="page row mx-0">
                                             {% for tag in all_tags %}
-                                            <div class="custom-control custom-checkbox filter-item mx-0 col-4"> 
-                                                <input type="checkbox" class="custom-control-input" data-display-value="{{ tag.tag_name }}" id="tag_{{ tag.id }}" name="tag_{{ tag.id }}" onclick="toggle_global_filter(this)"> 
+                                            <div class="custom-control custom-checkbox filter-item mx-0 col-4">
+                                                <input type="checkbox" class="custom-control-input" data-display-value="{{ tag.tag_name }}" id="tag_{{ tag.id }}" name="tag_{{ tag.id }}" onclick="toggle_global_filter(this)">
                                                 <label class="custom-control-label" for="tag_{{ tag.id }}">
                                                     <a href="/manga_list?tag_id={{ tag.id }}" class="d-inline-block">{{ tag.tag_name }}</a>
-                                                </label>                                                             
+                                                </label>
                                             </div>
                                             {% endfor %}
                                         </div>
@@ -170,7 +170,7 @@
                                 </div>
                             </div>
                             <div class="row d-flex mx-0 py-0 justify-content-center pb-1">
-                                <ul class="pagination bg-dark my-0"> 
+                                <ul class="pagination bg-dark my-0">
                                     <li class="page-item">
                                         <button class="page-link" onclick="get_previous_tags_page(15)">
                                             <i class="fa fa-arrow-left"></i>
@@ -255,7 +255,7 @@
                                                                 <span>Read chapter {{ manga.latest_chapter.chapter_number }}</span>
                                                                 <span>(Latest)</span>
                                                             </span>
-                                                        </a> 
+                                                        </a>
                                                     </p>
                                                     <p id="bookmarked_chapter_probe_{{ manga.id }}" class="card-text small my-0 manga-chapter mt-auto">
                                                         <button
@@ -271,7 +271,7 @@
                                                                 <span>&nbsp;</span>
                                                                 <i class="small spinner spinner-border spinner-border-sm"></i>
                                                             </span>
-                                                        </button> 
+                                                        </button>
                                                     </p>
                                                     <p id="last_read_chapter_probe_{{ manga.id }}" class="card-text small my-0 manga-chapter mt-auto">
                                                         <button
@@ -287,13 +287,13 @@
                                                                 <span>&nbsp;</span>
                                                                 <i class="small spinner spinner-border spinner-border-sm"></i>
                                                             </span>
-                                                        </button> 
+                                                        </button>
                                                     </p>
                                                     <p class="card-text last-updated">
                                                         <small class="text-muted">Last updated: {{ manga.updated_on }} </small>
-                                                    </p> 
+                                                    </p>
                                                 </div>
-                                            </div>    
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
