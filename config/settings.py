@@ -89,12 +89,9 @@ DATABASES = {
         'NAME': 'neetlord$mangapoint',
         'USER': 'neetlord',
         'HOST': 'neetlord.mysql.pythonanywhere-services.com',
-<<<<<<< HEAD
         'PASSWORD': 'NyondoNyondo',
         'PORT': '3306'
-=======
         'PASSWORD': 'NyondoNyondo'
->>>>>>> 13021a2c4ce457f21650e0032af32929c744238b
     }
 }
 
