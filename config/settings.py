@@ -1,6 +1,5 @@
 """
 This file has to be modified based on the deployment environment.
-
 For this branch, it is suited towards neetlord.pythonanywhere.com.
 """
 
@@ -142,5 +141,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 WORKSPACE_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '/workspaces/')
 
 AUTH_USER_MODEL = "users.SiteUser"
-
-django.setup()

@@ -30,7 +30,19 @@
                     <div id="manga_overview_section">
                         <section class="manga_details row mx-0">
                             <div class="col-md-4 col-12 col-xl-3">
-                                <img src="{{ manga.banner_image_url }}" alternate="Banner Image" class="img-thumbnail w-100 banner-image" id="banner_image">
+                                <div
+                                    class="img-thumbnail w-100 banner-image h-100"
+                                    id="manga_{{ manga.id }}_banner_img_stub"
+                                    data-toggle="image_stub"
+                                    data-src="{{ manga.banner_image_url }}"
+                                    data-resource-class="img-thumbnail w-100 banner-image"
+                                    data-resource-id="banner_image"
+                                    data-resource-alternate="Banner Image">
+                                    <div id="manga_{{ manga.id }}_resource_overlay" class="w-100 h-100 d-flex justify-content-center align-items-center">
+                                        <i class="fa fa-spin fa-spinner"></i>
+                                    </div>
+                                </div>
+                                <!--<img src="{{ manga.banner_image_url }}" alternate="Banner Image" class="img-thumbnail w-100 banner-image" id="banner_image">-->
                             </div>
                             <div class="col-md-8 col-12 col-xl-9">
                                 <h3 id="manga_name_heading" class="manga-name-heading">{{ manga.manga_name }}</h3>
@@ -98,7 +110,7 @@
                                 <!-- {% endif %} -->
                             </div>
                         </section>
-                        <section class="manga_actions row mx-0">
+                        <section class="manga_actions row mx-0 my-2">
                             <div class="col-md-3 manga-action-column" id="watchlist_action_div">
                                 <button
                                     type="button"

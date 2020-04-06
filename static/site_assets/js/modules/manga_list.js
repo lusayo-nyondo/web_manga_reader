@@ -1,3 +1,20 @@
+function fetch_image(resource_stub) {
+    var src = resource_stub.getAttribute('data-src');
+    var className = resource_stub.getAttribute('data-resource-class');
+    var id = resource_stub.getAttribute('data-resource-id');
+    var alternate = resource_stub.getAttribute('data-resource-alternate');
+    
+    var image = document.createElement('img');
+    image.src = src;
+    image.className = className;
+    image.id = id;
+    image.setAttribute('alternate', alternate);
+
+    clear_div(resource_stub);
+
+    resource_stub.appendChild(image);
+}
+
 function get_next_manga_page(section_id, pager_id, page_counter_id, order_by, items_per_page) {
     var num_pages_id = section_id + '_num_pages';
     var num_pages = document.getElementById(num_pages_id);

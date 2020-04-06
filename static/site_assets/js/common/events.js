@@ -47,6 +47,11 @@ $(document).ready(function() {
        apply_ordering_rule(filterable_section, items_per_page);
     });
 
+    $('[data-toggle="image_stub"]').each(function(index, element) {
+        var el = document.getElementById(element.id);
+        fetch_image(el);
+    });
+
     $('[data-action="rate_manga"]').on('click', function(event) {
         var button = event.currentTarget;
 
