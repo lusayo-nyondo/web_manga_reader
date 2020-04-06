@@ -46,7 +46,7 @@ function set_button_state_remove_from_bookmarks(data) {
 
 function create_btn_toggle_bookmark_state(user_id, manga_id, chapter_id, csrf_token, bookmark_state) {
     var button = document.createElement("button");
-    
+
     button.id = "btn_toggle_bookmark_state";
     button.type = "button";
     button.tooltip = "Bookmark this chapter.";
@@ -74,7 +74,7 @@ function create_btn_toggle_bookmark_state(user_id, manga_id, chapter_id, csrf_to
         case "remove_from_bookmarks": {
             button.className = "btn btn-danger";
             button.setAttribute("data-is-chapter-bookmarked", "True");
-            
+
             button.onclick = function() {
                 remove_manga_chapter_from_bookmarks(button, user_id, manga_id, chapter_id, csrf_token);
             };
@@ -185,13 +185,14 @@ function get_bookmarked_chapter(button, manga_id) {
             if (response.status == 'success') {
                 update_bookmarked_chapter(button, manga_id, response.chapter);
             } else if (response.status == 'bookmark_not_found') {
-                remove_bookmarked_chapter_probe(button, manga_id);  
+                remove_bookmarked_chapter_probe(button, manga_id);
             } else {
                 notify_with_popup(button, response.status);
             }
         },
         error: function(response) {
-            notify_with_popup(button, response);
+            console.log(response);
+            //notify_with_popup(button, response);
         }
     });
 }
@@ -222,7 +223,7 @@ function create_bookmarked_chapter_link(manga_id, chapter) {
     icon.className = 'fa fa-bookmark';
 
     var wrapper_span = document.createElement("span");
-    
+
     var padding = document.createElement("span");
     padding.innerHTML = '&nbsp';
 
