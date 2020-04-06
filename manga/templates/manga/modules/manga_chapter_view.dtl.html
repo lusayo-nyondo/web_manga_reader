@@ -9,7 +9,16 @@
                             <a href="/manga/manga/{{ manga.id }}" class='flex-fill text-center text-dark'>
                                 <span class="d-none d-md-inline-block">{{ manga.manga_name }}</span>
                             </a>
-                            <div class="p-0 m-0">
+                            <div class="p-0 my-0 mx-2 h5 d-flex justify-content-center align-items-center" id="reader_options">
+                                <div class="form-group row mx-0 my-auto">
+                                    <label class="label py-0 my-0"></label>
+                                    <select class="custom-select-sm">
+                                        <option value="webtoon" selected>Webtoon</option>
+                                        <!--<option value="single_page">Single Page</option>-->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="p-0 m-0 d-flex justify-content-center align-items-center">
                                 <button
                                     type="button"
                                     tooltip="Bookmark this chapter."
@@ -34,12 +43,29 @@
                             {% if pages %}
                             <div class="chapter-pages text-center px-0 px-md-2" id="chapter-pages">
                                 {% for page in pages %}
+<<<<<<< HEAD
                                 <!-- -->
                                 <img
+=======
+                                <div
+                                    class="chapter-page scroll"
+                                    id="manga_{{ manga.id }}_chapter_page_{{ page.id }}_img_stub"
+                                    data-toggle="image_stub"
+                                    data-src="{{ page.source_image_url }}"
+                                    data-resource-class="chapter-page scroll"
+                                    data-resource-alternate="page {{ page.page_number }}"
+                                    data-resource-id="{{ page.id }}">
+                                    
+                                    <div id="manga_{{ manga.id }}_resource_overlay" class="w-100 h-100 d-flex justify-content-center align-items-center">
+                                        <i class="fa fa-spin fa-spinner"></i>
+                                    </div>
+                                </div>
+                                <!--<img
+>>>>>>> 13021a2c4ce457f21650e0032af32929c744238b
                                     src='{{ page.source_image_url }}'
                                     class='chapter-page scroll'
                                     id='{{ page.page_number }}'
-                                    alt='page {{ page.page_number }}'/>
+                                    alt='page {{ page.page_number }}'/>-->
                                 {% endfor %}
                             </div>
                             {% endif %}

@@ -15,7 +15,8 @@ function get_last_read_chapter(button, manga_id) {
             }
         },
         error: function(response) {
-            notify_with_popup(button, response);
+            console.log(response);
+            //notify_with_popup(button, response);
         }
     });
 }
@@ -46,7 +47,7 @@ function create_last_read_chapter_link(manga_id, chapter) {
     icon.className = 'fa fa-history';
 
     var wrapper_span = document.createElement("span");
-    
+
     var padding = document.createElement("span");
     padding.innerHTML = '&nbsp';
 

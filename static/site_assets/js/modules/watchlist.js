@@ -51,7 +51,7 @@ function create_btn_toggle_watchlist_state(user_id, manga_id, watchlist_state) {
     switch(watchlist_state) {
         case "remove_from_watchlist": {
             icon.classList.add("fa-eye-slash");
-            text.innerHTML = "Remove from watchlist";
+            text.innerHTML = "Remove from library";
             button.classList.add("btn-danger");
 
             button.onclick = function() {
@@ -61,9 +61,9 @@ function create_btn_toggle_watchlist_state(user_id, manga_id, watchlist_state) {
 
         case "add_to_watchlist": {
             icon.classList.add("fa-eye");
-            text.innerHTML = "Add to watchlist";
+            text.innerHTML = "Add to library";
             button.classList.add("btn-warning");
-            
+
             button.onclick = function() {
                 add_manga_to_watchlist(button, user_id, manga_id);
             };
@@ -71,7 +71,7 @@ function create_btn_toggle_watchlist_state(user_id, manga_id, watchlist_state) {
     }
 
     button.type = "button";
-    
+
 
     button.appendChild(icon);
     button.appendChild(padding);
@@ -82,9 +82,9 @@ function create_btn_toggle_watchlist_state(user_id, manga_id, watchlist_state) {
 
 function notify_user_remove_from_watchlist_results(response, button, data) {
     var status = response.status;
-    
+
     if(status == "success") {
-        set_button_state_add_to_watchlist(data);  
+        set_button_state_add_to_watchlist(data);
         notify_with_popup(btn_toggle_watchlist_state, response.description);
     } else {
         notify_with_popup(button, response.description);
@@ -162,7 +162,7 @@ function remove_manga_from_watchlist(button, user_id, manga_id) {
         url:"/manga_site/remove_manga_from_watchlist",
         data: data,
         success: function(response) {
-        
+
             unlock_btn_toggle_watchlist_state();
             notify_user_remove_from_watchlist_results(response, button, data);
         },

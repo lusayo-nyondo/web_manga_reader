@@ -25,7 +25,7 @@ function get_last_tags_page() {
 function get_previous_authors_page(items_per_page) {
     var current_page_id = "current_authors_page";
     var current_page = document.getElementById(current_page_id).value.trim();
-    
+
     if (current_page == '1') {
         return;
     }
@@ -45,7 +45,7 @@ function get_next_authors_page(items_per_page) {
     var current_page = document.getElementById(current_page_id).value.trim();
     var last_page_id = "last_authors_page";
     var last_page = document.getElementById(last_page_id).innerHTML.trim();
-    
+
     if (current_page == last_page) {
         return;
     }
@@ -86,11 +86,11 @@ function get_authors_page(data) {
 
             var page_div = document.createElement('div');
             page_div.className = 'page row mx-0';
-            
+
             for(; i < l; i++) {
                 var author = response[i];
                 var author_filter = create_filter_item('author', author.pk, author.fields.author_name);
-                
+
                 page_div.appendChild(author_filter);
             }
 
@@ -107,7 +107,7 @@ function get_authors_page(data) {
 function get_previous_tags_page(items_per_page) {
     var current_page_id = "current_tags_page";
     var current_page = document.getElementById(current_page_id).value.trim();
-    
+
     if (current_page == '1') {
         return;
     }
@@ -127,7 +127,7 @@ function get_next_tags_page(items_per_page) {
     var current_page = document.getElementById(current_page_id).value.trim();
     var last_page_id = "last_tags_page";
     var last_page = document.getElementById(last_page_id).innerHTML.trim();
-    
+
     if (current_page == last_page) {
         return;
     }
@@ -146,14 +146,14 @@ function get_tags_page(data) {
     var page_id = 'tags_page_' + data.page_number;
     var tags_section_id = 'tag_filters';
     var tags_section = document.getElementById(tags_section_id);
-    
+
     var carousel_item = document.getElementById(page_id);
 
     if (carousel_item) {
         var index = Array.prototype.indexOf.call(tags_section.children, document.getElementById(page_id));
         $('#tags_carousel').carousel(index);
         document.getElementById('current_tags_page').selectedIndex = data.page_number - 1;
-        
+
         return;
     }
 
@@ -170,7 +170,7 @@ function get_tags_page(data) {
 
             var page_div = document.createElement('div');
             page_div.className = 'page row mx-0';
-            
+
             for(; i < l; i++) {
                 var tag = response[i];
                 var tag_filter = create_filter_item('tag', tag.pk, tag.fields.tag_name);
@@ -180,7 +180,7 @@ function get_tags_page(data) {
 
             carousel_item_div.append(page_div);
             tags_section.appendChild(carousel_item_div);
-            
+
             var index = Array.prototype.indexOf.call(tags_section.children, document.getElementById(page_id));
             $('#tags_carousel').carousel(index);
             document.getElementById('current_tags_page').selectedIndex = data.page_number - 1;
@@ -203,13 +203,13 @@ function get_selected_page(select, items_per_page, calling_function) {
 }
 
 function toggle_global_filter(checkbox) {
-    
+
     var params = checkbox.name.split('_');
-    
+
     if (params.length != 2) {
         return;
     }
-    
+
     var filter_type = params[0];
     var filter_value = params[1];
     var display_name = checkbox.getAttribute('data-display-value');
@@ -228,7 +228,7 @@ function toggle_global_filter(checkbox) {
 function toggle_filter(data) {
     var filters_div_id = 'active_' + data.filter_type + '_filters_list';
     var filters_div = document.getElementById(filters_div_id);
-    
+
     var item_id = 'active_' + data.filter_type + '_' + data.filter_value;
     var item_div = document.getElementById(item_id);
 
@@ -265,7 +265,7 @@ function update_active_filters_count() {
         document.getElementById('active-filters-stub').classList.remove('d-none');
     }
 
-    document.getElementById('active_filters').innerHTML = filters_count;    
+    document.getElementById('active_filters').innerHTML = filters_count;
 }
 
 function get_active_filters_count() {
@@ -364,7 +364,7 @@ function apply_ordering_rule(section_id, items_per_page) {
 
 function create_filter_item(item_type, item_id, item_text) {
     var filter_item = document.createElement('div');
-    filter_item.className = 'custom-control custom-checkbox filter-item mx-0 col-4';
+    filter_item.className = 'custom-control custom-checkbox filter-item mx-0 col-6';
 
     var checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
@@ -380,7 +380,7 @@ function create_filter_item(item_type, item_id, item_text) {
     var label = document.createElement('label');
     label.className = 'custom-control-label';
     label.setAttribute('for', item_type + '_' + item_id);
-    
+
     var link = document.createElement('a');
     link.href = '/manga_list?' + item_type + '_id=' + item_id;
     link.class = 'd-inline-block';
@@ -443,7 +443,7 @@ function create_bookmarked_probing_element(manga_id) {
     var probe = document.createElement("p");
     probe.id = "bookmarked_chapter_probe_" + manga_id;
     probe.className = "card-text small my-0 manga-chapter mt-auto";
-    
+
     var button = document.createElement("button");
 
     button.type = "button";
@@ -487,73 +487,74 @@ function create_bookmarked_probing_element(manga_id) {
 function create_manga_card(manga) {
     var manga_card = document.createElement('div');
     manga_card.className = 'col-md-3 col-sm-4 col-xl-2 manga-card px-2';
-    
+
     var card = document.createElement('div');
     card.className = 'card mb-3';
-    
+
     var banner_image = document.createElement('img');
     banner_image.src = manga.fields.banner_image_url;
     banner_image.className = 'w-100 cover-image';
-    
+
     var card_body = document.createElement('div');
     card_body.className = 'card-body py-1 px-1 d-flex flex-column';
-    
+
     var manga_name = document.createElement('h6');
     manga_name.className = 'card-title font-weight-bold text-primary my-0';
-    
+
     var manga_link = document.createElement('a');
     manga_link.className = 'manga-title';
     manga_link.href = '/manga/manga/' + manga.pk;
     manga_link.innerHTML = manga.fields.manga_name;
-    
+
     manga_name.appendChild(manga_link);
-    
+
     var manga_tags = document.createElement('p');
     manga_tags.className = 'card-text small my-0 manga-tags';
-    
+
     var tags = manga.tags;
     var i = 0, l = tags.length;
-    
+
     for(; i < l; i++) {
         var tag_json = tags[i];
         var tag = document.createElement('a');
         tag.className = 'tag';
         tag.href = tag_json.pk;
         tag.innerHTML = '&nbsp;' + tag_json.fields.tag_name;
-        
+
         manga_tags.appendChild(tag);
     }
-    
+
     var latest_chapter = document.createElement('p');
     latest_chapter.className = 'card-text small my-0 manga-chapter mt-auto';
     latest_chapter.innerHTML = "<a href='/manga/" + manga.pk + "/chapters/" + manga.latest_chapter +
                                 "' class='current-chapter'>" +
                                 "<span class='fa fa-arrow-right'></span>" +
                                 "<span>Read Chapter " + manga.latest_chapter  + "</span></a>";
-    
+
     var bookmarked = create_bookmarked_probing_element(manga.pk);
     var last_read = create_last_read_probing_element(manga.pk);
 
     var last_updated = document.createElement('p');
     last_updated.className = 'card-text last-updated';
-    
+
     var small_text = document.createElement('small');
     small_text.class_name = 'text-muted';
     small_text.innerHTML = 'Last updated: ' + manga.fields.updated_on;
-    
+
     last_updated.appendChild(small_text);
-    
+
     card_body.appendChild(manga_name);
     card_body.appendChild(manga_tags);
     card_body.appendChild(latest_chapter);
     card_body.appendChild(bookmarked);
     card_body.appendChild(last_read);
     card_body.appendChild(last_updated);
-    
+
     card.appendChild(banner_image);
     card.appendChild(card_body);
-    
+
     manga_card.appendChild(card);
-    
+
     return manga_card;
 }
+

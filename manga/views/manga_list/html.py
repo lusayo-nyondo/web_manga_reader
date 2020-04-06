@@ -13,8 +13,8 @@ def index(request):
     return manga_list_default_view(request)
 
 def manga_list_all_view(request):
-    authors_page = manga_session.get_authors_page(1, 15)
-    tags_page = manga_session.get_tags_page(1, 15)
+    authors_page = manga_session.get_authors_page(1, 10)
+    tags_page = manga_session.get_tags_page(1, 10)
 
     manga_list = manga_session.get_mangas_page(1, 24, 'updated_on')
 
@@ -41,8 +41,8 @@ def manga_list_all_view(request):
     return HttpResponse(template.render(context, request))
 
 def manga_list_filtered_view(request, page_number):
-    authors_page = manga_session.get_authors_page(1, 15)
-    tags_page = manga_session.get_tags_page(1, 15)
+    authors_page = manga_session.get_authors_page(1, 10)
+    tags_page = manga_session.get_tags_page(1, 10)
 
     manga_list = queryset.get_mangas_page_with_filters(
         request,
@@ -83,8 +83,8 @@ def manga_list_filtered_view(request, page_number):
     return HttpResponse(template.render(context, request))
 
 def manga_list_default_view(request):
-    authors_page = manga_session.get_authors_page(1, 15)
-    tags_page = manga_session.get_tags_page(1, 15)
+    authors_page = manga_session.get_authors_page(1, 10)
+    tags_page = manga_session.get_tags_page(1, 10)
 
     latest_manga_list = manga_session.get_mangas_page(1, 12, '-added_on')
     popular_manga_list = manga_session.get_mangas_page(1, 12, '-views')
