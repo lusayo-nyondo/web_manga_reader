@@ -126,7 +126,7 @@
                                     <div class="carousel-item active" id="authors_page_1">
                                         <div class="page row mx-0">
                                             {% for author in all_authors %}
-                                            <div class="custom-control custom-checkbox filter-item mx-0 col-4">
+                                            <div class="custom-control custom-checkbox filter-item mx-0 col-6">
                                                 <input type="checkbox" class="custom-control-input" data-display-value="{{ author.author_name }}" id="author_{{ author.id }}" name="author_{{ author.id }}" onclick="toggle_global_filter(this)">
                                                 <label class="custom-control-label" for="author_{{ author.id }}">
                                                     <a href="/manga_list?author_id={{ author.id }}" class="d-inline-block">{{ author.author_name }}</a>
@@ -140,7 +140,7 @@
                             <div class="row d-flex justify-content-center mx-0 py-0 pb-1">
                                 <ul class="pagination bg-dark my-0">
                                     <li class="page-item">
-                                        <button class="page-link" onclick="get_previous_authors_page(15)">
+                                        <button class="page-link" onclick="get_previous_authors_page(10)">
                                             <i class="fa fa-arrow-left"></i>
                                         </button>
                                     </li>
@@ -158,7 +158,7 @@
                                         <button class="page-link" id="last_authors_page" onclick="get_last_authors_page()">{{all_authors.paginator.num_pages }}</button>
                                     </li>
                                     <li class="page-item">
-                                        <button class="page-link" onclick="get_next_authors_page(15)">
+                                        <button class="page-link" onclick="get_next_authors_page(10)">
                                             <i class="fa fa-arrow-right"></i>
                                         </button>
                                     </li>
@@ -181,7 +181,7 @@
                                     <div class="carousel-item active" id="tags_page_1">
                                         <div class="page row mx-0">
                                             {% for tag in all_tags %}
-                                            <div class="custom-control custom-checkbox filter-item mx-0 col-4">
+                                            <div class="custom-control custom-checkbox filter-item mx-0 col-6">
                                                 <input type="checkbox" class="custom-control-input" data-display-value="{{ tag.tag_name }}" id="tag_{{ tag.id }}" name="tag_{{ tag.id }}" onclick="toggle_global_filter(this)">
                                                 <label class="custom-control-label" for="tag_{{ tag.id }}">
                                                     <a href="/manga_list?tag_id={{ tag.id }}" class="d-inline-block">{{ tag.tag_name }}</a>
@@ -195,7 +195,7 @@
                             <div class="row d-flex mx-0 py-0 justify-content-center pb-1">
                                 <ul class="pagination bg-dark my-0">
                                     <li class="page-item">
-                                        <button class="page-link" onclick="get_previous_tags_page(15)">
+                                        <button class="page-link" onclick="get_previous_tags_page(10)">
                                             <i class="fa fa-arrow-left"></i>
                                         </button>
                                     </li>
@@ -213,7 +213,7 @@
                                         <button class="page-link" id="last_tags_page" onclick="get_last_tags_page()">{{all_tags.paginator.num_pages }}</button>
                                     </li>
                                     <li class="page-item">
-                                        <button class="page-link" onclick="get_next_tags_page(15)">
+                                        <button class="page-link" onclick="get_next_tags_page(10)">
                                             <i class="fa fa-arrow-right"></i>
                                         </button>
                                     </li>
@@ -234,7 +234,7 @@
             {% for section in sections %}
             <div class="row mx-0 mangalist-section" id="{{ section.section_id }}_section">
                 <header class="col-12 content-section d-flex flex-row py-2">
-                    <h2 class="d-inline-block h4">{{ section.section_name }}</h2>
+                    <h2 class="d-inline-block h5">{{ section.section_name }}</h2>
                     <!--<button onclick="get_first_visible_child(document.getElementById('{{ section.section_id }}_section', 'mangalist-section').getElementsByClassName('carousel-inner')[0])">Test Get</button>-->
                     <button onclick="get_first_visible_child(document.getElementById('all-content-container'))" class="btn btn-outline-dark mx-2 d-none">Get visible section</button>
                     <span class="d-flex flex-row flex-nowrap align-items-center ml-auto"> <button type="button" class="btn" onclick="get_previous_manga_page('{{ section.section_id }}', '{{ section.section_id }}_current_page', '{{ section.section_id}}_num_pages', '{{ section.section_order }}', '{{ section.section_items_per_page}}')">
