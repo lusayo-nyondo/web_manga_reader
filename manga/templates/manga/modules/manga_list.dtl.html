@@ -145,7 +145,7 @@
                                         </button>
                                     </li>
                                     <li class="page-item">
-                                        <select class="page-link active custom-select pr-4" id="current_authors_page" onchange="get_selected_page(this, 15, get_authors_page)">
+                                        <select class="page-link active custom-select custom-select-sm pr-4" id="current_authors_page" onchange="get_selected_page(this, 15, get_authors_page)">
                                             {% for x in author_pages %}
                                             <option value='{{ x }}'>{{ x }}</option>
                                             {%endfor %}
@@ -200,7 +200,7 @@
                                         </button>
                                     </li>
                                     <li class="page-item">
-                                        <select class="page-link active custom-select pr-4" id="current_tags_page" onchange="get_selected_page(this, 15, get_tags_page)">
+                                        <select class="page-link active custom-select custom-select-sm pr-4" id="current_tags_page" onchange="get_selected_page(this, 15, get_tags_page)">
                                             {% for x in tag_pages %}
                                             <option value="{{ x }}">{{ x }}</option>
                                             {% endfor %}-->
@@ -239,7 +239,7 @@
                     <button onclick="get_first_visible_child(document.getElementById('all-content-container'))" class="btn btn-outline-dark mx-2 d-none">Get visible section</button>
                     <span class="d-flex flex-row flex-nowrap align-items-center ml-auto"> <button type="button" class="btn" onclick="get_previous_manga_page('{{ section.section_id }}', '{{ section.section_id }}_current_page', '{{ section.section_id}}_num_pages', '{{ section.section_order }}', '{{ section.section_items_per_page}}')">
                             <i class="fas fa-chevron-left"></i>
-                        </button> <span> <select id="{{ section.section_id}}_current_page" class="custom-select d-inline-block pr-4" style="width:fit-content;width:-moz-fit-content;" onchange="get_selected_manga_page('{{ section.section_id }}', '{{ section.section_id }}_current_page', '{{ section.section_id}}_num_pages', '{{ section.section_order }}', '{{ section.section_items_per_page}}')">
+                        </button> <span> <select id="{{ section.section_id}}_current_page" class="custom-select custom-select-sm d-inline-block pr-4" style="width:fit-content;width:-moz-fit-content;" onchange="get_selected_manga_page('{{ section.section_id }}', '{{ section.section_id }}_current_page', '{{ section.section_id}}_num_pages', '{{ section.section_order }}', '{{ section.section_items_per_page}}')">
                                 {% for page in section.pages %}
                                 <option value="{{ page }}">{{ page }}</option>
                                 {% endfor %}
