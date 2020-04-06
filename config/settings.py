@@ -31,21 +31,14 @@ sys.path.append(SITE_APP_ROOT)
 SECRET_KEY = '5j1c=bf12)vhnu%qymy!2j9nt8a3$(2srgfxh_n*8qwpdq#ovs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 LIVE_HOST = 'localhost:8000'
 
 LOGIN_URL = '/account/sign_in'
 
 ALLOWED_HOSTS = [
-    '192.168.88.127',
-    '172.25.3.136',
-    '192.168.43.203',
-    '90.9.0.129',
-    '192.168.88.240',
-    '172.25.0.127',
-    'localhost',
-    '127.0.0.1',
+    'neetlord.pythonanywhere.com',
 ]
 
 
@@ -100,10 +93,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'manga_hive',
-        'USER': 'root',
-        'HOST': 'localhost',
-        'PASSWORD': ''
+        'NAME': 'neetlord$mangapoint',
+        'USER': 'neetlord',
+        'HOST': 'neetlord.mysql.pythonanywhere-services.com',
+        'PASSWORD': 'NyondoNyondo',
+        'PORT': '3306'
     }
 }
 
