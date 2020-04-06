@@ -91,7 +91,6 @@ DATABASES = {
         'HOST': 'neetlord.mysql.pythonanywhere-services.com',
         'PASSWORD': 'NyondoNyondo',
         'PORT': '3306'
-        'PASSWORD': 'NyondoNyondo'
     }
 }
 
