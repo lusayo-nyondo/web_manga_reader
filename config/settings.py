@@ -24,14 +24,16 @@ sys.path.append(SITE_APP_ROOT)
 SECRET_KEY = '5j1c=bf12)vhnu%qymy!2j9nt8a3$(2srgfxh_n*8qwpdq#ovs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 LIVE_HOST = 'localhost:8000'
 
 LOGIN_URL = '/account/sign_in'
 
 ALLOWED_HOSTS = [
-    'neetlord.pythonanywhere.com',
+    #'neetlord.pythonanywhere.com',
+    'localhost',
+    '127.0.0.1',
 ]
 
 
@@ -86,10 +88,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'neetlord$mangapoint',
-        'USER': 'neetlord',
-        'HOST': 'neetlord.mysql.pythonanywhere-services.com',
-        'PASSWORD': 'NyondoNyondo',
+        #'NAME': 'neetlord$mangapoint',
+        #'USER': 'neetlord',
+        #'HOST': 'neetlord.mysql.pythonanywhere-services.com',
+        #'PASSWORD': 'NyondoNyondo',
+        'NAME': 'mangapoint',
+        'USER': 'root',
+        'PASSWORD': '',
         'PORT': '3306'
     }
 }
