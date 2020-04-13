@@ -165,7 +165,7 @@ function get_manga_page(request_parameters, parameters) {
             for(; i < l; i++) {
 
                 var manga = mangas[i];
-                var manga_div = create_manga_card(manga);
+                var manga_div = create_manga_card(manga, section);
 
                 page_inner.appendChild(manga_div);
             }
@@ -249,16 +249,49 @@ function fetch_manga_json(data, func) {
     });
 }
 
-function create_manga_card(manga) {
+function create_manga_card(manga, section) {
     var manga_card = document.createElement('div');
     manga_card.className = 'col-md-3 col-sm-4 col-xl-2 manga-card px-2';
 
     var card = document.createElement('div');
-    card.className = 'card mb-3';
+    card.className = 'card';
 
-    var banner_image = document.createElement('img');
-    banner_image.src = manga.fields.banner_image_url;
-    banner_image.className = 'w-100 cover-image';
+    var card_row = document.createElement("div");
+    card_row.className = "row mx-0 mb-3";
+
+    var cover_image_div = document.createElement("div");
+    cover_image_div.id = "manga_" + manga.pk + "_section_" + section.id + "_cover_image_div";
+    cover_image_div.className = "col col-sm-12 col-5 m-0 p-0";
+
+    var cover_image_stub = document.createElement("div");
+    cover_image_stub.id = "manga_" + manga.pk + "_section_" + section.id + "_cover_image_stub";
+    cover_image_stub.className = "w-100 cover-image";
+
+    cover_image_stub.setAttribute("data-toggle", "image_stub");
+    cover_image_stub.setAttribute("data-src", manga.fields.banner_image_url);
+    cover_image_stub.setAttribute("data-resource-class", "cover-image w-100");
+    cover_image_stub.setAttribute("data-resource-id", "manga_" + manga.pk + "_section_" + section.id + "_cover_image");
+    cover_image_stub.setAttribute("data-resource-alternate", "Image Cover");
+
+    var image_overlay = document.createElement("div");
+    image_overlay.id = "manga_" + manga.pk + "_section_" + section.id + "_cover_resource_overlay";
+    image_overlay.className = "w-100 h-100 d-flex justify-content-center align-items-center";
+
+    var image_overlay_spinner = document.createElement("i");
+    image_overlay_spinner.className = "fa fa-spin fa-spinner";
+    
+    image_overlay.appendChild(image_overlay_spinner);
+
+    cover_image_stub.appendChild(image_overlay);
+
+    cover_image_div.appendChild(cover_image_stub);
+    
+    //var banner_image = document.createElement('img');
+    //banner_image.src = manga.fields.banner_image_url;
+    //banner_image.className = 'w-100 cover-image';
+
+    var card_body_wrapper = document.createElement("div");
+    card_body_wrapper.className = "col col-sm-12 col-7 m-0 p-0";
 
     var card_body = document.createElement('div');
     card_body.className = 'card-body py-1 px-1 d-flex flex-column';
@@ -315,8 +348,12 @@ function create_manga_card(manga) {
     card_body.appendChild(last_read);
     card_body.appendChild(last_updated);
 
-    card.appendChild(banner_image);
-    card.appendChild(card_body);
+    card_body_wrapper.appendChild(card_body);
+
+    card_row.appendChild(cover_image_div);
+    card_row.appendChild(card_body_wrapper);
+
+    card.appendChild(card_row);
 
     manga_card.appendChild(card);
 
