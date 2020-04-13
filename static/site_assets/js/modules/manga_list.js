@@ -170,6 +170,8 @@ function get_manga_page(request_parameters, parameters) {
                 page_inner.appendChild(manga_div);
             }
 
+            trigger_image_stub_events();
+
             page.appendChild(page_inner);
             section.appendChild(page);
 
@@ -185,17 +187,8 @@ function get_manga_page(request_parameters, parameters) {
             pager.selectedIndex = page_number - 1;
             last_page.innerHTML = num_pages;
 
-            $.each($('[data-action="get_bookmarked"]'), function(index, element) {
-                var manga_id = element.getAttribute('data-manga');
-
-                get_bookmarked_chapter(element, manga_id);
-            });
-
-            $.each($('[data-action="get_last_read"]'), function(index, element) {
-                var manga_id = element.getAttribute('data-manga');
-
-                get_last_read_chapter(element, manga_id);
-            });
+            trigger_get_bookmarked_events();
+            trigger_get_last_read_events();
         },
         error: function(response) {
             unlock_module_loading();
@@ -285,10 +278,6 @@ function create_manga_card(manga, section) {
     cover_image_stub.appendChild(image_overlay);
 
     cover_image_div.appendChild(cover_image_stub);
-    
-    //var banner_image = document.createElement('img');
-    //banner_image.src = manga.fields.banner_image_url;
-    //banner_image.className = 'w-100 cover-image';
 
     var card_body_wrapper = document.createElement("div");
     card_body_wrapper.className = "col col-sm-12 col-7 m-0 p-0";
