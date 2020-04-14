@@ -72,7 +72,6 @@
 
 @media (max-width: 600px) {
     .mobile-only-top-nav {
-        display: block !important;
         background-color: #1d2124;
         height: 56px;
         padding-top: 0px;

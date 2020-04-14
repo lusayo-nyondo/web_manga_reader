@@ -16,7 +16,7 @@
                 data-target="#filters-menu"
                 onclick="this.classList.toggle('active');"
                 {% endif %}
-                class="text-sm-center text-white d-inline-block btn btn-dark mx-auto">
+                class="active text-sm-center text-white d-inline-block btn btn-dark mx-auto">
                 <i class="fas fa-filter"></i>
             </button>
         </span>
@@ -24,7 +24,7 @@
     <nav class="navbar navbar-dark text-white shy bg-dark d-flex flex-fill row mx-0 flex-column p-0">
         <div class="mx-0 d-flex justify-content-end topnav-central-column flex-fill w-100 py-2 flex-sm-column flex-md-row flex-column">
             <form class="form-inline flex-fill flex-nowrap px-2 d-flex flex-column" id="search_form" action="/" method="get" name="search_form" data-pg-name="search_form" title="Search for a Manga">
-                <input class="form-control mr-sm-2 flex-fill w-100" name="search_term" type="search" placeholder="Search" data-action="search_manga" aria-label="Search">
+                <input class="form-control mr-sm-2 flex-fill w-100" name="search_term" type="search" placeholder="Search for manga" data-action="search_manga" aria-label="Search for manga">
                 <div class="w-100 search_results_container position-relative mr-sm-2 bg-white" id="search_results">
                     <div class="position-absolute w-100 search_results bg-white"></div>
                 </div>

@@ -218,6 +218,13 @@ function hide_search_results() {
         search_results.classList.add('d-none');
 }
 
+function show_search_results() {
+    var search_results = document.getElementById('search_results');
+    
+    if(search_results)
+        search_results.classList.remove('d-none');
+}
+
 function fetch_manga_json(data, func) {
     $.ajax({
         type: "GET",

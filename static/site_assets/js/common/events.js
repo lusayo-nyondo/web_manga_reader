@@ -25,6 +25,10 @@ function trigger_search_manga_events() {
         var input = event.currentTarget;
         search_manga(input);
     });
+
+    $('[data-action="search_manga"]').on('click', function(event){
+        show_search_results();
+    });
 }
 
 function trigger_navigation_events() {
