@@ -258,10 +258,18 @@ function add_active_filter(filter_item_id, filter_item_data, parent_element) {
     filter_item_remove_button.setAttribute('aria-label', 'Close');
     filter_item_remove_button.setAttribute('data-action', 'remove_filter');
 
+    filter_item_remove_button.setAttribute('data-filter-type', filter_item_data.filter_type);
+    filter_item_remove_button.setAttribute('data-filter-value', filter_item_data.filter_value);
+    filter_item_remove_button.setAttribute('data-filter-display-name', filter_item_data.display_name);
+
     var close_icon = document.createElement('span');
     close_icon.innerHTML = 'x';
 
     filter_item_remove_button.appendChild(close_icon);
+
+    filter_item_remove_button.onclick = function(event) {
+       remove_global_filter(event.currentTarget); 
+    };
 
     filter_item_span.appendChild(filter_item_remove_button);
 
@@ -552,6 +560,18 @@ function toggle_global_tags_through_search(search_element) {
         filter_type: 'tag',
         filter_value: search_element.getAttribute('data-tag-id'),
         display_name: search_element.getAttribute('data-tag-name'),
+    };
+
+    toggle_filter(data);
+    update_active_filters_count();
+}
+
+function remove_global_filter(filter) {
+    var data = {
+        filter_state: false,
+        filter_type: filter.getAttribute('data-filter-type'),
+        filter_value: filter.getAttribute('data-filter-value'),
+        display_name: filter.getAttribute('data-filter-display-name')
     };
 
     toggle_filter(data);
