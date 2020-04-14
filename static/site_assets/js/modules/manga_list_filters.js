@@ -248,9 +248,22 @@ function add_active_filter(filter_item_id, filter_item_data, parent_element) {
     var filter_item_span = document.createElement('span');
 
     filter_item_span.id = filter_item_id;
-    filter_item_span.className = 'active-filter-item badge badge-dark p-2 m-2 d-inline-block ' + filter_item_data.filter_type;
+    filter_item_span.className = 'active-filter-item badge badge-dark p-1 m-2 d-inline-block d-inline-flex justify-content-center align-items-center ' + filter_item_data.filter_type;
     filter_item_span.name = filter_item_data.filter_value;
     filter_item_span.innerHTML = filter_item_data.display_name;
+
+    var filter_item_remove_button = document.createElement('button');
+    filter_item_remove_button.type = "button";
+    filter_item_remove_button.className = "close btn btn-sm p-0 pb-2 m-0 ml-2";
+    filter_item_remove_button.setAttribute('aria-label', 'Close');
+    filter_item_remove_button.setAttribute('data-action', 'remove_filter');
+
+    var close_icon = document.createElement('span');
+    close_icon.innerHTML = 'x';
+
+    filter_item_remove_button.appendChild(close_icon);
+
+    filter_item_span.appendChild(filter_item_remove_button);
 
     parent_element.appendChild(filter_item_span);
 }
@@ -482,4 +495,65 @@ function create_bookmarked_probing_element(manga_id) {
     probe.appendChild(button);
 
     return probe;
+}
+
+function search_tags(input_element) {
+    var search_term = input_element.value;
+
+    if (search_term.length < 2) {
+        return;
+    }
+
+    var data = {
+        search_term: search_term
+    };
+
+    fetch_tag_json(data);
+}
+
+function fetch_tag_json(data, func) {
+    $.ajax({
+        type: "GET",
+        url: "/tag_list_json",
+        data: data,
+        success: function(response) {
+            var tag_list = JSON.parse(response);
+            var results_div = document.getElementById("tag_search_results");
+            clear_div(results_div);
+            results_div.classList.remove('d-none');
+
+            var i = 0, l = tag_list.length;
+
+            for(; i < l; i++) {
+                var tag = tag_list[i];
+                var div = document.createElement('div');
+                var button = document.createElement('button');
+
+                button.className = 'btn btn-link nav-link search_result bg-white w-100 text-left';
+                button.innerHTML = tag.fields.tag_name;
+                button.setAttribute('data-tag-id', tag.pk);
+                button.setAttribute('data-tag-name', tag.fields.tag_name);
+
+                button.onclick = function(event){
+                    var el = event.currentTarget;
+                    toggle_global_tags_through_search(el);
+                };
+
+                div.appendChild(button);
+                results_div.appendChild(div);
+            }
+        }
+    });
+}
+
+function toggle_global_tags_through_search(search_element) {
+    var data = {
+        filter_state: true,
+        filter_type: 'tag',
+        filter_value: search_element.getAttribute('data-tag-id'),
+        display_name: search_element.getAttribute('data-tag-name'),
+    };
+
+    toggle_filter(data);
+    update_active_filters_count();
 }

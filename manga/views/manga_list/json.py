@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.db.models import Count, Q
 
 from manga import session as manga_session
-from manga.models import Tag
+from manga.models import Tag, Author
 from manga.views.manga_list import queryset
 
 from users import session as user_session
@@ -78,6 +78,48 @@ def manga_list_json(request):
             'manga_name'
         )[:10]
     
-    json_response = serializers.serialize('json', manga_list)
+        json_response = serializers.serialize('json', manga_list)
     
-    return JsonResponse(json_response, safe=False)
+        return JsonResponse(json_response, safe=False)
+
+    response = {}
+
+    return JsonResponse(response, safe=False)
+
+def tag_list_json(request):
+    search_term = request.GET.get('search_term')
+    search_term = search_term.lower()
+
+    if search_term is not None:
+        tag_list = Tag.objects.filter(
+            tag_name__icontains=search_term
+        ).order_by(
+            'tag_name'
+        )[:10]
+
+        json_response = serializers.serialize('json', tag_list)
+
+        return JsonResponse(json_response, safe=False)
+
+    response = {}
+
+    return JsonResponse(response, safe=False)
+
+def author_list_json(request):
+    search_term = request.GET.get('search_term')
+    search_term = search_term.lower()
+
+    if search_term is not None:
+        author_list = Author.objects.filter(
+            author_name__icontains=search_term
+        ).order_by(
+            'author_name'
+        )[:10]
+
+        json_response = serializers.serialize('json', author_list)
+
+        return JsonResponse(json_response, safe=False)
+
+    response = {}
+
+    return JsonResponse(response, safe=False)

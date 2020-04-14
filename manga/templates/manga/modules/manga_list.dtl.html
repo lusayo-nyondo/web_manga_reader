@@ -60,7 +60,7 @@
                         class="custom-select custom-select-sm ml-auto"
                         data-toggle="apply_ordering_rule"
                         {% if not filterable_section or filterable_section == 'None' %} disabled {% endif %}
-                        data-fiterable-section='{{ filterable_section }}'
+                        data-filterable-section='{{ filterable_section }}'
                         data-items-per-page='{{ filterable_section_items_per_page }}'>
                         <option value="manga_name">Manga name (A - Z)</option>
                         <option value="-manga_name">Manga name (Z - A)</option>
@@ -110,16 +110,16 @@
             </div>
         </div>
         <div class="my-0 py-0 w-100 mx-0 filters-menu-container">
-            <div id="filters-menu" class="collapse bg-dark w-100">
+            <div id="filters-menu" class="collapse bg-dark w-100 pt-2">
                 <div class="bg-dark filters flex-fill row mx-0">
-                    <ul class="nav nav-tabs mb-2">
-                        <li class="nav-item mx-1">
+                    <ul class="nav nav-tabs mb-2 ml-3">
+                        <li class="nav-item mr-1">
                             <button class="nav-link active" type="button" data-toggle="tab" data-target="#tag_filters">
                                 <i class="fa fa-tag"></i>
                                 <span>Tags</span>
                             </button>
                         </li>
-                        <li class="nav-item mx-1">
+                        <li class="nav-item ml-1">
                             <button class="nav-link" type="button" data-toggle="tab" data-target="#author_filters">
                                 <i class="fa fa-male"></i>
                                 <span>Authors</span>
@@ -132,10 +132,15 @@
                             {% if all_authors %}
                             <section id="author_filters_section" class="d-flex align-items-center flex-column">
                                 <header class="text-center">
-                                    <h4 class="d-inline filter-section-header"><a href="/filters?type=authors">Authors</a></h4>
+                                    <h4 class="d-inline filter-section-header">Authors</h4>
                                 </header>
                                 <div class="px-4 my-4 w-100">
                                     <input type="search" class="form-control" placeholder="Search author">
+                                    
+                                    <div class="w-100 search_results_container position-relative mr-sm-2 bg-white" id="author_search_results">
+                                        <div class="position-absolute w-100 search_results bg-white"></div>
+                                    </div>
+
                                 </div>
                                 <div class="row mx-0 flex-fill filter-items-section d-flex flex-column flex-nowrap" id="author-filters">
                                     <div class="carousel col-12 row mx-0 overflow-auto flex-fill d-flex flex-column" id="authors_carousel" data-interval="false" data-touch="true" data-keyboard="true">
@@ -190,10 +195,14 @@
                             {% if all_tags %}
                             <section id="tag_filters_section" class="d-flex align-items-center flex-column">
                                 <header class="text-center">
-                                    <h4 class="d-inline filter-section-header"><a href="/filters?type=tags">Tags</a></h4>
+                                    <h4 class="d-inline filter-section-header">Tags</h4>
                                 </header>
                                 <div class="px-4 my-4 w-100">
-                                    <input type="search" class="form-control" placeholder="Search tag">
+                                    <input type="search" class="form-control" placeholder="Search tag" onkeyup="search_tags(this)">
+
+                                    <div class="w-100 search_results_container position-relative mr-sm-2 bg-white" id="tag_search_results">
+                                        <div class="position-absolute w-100 search_results bg-white"></div>
+                                    </div>
                                 </div>
                                 <div class="row mx-0 flex-fill filter-items-section d-flex flex-column flex-nowrap" id="tag-filters">
                                     <div class="col-12 row carousel mx-0 overflow-auto flex-fill d-flex flex-column" id="tags_carousel" data-interval="false" data-touch="true" data-keyboard="true">

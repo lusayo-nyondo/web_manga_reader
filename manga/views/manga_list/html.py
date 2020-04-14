@@ -22,7 +22,7 @@ def manga_list_all_view(request):
     context = {
         'sections': (
             {
-                'section_id': 'manga_list',
+                'section_id': 'manga_list_section',
                 'section_name': 'Manga List',
                 'section_order': 'manga_name',
                 'section_items_per_page': 24,
@@ -30,7 +30,7 @@ def manga_list_all_view(request):
                 'pages': range(1, manga_list.paginator.num_pages + 1)
             },
         ),
-        'filterable_section': 'manga_list',
+        'filterable_section': 'manga_list_section',
         'filterable_section_items_per_page': 24,
         'all_authors': authors_page,
         'author_pages': range(1, authors_page.paginator.num_pages + 1),
@@ -63,7 +63,7 @@ def manga_list_filtered_view(request, page_number):
     context = {
         'sections': (
             {
-                'section_id': 'manga_list',
+                'section_id': 'manga_list_section',
                 'section_name': 'Manga List',
                 'section_order': 'manga_name',
                 'section_items_per_page': 24,
@@ -71,7 +71,7 @@ def manga_list_filtered_view(request, page_number):
                 'pages': range(1, manga_list.paginator.num_pages + 1)
             },
         ),
-        'filterable_section': 'manga_list',
+        'filterable_section': 'manga_list_section',
         'filterable_section_items_per_page': 24,
         'all_authors': authors_page,
         'author_pages': range(1, authors_page.paginator.num_pages + 1),

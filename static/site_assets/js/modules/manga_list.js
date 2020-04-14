@@ -218,6 +218,20 @@ function hide_search_results() {
         search_results.classList.add('d-none');
 }
 
+function hide_tag_search_results() {
+    var search_results = document.getElementById('tag_search_results');
+
+    if(search_results)
+        search_results.classList.add('d-none');
+}
+
+function hide_author_search_results() {
+    var search_results = document.getElementById('author_search_results');
+
+    if(search_results)
+        search_results.classList.add('d-none');
+}
+
 function show_search_results() {
     var search_results = document.getElementById('search_results');
     

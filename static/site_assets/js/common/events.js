@@ -17,6 +17,8 @@ $(document).ready(function() {
 function trigger_document_level_events() {
     document.onclick = function(event) {
         hide_search_results();
+        hide_tag_search_results();
+        hide_author_search_results();
     };
 }
 
