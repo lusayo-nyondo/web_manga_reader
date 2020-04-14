@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    trigger_search_manga_events();
     trigger_navigation_events();
     trigger_quick_scrolling_events();
     trigger_bookmark_events();
@@ -11,6 +12,13 @@ $(document).ready(function() {
     trigger_image_stub_events();
     trigger_rate_manga_events();
 });
+
+function trigger_search_manga_events() {
+    $('[data-action="search_manga"]').on('keyup', function(event){
+        var input = event.currentTarget;
+        search_manga(input);
+    });
+}
 
 function trigger_navigation_events() {
     $('.back-button').on('click', function() {
