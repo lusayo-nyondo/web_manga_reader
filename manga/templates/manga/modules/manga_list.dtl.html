@@ -148,10 +148,16 @@
                                                 <div class="page row mx-0">
                                                     {% for author in all_authors %}
                                                     <div class="custom-control custom-checkbox filter-item mx-0 col-6">
-                                                        <input type="checkbox" class="custom-control-input" data-display-value="{{ author.author_name }}" id="author_{{ author.id }}" name="author_{{ author.id }}" onclick="toggle_global_filter(this)">
-                                                        <label class="custom-control-label" for="author_{{ author.id }}">
-                                                            <a href="/manga_list?author_id={{ author.id }}" class="d-inline-block">{{ author.author_name }}</a>
-                                                        </label>
+                                                        <button
+                                                            id="author_{{ author.id }}"
+                                                            class="btn btn-link text-white"
+                                                            data-filter-display-name="{{ author.author_name }}"
+                                                            data-filter-type="author"
+                                                            data-filter-value="{{ author.id }}"
+                                                            onclick="toggle_global_filter_btn(this)">
+                                                            <i class="fa fa-user fa-sm"></i>
+                                                            <span>{{ author.author_name }}</span>
+                                                        </button>
                                                     </div>
                                                     {% endfor %}
                                                 </div>
@@ -210,10 +216,16 @@
                                                 <div class="page row mx-0">
                                                     {% for tag in all_tags %}
                                                     <div class="custom-control custom-checkbox filter-item mx-0 col-6">
-                                                        <input type="checkbox" class="custom-control-input" data-display-value="{{ tag.tag_name }}" id="tag_{{ tag.id }}" name="tag_{{ tag.id }}" onclick="toggle_global_filter(this)">
-                                                        <label class="custom-control-label" for="tag_{{ tag.id }}">
-                                                            <a href="/manga_list?tag_id={{ tag.id }}" class="d-inline-block">{{ tag.tag_name }}</a>
-                                                        </label>
+                                                        <button
+                                                            id="tag_{{ tag.id }}"
+                                                            class="btn btn-link text-white"
+                                                            data-filter-display-name="{{ tag.tag_name }}"
+                                                            data-filter-type="tag"
+                                                            data-filter-value="{{ tag.id }}"
+                                                            onclick="toggle_global_filter_btn(this)">
+                                                            <i class="fa fa-tag fa-sm"></i>
+                                                            <span>{{ tag.tag_name }}</span>
+                                                        </button>
                                                     </div>
                                                     {% endfor %}
                                                 </div>

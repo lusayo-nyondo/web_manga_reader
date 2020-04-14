@@ -16,7 +16,7 @@
                     <div class="mx-0 d-flex justify-content-end topnav-central-column flex-fill w-100 py-2 flex-sm-column flex-md-row flex-column">
                         <form class="form-inline flex-fill flex-nowrap px-2 d-flex flex-column" onblur="hide_search_results()" id="search_form" action="/" method="get" name="search_form" data-pg-name="search_form" title="Search for a Manga">
                             <div class="form-group form-inline d-flex w-100">
-                                <select class="custom-select flex-fill custom-select" id="chapter-select-bottom" onchange="fetch_selected_chapter({{ manga.id }}, this)">
+                                <select class="custom-select flex-fill custom-select" id="chapter-select-bottom" onchange="fetch_selected_chapter('{{ manga.id }}', this)">
                                     <option value="-1" selected>Select Chapter: </option>
                                     {% for chap in chapters %}
                                     <option value='{{ chap.chapter_number }}'>{{ chap.chapter_name }}</option>
@@ -62,7 +62,11 @@
                                     <h5>Tags</h5>
                                     <div id="manga_tags">
                                         {% for tag in tags %}
-                                        <p class="tag d-inline-block"> <a href="/tags/{{ tag.id }}">{{ tag.tag_name }}</a> </p>
+                                        <p class="tag d-inline-block">
+                                            <a
+                                                href='/manga_list_filtered/1?order_by=-updated_on&items_per_page=24&section_id=manga_list&tags=%7B%22tags%22%3A%5B%22{{ tag.id }}%22%5D%7D'
+                                                class='tag'> {{ tag.tag_name }}</a>
+                                        </p>
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -73,7 +77,12 @@
                                     <h5>Authors</h5>
                                     <div class="manga-authors" id="manga-authors">
                                         {% for author in authors %}
-                                        <p class="manga-author d-inline-block"> <a href="/authors/{{ author.id }}">{{ author.author_name }}</a></p>
+                                        <p class="manga-author d-inline-block">
+                                            <a
+                                                href='/manga_list_filtered/1?order_by=-updated_on&items_per_page=24&section_id=manga_list&authors=%7B%22authors%22%3A%5B%22{{ author.id }}%22%5D%7D'
+                                                class='author'> {{ author.author_name }}</a>
+                                            <!--<a href="/authors/{{ author.id }}">{{ author.author_name }}</a>-->
+                                        </p>
                                         {% endfor %}
                                     </div>
                                 </div>

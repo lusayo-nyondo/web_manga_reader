@@ -51,13 +51,21 @@ def manga_list_filtered_view(request, page_number):
 
     tags = request.GET.get('tags')
 
+    active_tags = None
+
     if tags:
         tags = json.loads(tags)
         tags = tags['tags']
 
-    active_tags = Tag.objects.filter(
-        id__in=tags,
-    )
+        active_tags = Tag.objects.filter(
+            id__in=tags,
+        )
+
+    authors = request.GET.get('authors')
+
+    if authors:
+        authors = json.loads(authors)
+        authors = authors['authors']
 
     template = loader.get_template('manga/modules/manga_list.dtl.html')
     context = {

@@ -225,6 +225,57 @@ function toggle_global_filter(checkbox) {
     update_active_filters_count();
 }
 
+function toggle_global_filter_btn(button) {
+    var filter_type = button.getAttribute('data-filter-type');
+    var filter_value = button.getAttribute('data-filter-value');
+    var display_name = button.getAttribute('data-filter-display-name');
+
+    var filter_state = establish_filter_state(filter_type, filter_value);
+
+    var data = {
+        filter_state: filter_state,
+        filter_type: filter_type,
+        filter_value: filter_value,
+        display_name: display_name,
+    };
+
+    toggle_filter(data);
+    update_active_filters_count();
+}
+
+function establish_filter_state(filter_type, filter_value) {
+    var active_filters = gather_active_filters();
+    var tags = active_filters.tags.tags;
+    var authors = active_filters.authors.authors;
+
+    switch(filter_type) {
+        case 'tag':
+            var i = 0, l = tags.length;
+            
+            for(; i < l; i++) {
+                var tag = tags[i];
+
+                if (tag[1] == filter_value) {
+                    return false;
+                }
+            }
+        break;
+        case 'author':
+            var i = 0, l = authors.length;
+            
+            for(; i < l; i++) {
+                var author = authors[i];
+
+                if (author[1] == filter_value) {
+                    return false;
+                }
+            }
+        break;
+    }
+
+    return true;
+}
+
 function toggle_filter(data) {
     var filters_div_id = 'active_' + data.filter_type + '_filters_list';
     var filters_div = document.getElementById(filters_div_id);
@@ -387,30 +438,38 @@ function create_filter_item(item_type, item_id, item_text) {
     var filter_item = document.createElement('div');
     filter_item.className = 'custom-control custom-checkbox filter-item mx-0 col-6';
 
-    var checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.className = 'custom-control-input';
-    checkbox.id = item_type + '_' + item_id;
-    checkbox.name = item_type + '_' + item_id;
-    checkbox.setAttribute('data-display-value', item_text);
+    var button = document.createElement('button');
+    button.id = item_type + '_' + item_id;
+    button.className = 'btn btn-link text-white';
+    
+    button.setAttribute('data-filter-display-name', item_text);
+    button.setAttribute('data-filter-type', item_type);
+    button.setAttribute('data-filter-value', item_id);
 
-    checkbox.addEventListener('click', function(){
-        toggle_global_filter(this);
-    });
+    var icon = document.createElement('i');
+    
+    switch(item_type) {
+        case 'tag': {
+            icon.className = 'fa fa-tag fa-sm';
+        } break;
 
-    var label = document.createElement('label');
-    label.className = 'custom-control-label';
-    label.setAttribute('for', item_type + '_' + item_id);
+        case 'author': {
+            icon.className = 'fa fa-user fa-sm';
+        } break;
+    }
 
-    var link = document.createElement('a');
-    link.href = '/manga_list?' + item_type + '_id=' + item_id;
-    link.class = 'd-inline-block';
-    link.innerHTML = item_text;
+    var span = document.createElement('span');
+    span.innerHTML = '&nbsp;' + item_text; 
 
-    label.appendChild(link);
+    button.appendChild(icon);
+    button.appendChild(span);
 
-    filter_item.appendChild(checkbox);
-    filter_item.appendChild(label);
+
+    button.onclick = function(event) {
+        toggle_global_filter_btn(event.currentTarget);
+    };
+
+    filter_item.appendChild(button);
 
     return filter_item;
 }

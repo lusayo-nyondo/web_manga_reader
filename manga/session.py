@@ -36,7 +36,7 @@ def get_mangas_page_with_filters(
 
         for author_id in authors:
             mangas = mangas.filter(
-                manga_author__id=str(author_id)
+                manga_author__id=author_id
             )
 
     if order_by:
