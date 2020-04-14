@@ -200,7 +200,7 @@ function get_manga_page(request_parameters, parameters) {
 function search_manga(input_element) {
     var search_term = input_element.value;
 
-    if (search_term.length < 3) {
+    if (search_term.length < 2) {
         return;
     }
 
@@ -208,11 +208,14 @@ function search_manga(input_element) {
         search_term: search_term
     };
 
-    var func = function(response) {
-        update_search_results(response);
-    };
-
     fetch_manga_json(data);
+}
+
+function hide_search_results() {
+    var search_results = document.getElementById('search_results');
+    
+    if(search_results)
+        search_results.classList.add('d-none');
 }
 
 function fetch_manga_json(data, func) {
@@ -224,6 +227,8 @@ function fetch_manga_json(data, func) {
             var manga_list = JSON.parse(response);
             var results_div = document.getElementById("search_results");
             clear_div(results_div);
+            results_div.classList.remove('d-none');
+
             var i = 0, l = manga_list.length;
 
             for(; i < l; i++) {
