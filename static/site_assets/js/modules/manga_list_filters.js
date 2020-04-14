@@ -62,7 +62,7 @@ function get_next_authors_page(items_per_page) {
 
 function get_authors_page(data) {
     var page_id = 'authors_page_' + data.page_number;
-    var authors_section_id = 'author_filters';
+    var authors_section_id = 'author_filters_carousel';
     var authors_section = document.getElementById(authors_section_id);
     var carousel_item = document.getElementById(page_id);
 
@@ -144,7 +144,7 @@ function get_next_tags_page(items_per_page) {
 
 function get_tags_page(data) {
     var page_id = 'tags_page_' + data.page_number;
-    var tags_section_id = 'tag_filters';
+    var tags_section_id = 'tag_filters_carousel';
     var tags_section = document.getElementById(tags_section_id);
 
     var carousel_item = document.getElementById(page_id);

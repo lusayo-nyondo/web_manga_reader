@@ -283,11 +283,6 @@
     background-color: rgba(00,00,00,0.85);
 }
 
-.filters {
-    min-height: calc(100vh - 98px);
-    min-height: 680px;
-}
-
 .filters section {
     border-top: 1px solid;
     border-bottom: 1px solid;
