@@ -58,16 +58,16 @@
                 <!-- End Left Navigation Collapsed Layout -->
 
                 <!-- Start Left Navigation Expanded Layout -->
-                <div class="left-navigation-expanded bg-dark collapsed overflow-y-auto" id="navigation-drawer-expanded">
-                    <div>
-                        <div class="navigation-drawer-expanded-header btn-dark active">
-                            <div class="d-flex flex-row">
-                                <button class="btn-invisible border-radius-100">
-                                    {% if user %}
-                                    <img src="{% static 'site_assets/assets/img/account/clipart.png' %}" class="navigation-drawer-expanded-nav-image">
-                                    {% endif %}
+                <div class="left-navigation-expanded bg-dark collapsed overflow-y-auto active" id="navigation-drawer-expanded">
+                    <nav class="nav sidebar bg-dark">
+                        <div class="w-100">
+                            <div class="nav-link">
+                                <button style="width: 80px !important; border-width: 0px;" class="btn-dark active d-inline-block nav-link m-0 left-navigation-strip-toggler flex-sm-fill text-sm-center section-nav-link" onclick="collapseSideNav()">
+                                    <span class="btn-dark active pr-3">
+                                        <i class="fas fa-bars"></i>
+                                    </span>
                                 </button>
-                                <div class="flex-fill d-flex align-items-center justify-content-center text-nowrap px-2">
+                                <div class="d-inline-block align-items-center justify-content-center text-nowrap px-2">
                                     {% if user.is_authenticated %}
                                     <a class="lead text-white" href="/account">{{ user.username }}</a>
                                     {% else %}
@@ -78,15 +78,8 @@
                                     </p>
                                     {% endif %}
                                 </div>
-                                <button type="button" class="close" aria-label="Close" onclick="collapseSideNav()">
-                                    <i aria-hidden="true" id="collapse-sidenav-button">&times;</i>
-                                </button>
                             </div>
-                        </div>
-                    </div>
-                    <nav class="nav sidebar bg-dark">
-                        <div class="w-100">
-                            <a class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark active" href="/" onclick="collapseSideNav()">
+                            <a class="flex-sm-fill text-sm-center nav-link section-nav-link btn-dark" href="/" onclick="collapseSideNav()">
                                 <span class="btn-dark">
                                     <i class="fas fa-home"></i>
                                 </span>
