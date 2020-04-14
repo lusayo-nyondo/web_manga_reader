@@ -566,6 +566,67 @@ function toggle_global_tags_through_search(search_element) {
     update_active_filters_count();
 }
 
+function search_authors(input_element) {
+    var search_term = input_element.value;
+
+    if (search_term.length < 2) {
+        return;
+    }
+
+    var data = {
+        search_term: search_term
+    };
+
+    fetch_author_json(data);
+}
+
+function fetch_author_json(data, func) {
+    $.ajax({
+        type: "GET",
+        url: "/author_list_json",
+        data: data,
+        success: function(response) {
+            var author_list = JSON.parse(response);
+            var results_div = document.getElementById("author_search_results");
+            clear_div(results_div);
+            results_div.classList.remove('d-none');
+
+            var i = 0, l = author_list.length;
+
+            for(; i < l; i++) {
+                var author = author_list[i];
+                var div = document.createElement('div');
+                var button = document.createElement('button');
+
+                button.className = 'btn btn-link nav-link search_result bg-white w-100 text-left';
+                button.innerHTML = author.fields.author_name;
+                button.setAttribute('data-author-id', author.pk);
+                button.setAttribute('data-author-name', author.fields.author_name);
+
+                button.onclick = function(event){
+                    var el = event.currentTarget;
+                    toggle_global_authors_through_search(el);
+                };
+
+                div.appendChild(button);
+                results_div.appendChild(div);
+            }
+        }
+    });
+}
+
+function toggle_global_authors_through_search(search_element) {
+    var data = {
+        filter_state: true,
+        filter_type: 'author',
+        filter_value: search_element.getAttribute('data-author-id'),
+        display_name: search_element.getAttribute('data-author-name'),
+    };
+
+    toggle_filter(data);
+    update_active_filters_count();
+}
+
 function remove_global_filter(filter) {
     var data = {
         filter_state: false,

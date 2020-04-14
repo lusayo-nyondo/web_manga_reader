@@ -135,12 +135,11 @@
                                     <h4 class="d-inline filter-section-header">Authors</h4>
                                 </header>
                                 <div class="px-4 my-4 w-100">
-                                    <input type="search" class="form-control" placeholder="Search author">
+                                    <input type="search" class="form-control" placeholder="Search author" onkeyup="search_authors(this)">
                                     
                                     <div class="w-100 search_results_container position-relative mr-sm-2 bg-white" id="author_search_results">
                                         <div class="position-absolute w-100 search_results bg-white"></div>
                                     </div>
-
                                 </div>
                                 <div class="row mx-0 flex-fill filter-items-section d-flex flex-column flex-nowrap" id="author-filters">
                                     <div class="carousel col-12 row mx-0 overflow-auto flex-fill d-flex flex-column" id="authors_carousel" data-interval="false" data-touch="true" data-keyboard="true">
