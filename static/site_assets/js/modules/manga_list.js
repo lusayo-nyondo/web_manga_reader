@@ -331,7 +331,7 @@ function create_manga_card(manga, section) {
         var tag_json = tags[i];
         var tag = document.createElement('a');
         tag.className = 'tag';
-        tag.href = tag_json.pk;
+        tag.href = "/manga_list_filtered/1?order_by=-updated_on&items_per_page=24&section_id=manga_list&tags=%7B%22tags%22%3A%5B%22" + tag_json.pk + "%22%5D%7D"
         tag.innerHTML = '&nbsp;' + tag_json.fields.tag_name;
 
         manga_tags.appendChild(tag);
