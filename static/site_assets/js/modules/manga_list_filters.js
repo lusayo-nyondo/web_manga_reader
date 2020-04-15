@@ -436,7 +436,7 @@ function apply_ordering_rule(section_id, items_per_page) {
 
 function create_filter_item(item_type, item_id, item_text) {
     var filter_item = document.createElement('div');
-    filter_item.className = 'custom-control custom-checkbox filter-item mx-0 col-6';
+    filter_item.className = 'filter-item mx-0 px-0 col-6';
 
     var button = document.createElement('button');
     button.id = item_type + '_' + item_id;
