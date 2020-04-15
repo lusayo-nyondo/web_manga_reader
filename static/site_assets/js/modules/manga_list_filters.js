@@ -255,7 +255,7 @@ function establish_filter_state(filter_type, filter_value) {
             for(; i < l; i++) {
                 var tag = tags[i];
 
-                if (tag[1] == filter_value) {
+                if (tag == filter_value) {
                     return false;
                 }
             }

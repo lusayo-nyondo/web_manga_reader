@@ -73,7 +73,7 @@
             </div>
         </div>
         <div class="d-flex btn-dark active w-100 m-0 active-filters-container px-2 py-0" id="active-filters-container">
-            <div class="justify-content-center active_filters_list w-100 collapse" id="active_filters_list">
+            <div class="justify-content-center active_filters_list w-100 collapse{% if active_tags %} show{% endif %}"" id="active_filters_list">
                 <div class="active-filters-stub {% if active_tags %}d-none{% endif %}" id="active-filters-stub">
                     <div class="stub-item d-flex flex-column justify-items-center align-items-center">
                         <div class="stub-image">
@@ -89,9 +89,19 @@
                 <div class="tag-filters" id="active_tag_filters_list">
                 {% if active_tags %}
                 {% for tag in active_tags%}
-                <span
-                    id="active_tag_{{ tag.id }}"
-                    class="active-filter-item badge badge-dark p-2 m-2 d-inline-block tag">{{ tag.tag_name }}</span>
+                <span id="active_tag_{{ tag.id }}" class="active-filter-item badge badge-dark p-1 m-2 d-inline-block d-inline-flex justify-content-center align-items-center tag">{{ tag.tag_name }}
+                    <button
+                        type="button"
+                        class="close btn btn-sm p-0 pb-2 m-0 ml-2"
+                        aria-label="Close"
+                        data-action="remove_filter"
+                        data-filter-type="tag"
+                        data-filter-value="{{ tag.id }}"
+                        data-filter-display-name="{{ tag.tag_name }}"
+                        onclick="toggle_global_filter_btn(this)">
+                        <span>x</span>
+                    </button>
+                </span>
                 {% endfor %}
                 {% endif %}
                 </div>
