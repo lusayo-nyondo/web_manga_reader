@@ -3,7 +3,7 @@ function fetch_image(resource_stub) {
     var className = resource_stub.getAttribute('data-resource-class');
     var id = resource_stub.getAttribute('data-resource-id');
     var alternate = resource_stub.getAttribute('data-resource-alternate');
-    
+
     var image = document.createElement('img');
     image.src = src;
     image.className = className;
@@ -170,10 +170,10 @@ function get_manga_page(request_parameters, parameters) {
                 page_inner.appendChild(manga_div);
             }
 
-            trigger_image_stub_events();
-
             page.appendChild(page_inner);
             section.appendChild(page);
+
+            trigger_image_stub_events();
 
             var offset = $('#' + carousel_id).offset();
             $('html, body').animate({
@@ -213,7 +213,7 @@ function search_manga(input_element) {
 
 function hide_search_results() {
     var search_results = document.getElementById('search_results');
-    
+
     if(search_results)
         search_results.classList.add('d-none');
 }
@@ -234,7 +234,7 @@ function hide_author_search_results() {
 
 function show_search_results() {
     var search_results = document.getElementById('search_results');
-    
+
     if(search_results)
         search_results.classList.remove('d-none');
 }
@@ -298,7 +298,7 @@ function create_manga_card(manga, section) {
 
     var image_overlay_spinner = document.createElement("i");
     image_overlay_spinner.className = "fa fa-spin fa-spinner";
-    
+
     image_overlay.appendChild(image_overlay_spinner);
 
     cover_image_stub.appendChild(image_overlay);
