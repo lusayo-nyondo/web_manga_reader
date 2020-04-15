@@ -32,8 +32,8 @@ LOGIN_URL = '/account/sign_in'
 
 ALLOWED_HOSTS = [
     'neetlord.pythonanywhere.com',
-    #'localhost',
-    #'127.0.0.1',
+    'localhost',
+    '127.0.0.1',
 ]
 
 
@@ -88,13 +88,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'neetlord$mangapoint',
-        'USER': 'neetlord',
-        'HOST': 'neetlord.mysql.pythonanywhere-services.com',
-        'PASSWORD': 'NyondoNyondo',
-        #'NAME': 'mangapoint',
-        #'USER': 'root',
-        #'PASSWORD': '',
+        #'NAME': 'neetlord$mangapoint',
+        #'USER': 'neetlord',
+        #'HOST': 'neetlord.mysql.pythonanywhere-services.com',
+        #'PASSWORD': 'NyondoNyondo',
+        'NAME': 'mangapoint',
+        'USER': 'root',
+        'PASSWORD': '',
         'PORT': '3306'
     }
 }

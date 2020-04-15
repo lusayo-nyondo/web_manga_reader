@@ -1,3 +1,15 @@
+function is_user_authenticated() {
+    var status_div = document.getElementById("user_authentication_status");
+
+    var status_report = status_div.getAttribute('data-is-authenticated');
+
+    if (status_report == 'True') {
+        return true;
+    } else if (status_report == 'False') {
+        return false;
+    }
+}
+
 function clear_div(div) {
     while(div.childNodes.length != 0) {
         div.removeChild(div.childNodes[0]);

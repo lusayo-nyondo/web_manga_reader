@@ -360,6 +360,7 @@
                                                             </span>
                                                         </a>
                                                     </p>
+                                                    {% if user.is_authenticated %}
                                                     <p id="bookmarked_chapter_probe_{{ manga.id }}" class="card-text small my-0 manga-chapter mt-auto">
                                                         <button
                                                             type="button"
@@ -392,6 +393,7 @@
                                                             </span>
                                                         </button>
                                                     </p>
+                                                    {% endif %}
                                                     <p class="card-text last-updated">
                                                         <small class="text-muted">Last updated: {{ manga.updated_on }} </small>
                                                     </p>

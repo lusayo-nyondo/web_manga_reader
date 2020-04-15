@@ -344,9 +344,6 @@ function create_manga_card(manga, section) {
                                 "<span class='fa fa-arrow-right'></span>" +
                                 "<span>Read Chapter " + manga.latest_chapter  + "</span></a>";
 
-    var bookmarked = create_bookmarked_probing_element(manga.pk);
-    var last_read = create_last_read_probing_element(manga.pk);
-
     var last_updated = document.createElement('p');
     last_updated.className = 'card-text last-updated';
 
@@ -359,8 +356,15 @@ function create_manga_card(manga, section) {
     card_body.appendChild(manga_name);
     card_body.appendChild(manga_tags);
     card_body.appendChild(latest_chapter);
-    card_body.appendChild(bookmarked);
-    card_body.appendChild(last_read);
+    
+    if(is_user_authenticated()) {
+        var bookmarked = create_bookmarked_probing_element(manga.pk);
+        var last_read = create_last_read_probing_element(manga.pk);
+        
+        card_body.appendChild(bookmarked);
+        card_body.appendChild(last_read);
+    }
+
     card_body.appendChild(last_updated);
 
     card_body_wrapper.appendChild(card_body);

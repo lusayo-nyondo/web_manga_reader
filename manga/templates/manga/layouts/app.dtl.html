@@ -15,6 +15,7 @@
         <link href="{% static 'site_assets/css/custom/main.css' %}" rel="stylesheet">
     </head>
     <body class="w-100 vh-100">
+        <div class="d-none" id="user_authentication_status" data-is-authenticated="{{ user.is_authenticated }}"></div>
         <div class="back-to-top-div d-none" id="back-to-top-div">
             <button class="btn btn-outline-dark" id="back-to-top-button" class="back-to-top" onclick="window.scrollTo(0,0)">
                 <i class="fas fa-arrow-up"></i>
