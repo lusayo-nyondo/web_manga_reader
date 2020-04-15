@@ -65,12 +65,42 @@ class UserChapterBookmarkEntry(models.Model):
         entry_str = '{}-{}-{}'.format(
             self.user.user_name,
             self.manga.manga_name,
-            self.chapter_number,
+            self.chapter.chapter_number,
         )
 
         return entry_str
 
+class UserChapterHistoryEntry(models.Model):
+    user = models.ForeignKey(
+        SiteUser,
+        on_delete=models.CASCADE
+    )
 
+    manga = models.ForeignKey(
+        Manga,
+        on_delete=models.CASCADE
+    )
+
+    chapter = models.ForeignKey(
+        Chapter,
+        on_delete=models.CASCADE
+    )
+
+    added_on = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    updated_on = models.DateTimeField(
+        auto_now=True,
+    )
+
+    def __str__(self):
+        entry_str = '{}-{}-{}'.format(
+            self.user.user_name,
+            self.manga.manga_name,
+            self.chapter.chapter_number,
+        )
+    
 class UserTagsSubscriptionEntry(models.Model):
     subscription_name = models.CharField(
         max_length=300,

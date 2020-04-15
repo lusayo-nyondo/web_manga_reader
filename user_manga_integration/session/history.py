@@ -11,7 +11,7 @@ from users.models import SiteUser
 
 from manga.models import Manga, Chapter
 
-from user_manga_integration.models import UserChapterBookmarkEntry
+from user_manga_integration.models import UserChapterHistoryEntry
 
 def get_history_mangas(
     user,
@@ -100,38 +100,24 @@ def get_history_page_with_filters(
     return mangas
 
 def get_user_history(user):
-    user_history = UserChapterBookmarkEntry.objects.filter(
+    user_history = UserChapterHistoryEntry.objects.filter(
         user=user,
-        is_manually_assigned=False,
     ).order_by('-updated_on')
 
     return user_history
 
 def add_chapter_to_user_history(user, manga, chapter):
-    # The boomark entry doubles for a manga reading history entry.
-    # If it is manually assigned, it means that the history should
-    # be considered an active history that the user is concerned about explicitly.
-
-    # If it is not manually assigned, it will be considered a history entry.
-    # Since the model assumes is_manually_assigned is False by default, unless
-    # the user explicitly bookmarks the chapter, this won't change.
-
-    # If the user does bookmark the chapter, we save the model.
-
-    # This makes sure that we update the updated_on field regardless of
-    # whether it is a bookmark entry or a history entry.
-
-    history_entry = UserChapterBookmarkEntry.objects.get_or_create(
+    history_entry = UserChapterHistoryEntry.objects.create(
         user=user,
         manga=manga,
         chapter=chapter
-    )[0]
+    )
 
     history_entry.save()
 
 def is_manga_chapter_in_user_history(user, manga, chapter):
     try:
-        history_entry = UserChapterBookmarkEntry.objects.get(
+        history_entry = UserChapterHistoryEntry.objects.get(
             user=user,
             manga=manga,
             chapter=chapter,
@@ -139,22 +125,21 @@ def is_manga_chapter_in_user_history(user, manga, chapter):
         )
 
         return True
-    except UserChapterBookmarkEntry.DoesNotExist:
+    except UserChapterHistoryEntry.DoesNotExist:
         return False
 
 
 def remove_manga_chapter_from_user_history(user, manga, chapter):
     try:
-        history_entry = UserChapterBookmarkEntry.objects.get(
+        history_entry = UserChapterHistoryEntry.objects.get(
             manga=manga,
             user=user,
             chapter=chapter,
-            is_manually_assigned=False,
         )
 
         history_entry.is_manually_assigned = False
 
         history_entry.save()
-    except UserChapterBookmarkEntry.DoesNotExist:
+    except UserChapterHistoryEntry.DoesNotExist:
         return False
     return True

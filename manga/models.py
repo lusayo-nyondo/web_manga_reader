@@ -248,13 +248,13 @@ class Manga(models.Model):
 
                 if len(bookmark_entry) > 0:
                     return chapter
-            except UserMangaRating.DoesNotExist:
+            except UserChapterBookmarkEntry.DoesNotExist:
                 continue
 
         return None
 
     def last_read_by(self, user):
-        from user_manga_integration.models import UserChapterBookmarkEntry
+        from user_manga_integration.models import UserChapterHistoryEntry
 
         chapters = self.chapters
 
@@ -263,10 +263,9 @@ class Manga(models.Model):
 
         for chapter in chapters:
             try:
-                history_entries = UserChapterBookmarkEntry.objects.filter(
+                history_entries = UserChapterHistoryEntry.objects.filter(
                     chapter=chapter,
                     user=user,
-                    is_manually_assigned=False,
                 )
 
                 for history_entry in history_entries:
@@ -274,7 +273,7 @@ class Manga(models.Model):
                         last_read_datetime = history_entry.updated_on
                         last_read = chapter
                         
-            except UserChapterBookmarkEntry.DoesNotExist:
+            except UserChapterHistoryEntry.DoesNotExist:
                 continue
 
         return last_read
