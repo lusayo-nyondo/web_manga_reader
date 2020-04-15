@@ -266,7 +266,7 @@ function establish_filter_state(filter_type, filter_value) {
             for(; i < l; i++) {
                 var author = authors[i];
 
-                if (author[1] == filter_value) {
+                if (author == filter_value) {
                     return false;
                 }
             }

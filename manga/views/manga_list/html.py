@@ -6,7 +6,7 @@ from django.template import loader
 from users import session as user_session
 
 from manga import session as manga_session
-from manga.models import Tag
+from manga.models import Author, Tag
 from manga.views.manga_list import queryset
 
 def index(request):
@@ -63,9 +63,18 @@ def manga_list_filtered_view(request, page_number):
 
     authors = request.GET.get('authors')
 
+    active_authors = None
+
     if authors:
         authors = json.loads(authors)
         authors = authors['authors']
+
+        active_authors = Author.objects.filter(
+            id__in=authors,
+        )
+
+    active_filters_count = len(active_authors) if active_authors else 0
+    active_filters_count += len(active_tags) if active_tags else 0
 
     template = loader.get_template('manga/modules/manga_list.dtl.html')
     context = {
@@ -85,7 +94,9 @@ def manga_list_filtered_view(request, page_number):
         'author_pages': range(1, authors_page.paginator.num_pages + 1),
         'all_tags': tags_page,
         'tag_pages': range(1, tags_page.paginator.num_pages + 1),
-        'active_tags': active_tags
+        'active_tags': active_tags,
+        'active_authors': active_authors,
+        'active_filters_count': active_filters_count,
     }
 
     return HttpResponse(template.render(context, request))

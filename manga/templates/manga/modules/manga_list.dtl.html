@@ -48,7 +48,7 @@
             <div class="d-flex justify-content-center">
                 <div id="active_filters_controls" class="active_filters_controls">
                     <button type="button" class="btn py-0 px-2 btn-light disabled" {% if not filterable_section or filterable_section == 'None' %} disabled {% endif %} data-toggle="collapse" data-target="#active_filters_list">Active filters&nbsp;
-                        <span class="badge badge-light p-0" id="active_filters">{% if active_tags %}{{ active_tags|length }}{% else %}0{% endif %}</span>
+                        <span class="badge badge-light p-0" id="active_filters">{% if active_tags or active_authors %}{{ active_filters_count }}{% else %}0{% endif %}</span>
                         <span class="sr-only">content filters</span>
                     </button>
 
@@ -73,8 +73,8 @@
             </div>
         </div>
         <div class="d-flex btn-dark active w-100 m-0 active-filters-container px-2 py-0" id="active-filters-container">
-            <div class="justify-content-center active_filters_list w-100 collapse{% if active_tags %} show{% endif %}"" id="active_filters_list">
-                <div class="active-filters-stub {% if active_tags %}d-none{% endif %}" id="active-filters-stub">
+            <div class="justify-content-center active_filters_list w-100 collapse{% if active_tags or active_authors %} show{% endif %}"" id="active_filters_list">
+                <div class="active-filters-stub {% if active_tags or active_authors %}d-none{% endif %}" id="active-filters-stub">
                     <div class="stub-item d-flex flex-column justify-items-center align-items-center">
                         <div class="stub-image">
                             <i class="fa fa-search-minus"></i>
@@ -85,6 +85,23 @@
                     </div>
                 </div>
                 <div class="author-filters" id="active_author_filters_list">
+                    {% if active_authors %}
+                {% for author in active_authors%}
+                <span id="active_author_{{ author.id }}" class="active-filter-item badge badge-dark p-1 m-2 d-inline-block d-inline-flex justify-content-center align-items-center author">{{ author.author_name }}
+                    <button
+                        type="button"
+                        class="close btn btn-sm p-0 pb-2 m-0 ml-2"
+                        aria-label="Close"
+                        data-action="remove_filter"
+                        data-filter-type="author"
+                        data-filter-value="{{ author.id }}"
+                        data-filter-display-name="{{ author.author_name }}"
+                        onclick="toggle_global_filter_btn(this)">
+                        <span>x</span>
+                    </button>
+                </span>
+                {% endfor %}
+                {% endif %}
                 </div>
                 <div class="tag-filters" id="active_tag_filters_list">
                 {% if active_tags %}
