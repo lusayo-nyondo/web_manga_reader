@@ -163,7 +163,7 @@
                                 </header>
                                 <div class="px-4 my-4 w-100">
                                     <input type="search" class="form-control" placeholder="Search author" onkeyup="search_authors(this)">
-                                    
+
                                     <div class="w-100 search_results_container position-relative mr-sm-2 bg-white" id="author_search_results">
                                         <div class="position-absolute w-100 search_results bg-white"></div>
                                     </div>
@@ -177,7 +177,7 @@
                                                     <div class="custom-control custom-checkbox filter-item mx-0 col-6">
                                                         <button
                                                             id="author_{{ author.id }}"
-                                                            class="btn btn-link text-white"
+                                                            class="btn btn-link text-white text-nowrap"
                                                             data-filter-display-name="{{ author.author_name }}"
                                                             data-filter-type="author"
                                                             data-filter-value="{{ author.id }}"
@@ -245,7 +245,7 @@
                                                     <div class="custom-control custom-checkbox filter-item mx-0 col-6">
                                                         <button
                                                             id="tag_{{ tag.id }}"
-                                                            class="btn btn-link text-white"
+                                                            class="btn btn-link text-white text-nowrap"
                                                             data-filter-display-name="{{ tag.tag_name }}"
                                                             data-filter-type="tag"
                                                             data-filter-value="{{ tag.id }}"

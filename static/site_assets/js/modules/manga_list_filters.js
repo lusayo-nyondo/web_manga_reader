@@ -251,7 +251,7 @@ function establish_filter_state(filter_type, filter_value) {
     switch(filter_type) {
         case 'tag':
             var i = 0, l = tags.length;
-            
+
             for(; i < l; i++) {
                 var tag = tags[i];
 
@@ -262,7 +262,7 @@ function establish_filter_state(filter_type, filter_value) {
         break;
         case 'author':
             var i = 0, l = authors.length;
-            
+
             for(; i < l; i++) {
                 var author = authors[i];
 
@@ -319,7 +319,7 @@ function add_active_filter(filter_item_id, filter_item_data, parent_element) {
     filter_item_remove_button.appendChild(close_icon);
 
     filter_item_remove_button.onclick = function(event) {
-       remove_global_filter(event.currentTarget); 
+       remove_global_filter(event.currentTarget);
     };
 
     filter_item_span.appendChild(filter_item_remove_button);
@@ -440,14 +440,14 @@ function create_filter_item(item_type, item_id, item_text) {
 
     var button = document.createElement('button');
     button.id = item_type + '_' + item_id;
-    button.className = 'btn btn-link text-white';
-    
+    button.className = 'btn btn-link text-white text-nowrap';
+
     button.setAttribute('data-filter-display-name', item_text);
     button.setAttribute('data-filter-type', item_type);
     button.setAttribute('data-filter-value', item_id);
 
     var icon = document.createElement('i');
-    
+
     switch(item_type) {
         case 'tag': {
             icon.className = 'fa fa-tag fa-sm';
@@ -459,7 +459,7 @@ function create_filter_item(item_type, item_id, item_text) {
     }
 
     var span = document.createElement('span');
-    span.innerHTML = '&nbsp;' + item_text; 
+    span.innerHTML = '&nbsp;' + item_text;
 
     button.appendChild(icon);
     button.appendChild(span);
