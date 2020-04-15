@@ -327,9 +327,9 @@ class Chapter(models.Model):
     
     @property
     def views(self):
-        from user_manga_integration.models import UserChapterBookmarkEntry
+        from user_manga_integration.models import UserChapterHistoryEntry
 
-        entries = UserChapterBookmarkEntry.objects.filter(
+        entries = UserChapterHistoryEntry.objects.filter(
             chapter=self,
         )
 
