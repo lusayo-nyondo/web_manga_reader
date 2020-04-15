@@ -1,6 +1,6 @@
 import json
 
-from django.db.models import Count
+from django.db.models import Count, F, Subquery, OuterRef
 
 from django.core.paginator import Paginator
 
@@ -17,21 +17,20 @@ def get_history_mangas(
     user,
     order_by='-updated_on'
 ):
-    history_entries = get_user_history(user).values_list(
-        'chapter_id',
-        flat=True,
-    )
+    history_entries = get_user_history(user)
+    history_entries.order_by(order_by)
 
-    chapters = Chapter.objects.filter(
-        id__in=history_entries,
-    )
+    mangas = list()
 
-    manga_ids = chapters.all().values('manga_id')
+    for history_entry in history_entries:
+        manga = Manga.objects.get(
+            id=history_entry.manga.id
+        )
 
-    mangas = Manga.objects.filter(
-        id__in=manga_ids
-    )
-
+        manga.history_entry = history_entry
+        
+        mangas.append(manga)
+    
     return mangas
 
 def get_history_page(user, page_number, items_per_page, order_by):
@@ -39,6 +38,8 @@ def get_history_page(user, page_number, items_per_page, order_by):
         user=user,
         order_by=order_by
     )
+
+    print(mangas)
 
     history_manga_paginator = Paginator(
         mangas,
@@ -102,7 +103,9 @@ def get_history_page_with_filters(
 def get_user_history(user):
     user_history = UserChapterHistoryEntry.objects.filter(
         user=user,
-    ).order_by('-updated_on')
+    ).order_by(
+        '-updated_on'
+    )
 
     return user_history
 

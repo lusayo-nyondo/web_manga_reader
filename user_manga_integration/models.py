@@ -63,7 +63,7 @@ class UserChapterBookmarkEntry(models.Model):
 
     def __str__(self):
         entry_str = '{}-{}-{}'.format(
-            self.user.user_name,
+            self.user.username,
             self.manga.manga_name,
             self.chapter.chapter_number,
         )
@@ -95,11 +95,13 @@ class UserChapterHistoryEntry(models.Model):
     )
 
     def __str__(self):
-        entry_str = '{}-{}-{}'.format(
-            self.user.user_name,
+        entry_str = '{0}-{1}-{2}'.format(
+            self.user.username,
             self.manga.manga_name,
             self.chapter.chapter_number,
         )
+
+        return entry_str
     
 class UserTagsSubscriptionEntry(models.Model):
     subscription_name = models.CharField(

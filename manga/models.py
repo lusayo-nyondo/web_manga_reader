@@ -176,6 +176,9 @@ class Manga(models.Model):
         auto_now=True
     )
 
+    # Placeholder property not intended to be a part of the model, but is needed by the model later on.
+    history_entry = None
+
     @property
     def valid_ratings(self):
         return range(1, 6)

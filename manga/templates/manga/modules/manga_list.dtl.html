@@ -377,6 +377,20 @@
                                                             </span>
                                                         </button>
                                                     </p>
+
+                                                    {% if section.section_id == 'history' %}
+                                                    <p id="history_entry_chapter_probe_{{ manga.id }}_{{ manga.history_entry.chapter.id }}" class="card-text small my-0 manga-chapter mt-auto">
+                                                        <a
+                                                            href="/manga/manga/{{ manga.id }}/chapters/{{ manga.history_entry.chapter.chapter_number }}"
+                                                            id="btn_manga_{{ manga.id }}_chapter_{{ manga.history_entry.chapter.id }}_read"
+                                                            class='btn btn-link px-0 small manga-chapter'>
+                                                            <i class='fa fa-history'></i>
+                                                            <span id="span_manga_{{ manga.id }}_chapter_{{ manga.history_entry.chapter.id }}_read">
+                                                                You read chapter {{ manga.history_entry.chapter.chapter_number }} on {{ manga.history_entry.added_on }}
+                                                            </span>
+                                                        </a>
+                                                    </p>    
+                                                    {% else %}
                                                     <p id="last_read_chapter_probe_{{ manga.id }}" class="card-text small my-0 manga-chapter mt-auto">
                                                         <button
                                                             type="button"
@@ -393,6 +407,7 @@
                                                             </span>
                                                         </button>
                                                     </p>
+                                                    {% endif %}
                                                     {% endif %}
                                                     <p class="card-text last-updated">
                                                         <small class="text-muted">Last updated: {{ manga.updated_on }} </small>
