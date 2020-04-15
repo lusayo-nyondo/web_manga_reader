@@ -165,7 +165,7 @@
 
 .filter-items {
     min-height: 130px;
-    max-height: 180px;
+    max-height: 240px;
     overflow-y: auto;
     padding-top: 10px;
 }
