@@ -21,19 +21,25 @@ def submit_rating(request):
         user = user_session.get_authenticated_user(request)
         
         if user:
-            ratings.submit_rating(
-                user=user,
-                manga=manga,
-                rating=int(rating),
-            )
+            try:
+                ratings.submit_rating(
+                    user=user,
+                    manga=manga,
+                    rating=int(rating),
+                )
 
-            valid_ratings = list(manga.valid_ratings)
+                valid_ratings = list(manga.valid_ratings)
 
-            response = {
-                'status': 'success',
-                'rating': rating,
-                'valid_ratings': valid_ratings,
-            }
+                response = {
+                    'status': 'success',
+                    'rating': rating,
+                    'valid_ratings': valid_ratings,
+                }
+            except EnvironmentError:
+                response = {
+                    'status': 'failed',
+                    'description': 'You have already rated this manga.',
+                }
         else:
             response = {
                 'status': 'failed',
