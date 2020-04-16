@@ -1,6 +1,6 @@
 import json
 
-from django.db.models import Count, F, Subquery, OuterRef
+from django.db.models import Count, F, Subquery, OuterRef, QuerySet
 
 from django.core.paginator import Paginator
 
@@ -28,7 +28,7 @@ def get_history_mangas(
         )
 
         manga.history_entry = history_entry
-        
+
         mangas.append(manga)
     
     return mangas
@@ -58,6 +58,8 @@ def get_history_page_with_filters(
     tags=None,
     order_by=None
 ):
+    new_mangas_list = list()
+
     mangas = get_history_mangas(
         user=user,
         order_by=order_by
@@ -66,11 +68,14 @@ def get_history_page_with_filters(
     if tags is not None:
         tags = json.loads(tags)
         tags = tags['tags']
-    
-        for tag_id in tags:
-            mangas = mangas.filter(
-                tags__id=str(tag_id)
-            )
+        
+        for manga in mangas:
+            if len(
+                manga.tags.filter(
+                    id__in=tags
+                )
+            ) > 0:
+                new_mangas_list.append(manga)
 
     if authors is not None:
         authors = json.loads(authors)
