@@ -31,7 +31,7 @@ def manga_list_history_view(request):
 
     history_mangas = user_history.get_history_page(active_user, 1, 12, order_by)
 
-    template = loader.get_template('manga/modules/manga_list.dtl.html')
+    template = loader.get_template('user_manga_integration/user_manga_history.dtl.html')
 
     context = {
         'sections': (

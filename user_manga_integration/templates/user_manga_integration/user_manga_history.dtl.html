@@ -1,0 +1,435 @@
+{% extends "manga/layouts/app.dtl.html" %}
+
+{% block module_content %}
+<div class="flex-fill">
+    <nav class="navbar mobile-only-top-nav navbar-dark btn-dark active d-flex flex-row d-md-none">
+        <button class="navbar-toggler btn btn-dark active" type="button" onclick="expandSideNav()" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <span class="d-inline-block mr-2">
+            <button
+                type="button"
+                {% if not filterable_section or filterable_section == 'None' %}
+                onclick="window.location.assign('/manga_list');"
+                {% else %}
+                data-toggle="collapse"
+                data-target="#filters-menu"
+                onclick="this.classList.toggle('active');"
+                {% endif %}
+                class="active text-sm-center text-white d-inline-block btn btn-dark mx-auto">
+                <i class="fas fa-filter"></i>
+            </button>
+        </span>
+    </nav>
+    <nav class="navbar navbar-dark text-white shy bg-dark d-flex flex-fill row mx-0 flex-column p-0">
+        <div class="mx-0 d-flex justify-content-end topnav-central-column flex-fill w-100 py-2 flex-sm-column flex-md-row flex-column">
+            <form class="form-inline flex-fill flex-nowrap px-2 d-flex flex-column" id="search_form" action="/" method="get" name="search_form" data-pg-name="search_form" title="Search for a Manga">
+                <input class="form-control mr-sm-2 flex-fill w-100" name="search_term" type="search" placeholder="Search for manga" data-action="search_manga" aria-label="Search for manga">
+                <div class="w-100 search_results_container position-relative mr-sm-2 bg-white" id="search_results">
+                    <div class="position-absolute w-100 search_results bg-white"></div>
+                </div>
+            </form>
+            <div class="d-none d-md-flex flex-md-row mr-2">
+                <button
+                    type="button"
+                    {% if not filterable_section or filterable_section == 'None' %}
+                    onclick="window.location.assign('/manga_list');"
+                    {% else %}
+                    data-toggle="collapse"
+                    data-target="#filters-menu"
+                    onclick="this.classList.toggle('active');"
+                    {% endif %}
+                    class="text-sm-center text-white d-inline-block btn btn-dark mx-auto">
+                    <i class="fas fa-filter"></i>
+                </button>
+            </div>
+        </div>
+        <div class="mx-0 {% if not filterable_section or filterable_section == 'None' %}d-none{% else %}d-flex{% endif%} justify-content-end topnav-central-column flex-fill align-items-center btn-dark active flex-nowrap w-100 central-nav-content py-2" data-pgc-field="page-controls-area">
+            <div class="d-flex justify-content-center">
+                <div id="active_filters_controls" class="active_filters_controls">
+                    <button type="button" class="btn py-0 px-2 btn-light disabled" {% if not filterable_section or filterable_section == 'None' %} disabled {% endif %} data-toggle="collapse" data-target="#active_filters_list">Active filters&nbsp;
+                        <span class="badge badge-light p-0" id="active_filters">{% if active_tags or active_authors %}{{ active_filters_count }}{% else %}0{% endif %}</span>
+                        <span class="sr-only">content filters</span>
+                    </button>
+
+                </div>
+            </div>
+            <div class="flex-fill px-2 flex-row-reverse d-flex">
+                <div class="form-group form-inline my-0 d-flex flex-nowrap flex-fill">
+                    <select id="select_ordering_rule"
+                        class="custom-select custom-select-sm ml-auto"
+                        data-toggle="apply_ordering_rule"
+                        {% if not filterable_section or filterable_section == 'None' %} disabled {% endif %}
+                        data-filterable-section='{{ filterable_section }}'
+                        data-items-per-page='{{ filterable_section_items_per_page }}'>
+                        <option value="manga_name">Manga name (A - Z)</option>
+                        <option value="-manga_name">Manga name (Z - A)</option>
+                        <option value="-updated_on" selected="selected">Newly Updated</option>
+                        <option value="-added_on">Newly Added</option>
+                        <option value="chapter_count">Number of Chapters (ASC)</option>
+                        <option value="-chapter_count">Number of Chapters (DESC)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex btn-dark active w-100 m-0 active-filters-container px-2 py-0" id="active-filters-container">
+            <div class="justify-content-center active_filters_list w-100 collapse{% if active_tags or active_authors %} show{% endif %}"" id="active_filters_list">
+                <div class="active-filters-stub {% if active_tags or active_authors %}d-none{% endif %}" id="active-filters-stub">
+                    <div class="stub-item d-flex flex-column justify-items-center align-items-center">
+                        <div class="stub-image">
+                            <i class="fa fa-search-minus"></i>
+                        </div>
+                        <div class="stub-text">
+                            <p class="lead">There are no active filters yet </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="author-filters" id="active_author_filters_list">
+                    {% if active_authors %}
+                {% for author in active_authors%}
+                <span id="active_author_{{ author.id }}" class="active-filter-item badge badge-dark p-1 m-2 d-inline-block d-inline-flex justify-content-center align-items-center author">{{ author.author_name }}
+                    <button
+                        type="button"
+                        class="close btn btn-sm p-0 pb-2 m-0 ml-2"
+                        aria-label="Close"
+                        data-action="remove_filter"
+                        data-filter-type="author"
+                        data-filter-value="{{ author.id }}"
+                        data-filter-display-name="{{ author.author_name }}"
+                        onclick="toggle_global_filter_btn(this)">
+                        <span>x</span>
+                    </button>
+                </span>
+                {% endfor %}
+                {% endif %}
+                </div>
+                <div class="tag-filters" id="active_tag_filters_list">
+                {% if active_tags %}
+                {% for tag in active_tags%}
+                <span id="active_tag_{{ tag.id }}" class="active-filter-item badge badge-dark p-1 m-2 d-inline-block d-inline-flex justify-content-center align-items-center tag">{{ tag.tag_name }}
+                    <button
+                        type="button"
+                        class="close btn btn-sm p-0 pb-2 m-0 ml-2"
+                        aria-label="Close"
+                        data-action="remove_filter"
+                        data-filter-type="tag"
+                        data-filter-value="{{ tag.id }}"
+                        data-filter-display-name="{{ tag.tag_name }}"
+                        onclick="toggle_global_filter_btn(this)">
+                        <span>x</span>
+                    </button>
+                </span>
+                {% endfor %}
+                {% endif %}
+                </div>
+
+                <button
+                    type="button"
+                    class="btn p-0 m-0 text-white ml-2"
+                    data-toggle="apply_filters"
+                    data-filterable-section='{{ filterable_section }}'
+                    data-items-per-page='{{ filterable_section_items_per_page }}'
+                    id="apply-filters-button">
+                    <i class="fas fa-redo"></i>
+                    <span>&nbsp;</span>
+                    <span>Apply filters</span>
+                </button>
+            </div>
+        </div>
+        <div class="my-0 py-0 w-100 mx-0 filters-menu-container">
+            <div id="filters-menu" class="collapse bg-dark w-100 pt-2">
+                <div class="bg-dark filters flex-fill row mx-0">
+                    <ul class="nav nav-tabs mb-2 ml-3">
+                        <li class="nav-item">
+                            <button class="nav-link btn-dark text-white active" type="button" data-toggle="tab" data-target="#tag_filters">
+                                <i class="fa fa-tag"></i>
+                                <span>Tags</span>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link btn-dark text-white" type="button" data-toggle="tab" data-target="#author_filters">
+                                <i class="fa fa-male"></i>
+                                <span>Authors</span>
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content col-12" id="details">
+                        <div class="tab-pane fade" id="author_filters">
+                            {% if all_authors %}
+                            <section id="author_filters_section" class="d-flex align-items-center flex-column">
+                                <header class="text-center">
+                                    <h4 class="d-inline filter-section-header">Authors</h4>
+                                </header>
+                                <div class="px-4 my-4 w-100">
+                                    <input type="search" class="form-control" placeholder="Search author" onkeyup="search_authors(this)">
+
+                                    <div class="w-100 search_results_container position-relative mr-sm-2 bg-white" id="author_search_results">
+                                        <div class="position-absolute w-100 search_results bg-white"></div>
+                                    </div>
+                                </div>
+                                <div class="row mx-0 flex-fill filter-items-section d-flex flex-column flex-nowrap" id="author-filters">
+                                    <div class="carousel col-12 row mx-0 overflow-auto flex-fill d-flex flex-column" id="authors_carousel" data-interval="false" data-touch="true" data-keyboard="true">
+                                        <div class="carousel-inner filter-items row col-12 mx-0 px-0 h-100 flex-fill" id="author_filters_carousel">
+                                            <div class="carousel-item active" id="authors_page_1">
+                                                <div class="page row mx-0">
+                                                    {% for author in all_authors %}
+                                                    <div class="filter-item mx-0 px-0 col-6">
+                                                        <button
+                                                            id="author_{{ author.id }}"
+                                                            class="btn btn-link text-white text-nowrap"
+                                                            data-filter-display-name="{{ author.author_name }}"
+                                                            data-filter-type="author"
+                                                            data-filter-value="{{ author.id }}"
+                                                            onclick="toggle_global_filter_btn(this)">
+                                                            <i class="fa fa-user fa-sm"></i>
+                                                            <span>{{ author.author_name }}</span>
+                                                        </button>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex justify-content-center mx-0 py-0 pb-1">
+                                        <ul class="pagination bg-dark my-0">
+                                            <li class="page-item">
+                                                <button class="page-link" onclick="get_previous_authors_page(10)">
+                                                    <i class="fa fa-arrow-left"></i>
+                                                </button>
+                                            </li>
+                                            <li class="page-item">
+                                                <select class="page-link active custom-select custom-select-sm pr-4" id="current_authors_page" onchange="get_selected_page(this, 15, get_authors_page)">
+                                                    {% for x in author_pages %}
+                                                    <option value='{{ x }}'>{{ x }}</option>
+                                                    {%endfor %}
+                                                </select>
+                                            </li>
+                                            <li class="page-item">
+                                                <i class="page-link"> - of - </i>
+                                            </li>
+                                            <li class="page-item">
+                                                <button class="page-link" id="last_authors_page" onclick="get_last_authors_page()">{{all_authors.paginator.num_pages }}</button>
+                                            </li>
+                                            <li class="page-item">
+                                                <button class="page-link" onclick="get_next_authors_page(10)">
+                                                    <i class="fa fa-arrow-right"></i>
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                            {% endif %}
+                        </div>
+
+                        <div class="tab-pane fade show active" id="tag_filters">
+                            {% if all_tags %}
+                            <section id="tag_filters_section" class="d-flex align-items-center flex-column">
+                                <header class="text-center">
+                                    <h4 class="d-inline filter-section-header">Tags</h4>
+                                </header>
+                                <div class="px-4 my-4 w-100">
+                                    <input type="search" class="form-control" placeholder="Search tag" onkeyup="search_tags(this)">
+
+                                    <div class="w-100 search_results_container position-relative mr-sm-2 bg-white" id="tag_search_results">
+                                        <div class="position-absolute w-100 search_results bg-white"></div>
+                                    </div>
+                                </div>
+                                <div class="row mx-0 flex-fill filter-items-section d-flex flex-column flex-nowrap" id="tag-filters">
+                                    <div class="col-12 row carousel mx-0 overflow-auto flex-fill d-flex flex-column" id="tags_carousel" data-interval="false" data-touch="true" data-keyboard="true">
+                                        <div class="filter-items carousel-inner row col-12 mx-0 px-0 h-100 flex-fill" id="tag_filters_carousel">
+                                            <div class="carousel-item active" id="tags_page_1">
+                                                <div class="page row mx-0">
+                                                    {% for tag in all_tags %}
+                                                    <div class="filter-item mx-0 px-0 col-6">
+                                                        <button
+                                                            id="tag_{{ tag.id }}"
+                                                            class="btn btn-link text-white text-nowrap"
+                                                            data-filter-display-name="{{ tag.tag_name }}"
+                                                            data-filter-type="tag"
+                                                            data-filter-value="{{ tag.id }}"
+                                                            onclick="toggle_global_filter_btn(this)">
+                                                            <i class="fa fa-tag fa-sm"></i>
+                                                            <span>{{ tag.tag_name }}</span>
+                                                        </button>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex mx-0 py-0 justify-content-center pb-1">
+                                        <ul class="pagination bg-dark my-0">
+                                            <li class="page-item">
+                                                <button class="page-link" onclick="get_previous_tags_page(10)">
+                                                    <i class="fa fa-arrow-left"></i>
+                                                </button>
+                                            </li>
+                                            <li class="page-item">
+                                                <select class="page-link active custom-select custom-select-sm pr-4" id="current_tags_page" onchange="get_selected_page(this, 15, get_tags_page)">
+                                                    {% for x in tag_pages %}
+                                                    <option value="{{ x }}">{{ x }}</option>
+                                                    {% endfor %}-->
+                                                </select>
+                                            </li>
+                                            <li class="page-item">
+                                                <i class="page-link"> - of - </i>
+                                            </li>
+                                            <li class="page-item">
+                                                <button class="page-link" id="last_tags_page" onclick="get_last_tags_page()">{{all_tags.paginator.num_pages }}</button>
+                                            </li>
+                                            <li class="page-item">
+                                                <button class="page-link" onclick="get_next_tags_page(10)">
+                                                    <i class="fa fa-arrow-right"></i>
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="content-area" data-pgc-field="manga_chapters_overview">
+        <div class="pg-empty-placeholder bg-dark"></div>
+        <main id="all-content-container">
+            {% if sections %}
+            {% for section in sections %}
+            <div class="row mx-0 mangalist-section" id="{{ section.section_id }}_section">
+                <header class="col-12 content-section d-flex flex-row py-2">
+                    <h2 class="d-inline-block h5">{{ section.section_name }}</h2>
+                    <!--<button onclick="get_first_visible_child(document.getElementById('{{ section.section_id }}_section', 'mangalist-section').getElementsByClassName('carousel-inner')[0])">Test Get</button>-->
+                    <button onclick="get_first_visible_child(document.getElementById('all-content-container'))" class="btn btn-outline-dark mx-2 d-none">Get visible section</button>
+                    <span class="d-flex flex-row flex-nowrap align-items-center ml-auto"> <button type="button" class="btn" onclick="get_previous_manga_page('{{ section.section_id }}', '{{ section.section_id }}_current_page', '{{ section.section_id}}_num_pages', '{{ section.section_order }}', '{{ section.section_items_per_page}}')">
+                            <i class="fas fa-chevron-left"></i>
+                        </button> <span> <select id="{{ section.section_id}}_current_page" class="custom-select custom-select-sm d-inline-block pr-4" style="width:fit-content;width:-moz-fit-content;" onchange="get_selected_manga_page('{{ section.section_id }}', '{{ section.section_id }}_current_page', '{{ section.section_id}}_num_pages', '{{ section.section_order }}', '{{ section.section_items_per_page}}')">
+                                {% for page in section.pages %}
+                                <option value="{{ page }}">{{ page }}</option>
+                                {% endfor %}
+                            </select><span>&nbsp;- of -&nbsp;</span> <span id="{{ section.section_id}}_num_pages"> {{ section.section_content.paginator.num_pages}}</span></span> <button type="button" class="btn" onclick="get_next_manga_page('{{ section.section_id }}', '{{ section.section_id }}_current_page', '{{ section.section_id}}_num_pages', '{{ section.section_order }}', '{{ section.section_items_per_page}}')">
+                            <i class="fas fa-chevron-right"></i>
+                        </button></span>
+                </header>
+                <div class="row col-12 mx-0 content-section-body carousel slide carousel-fade d-flex flex-nowrap" data-touch="true" data-keyboard="true" id="{{ section.section_id }}_carousel" data-interval="false">
+                    <div class="row col-12 mx-0 flex-fill carousel-inner px-0 px-md-2" style="overflow-x: hidden;" id="{{ section.section_id }}">
+                        <div class="carousel-item active" id="{{ section.section_id}}_page_{{ section.section_content.number }}">
+                            <div class="d-flex row w-100 mx-0">
+                                {% for manga in section.section_content %}
+                                <div class="col-md-3 col-sm-4 col-xl-2 manga-card px-2">
+                                    <div class="card">
+                                        <div class="row mx-0 mb-3">
+                                            <div class="col col-sm-12 col-5 m-0 p-0" id="manga_{{ manga.id }}_section_{{ section.section_id }}_cover_img_div">
+                                                <div
+                                                    class="w-100 cover-image"
+                                                    id="manga_{{ manga.id }}_section_{{ section.section_id }}_cover_img_stub"
+                                                    data-toggle="image_stub"
+                                                    data-src="{{ manga.banner_image_url }}"
+                                                    data-resource-class="cover-image w-100"
+                                                    data-resource-id="manga_{{ manga.id }}_section_{{ section.section_id }}_cover_image"
+                                                    data-resource-alternate="Image Cover">
+
+                                                    <div id="manga_{{ manga.id }}_section_{{ section.section_id }}_resource_overlay" class="w-100 h-100 d-flex justify-content-center align-items-center">
+                                                        <i class="fa fa-spin fa-spinner"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col col-sm-12 col-7 m-0 p-0">
+                                                <div class="card-body py-1 px-1 d-flex flex-column">
+                                                    <h6 class="card-title font-weight-bold text-primary my-0">
+                                                        <a href="/manga/manga/{{ manga.id }}" class="manga-title"> {{ manga.manga_name }}</a>
+                                                    </h6>
+                                                    <p class="card-text small my-0 manga-tags">
+                                                        {% for tag in manga.tags.all %}
+                                                        <a
+                                                            href='/manga_list_filtered/1?order_by=-updated_on&items_per_page=24&section_id=manga_list&tags=%7B%22tags%22%3A%5B%22{{ tag.id }}%22%5D%7D'
+                                                            class='tag'> {{ tag.tag_name }}</a>
+                                                        {% endfor %}
+                                                    </p>
+                                                    <p class="card-text small my-0 manga-chapter mt-auto">
+                                                        <a href='/manga/manga/{{ manga.id }}/chapters/{{ manga.latest_chapter.chapter_number }}' class='current-chapter'>
+                                                            <span class='fa fa-arrow-right'></span>
+                                                            <span>
+                                                                <span>Read chapter {{ manga.latest_chapter.chapter_number }}</span>
+                                                                <span>(Latest)</span>
+                                                            </span>
+                                                        </a>
+                                                    </p>
+                                                    {% if user.is_authenticated %}
+                                                    <p id="bookmarked_chapter_probe_{{ manga.id }}" class="card-text small my-0 manga-chapter mt-auto">
+                                                        <button
+                                                            type="button"
+                                                            id="btn_manga_{{ manga.id }}_bookmarked"
+                                                            class='btn btn-link px-0 small manga-chapter'
+                                                            data-action="get_bookmarked"
+                                                            data-manga='{{ manga.id }}'>
+                                                            <i class='fa fa-bookmark'></i>
+                                                            <span id="span_{{ manga.id }}_bookmarked">
+                                                                <span>&nbsp;</span>
+                                                                <span>Fetching bookmarks</span>
+                                                                <span>&nbsp;</span>
+                                                                <i class="small spinner spinner-border spinner-border-sm"></i>
+                                                            </span>
+                                                        </button>
+                                                    </p>
+
+                                                    {% if section.section_id == 'history' %}
+                                                    <p id="history_entry_chapter_probe_{{ manga.id }}_{{ manga.history_entry.chapter.id }}" class="card-text small my-0 manga-chapter mt-auto">
+                                                        <a
+                                                            href="/manga/manga/{{ manga.id }}/chapters/{{ manga.history_entry.chapter.chapter_number }}"
+                                                            id="btn_manga_{{ manga.id }}_chapter_{{ manga.history_entry.chapter.id }}_read"
+                                                            class='btn btn-link px-0 small manga-chapter'>
+                                                            <i class='fa fa-history'></i>
+                                                            <span id="span_manga_{{ manga.id }}_chapter_{{ manga.history_entry.chapter.id }}_read">
+                                                                You read chapter {{ manga.history_entry.chapter.chapter_number }} on {{ manga.history_entry.added_on }}
+                                                            </span>
+                                                        </a>
+                                                    </p>    
+                                                    {% else %}
+                                                    <p id="last_read_chapter_probe_{{ manga.id }}" class="card-text small my-0 manga-chapter mt-auto">
+                                                        <button
+                                                            type="button"
+                                                            id="btn_manga_{{ manga.id }}_last_read"
+                                                            class='btn btn-link px-0 small manga-chapter'
+                                                            data-action="get_last_read"
+                                                            data-manga='{{ manga.id }}'>
+                                                            <i class='fa fa-history'></i>
+                                                            <span id="span_manga_{{ manga.id }}_last_read">
+                                                                <span>&nbsp;</span>
+                                                                <span>Fetching your history</span>
+                                                                <span>&nbsp;</span>
+                                                                <i class="small spinner spinner-border spinner-border-sm"></i>
+                                                            </span>
+                                                        </button>
+                                                    </p>
+                                                    {% endif %}
+                                                    {% endif %}
+                                                    <p class="card-text last-updated">
+                                                        <small class="text-muted">Last updated: {{ manga.updated_on }} </small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-12 text-center mx-0">
+                    <div class="d-inline-block col-12">
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </main>
+    </section>
+</div>
+{% endblock %}
