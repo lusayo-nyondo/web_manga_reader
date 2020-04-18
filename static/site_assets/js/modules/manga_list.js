@@ -269,6 +269,8 @@ function fetch_manga_json(data, func) {
 }
 
 function create_manga_card(manga, section) {
+    var id_prefix = get_id_prefix(manga, section);
+
     var manga_card = document.createElement('div');
     manga_card.className = 'col-md-3 col-sm-4 col-xl-2 manga-card px-2';
 
@@ -279,21 +281,21 @@ function create_manga_card(manga, section) {
     card_row.className = "row mx-0 mb-3";
 
     var cover_image_div = document.createElement("div");
-    cover_image_div.id = "manga_" + manga.pk + "_section_" + section.id + "_cover_image_div";
+    cover_image_div.id = id_prefix + "_cover_image_div";
     cover_image_div.className = "col col-sm-12 col-5 m-0 p-0";
 
     var cover_image_stub = document.createElement("div");
-    cover_image_stub.id = "manga_" + manga.pk + "_section_" + section.id + "_cover_image_stub";
+    cover_image_stub.id = id_prefix + "_cover_image_stub";
     cover_image_stub.className = "w-100 cover-image";
 
     cover_image_stub.setAttribute("data-toggle", "image_stub");
     cover_image_stub.setAttribute("data-src", manga.fields.banner_image_url);
     cover_image_stub.setAttribute("data-resource-class", "cover-image w-100");
-    cover_image_stub.setAttribute("data-resource-id", "manga_" + manga.pk + "_section_" + section.id + "_cover_image");
+    cover_image_stub.setAttribute("data-resource-id", id_prefix + "_cover_image");
     cover_image_stub.setAttribute("data-resource-alternate", "Image Cover");
 
     var image_overlay = document.createElement("div");
-    image_overlay.id = "manga_" + manga.pk + "_section_" + section.id + "_cover_resource_overlay";
+    image_overlay.id = id_prefix + "_cover_resource_overlay";
     image_overlay.className = "w-100 h-100 d-flex justify-content-center align-items-center";
 
     var image_overlay_spinner = document.createElement("i");
@@ -358,11 +360,16 @@ function create_manga_card(manga, section) {
     card_body.appendChild(latest_chapter);
     
     if(is_user_authenticated()) {
-        var bookmarked = create_bookmarked_probing_element(manga.pk);
-        var last_read = create_last_read_probing_element(manga.pk);
-        
+        var bookmarked = create_bookmarked_probing_element(manga.pk, id_prefix);
+        var last_read = create_last_read_probing_element(manga.pk, id_prefix);
+
         card_body.appendChild(bookmarked);
         card_body.appendChild(last_read);
+
+        if(section.id == "history") {
+            var history_entry = create_history_entry_probing_element(manga.pk, id_prefix, manga.history_entry[0]);
+            card_body.appendChild(history_entry);
+        }
     }
 
     card_body.appendChild(last_updated);

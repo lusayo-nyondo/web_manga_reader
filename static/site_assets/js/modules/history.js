@@ -22,11 +22,7 @@ function get_last_read_chapter(button, manga_id) {
 }
 
 function remove_last_read_chapter_probe(button, manga_id) {
-    var last_read_chapter_probe_id = 'last_read_chapter_probe_' + manga_id;
-
-    var last_read_chapter_probe = document.getElementById(last_read_chapter_probe_id);
-
-    var parent = last_read_chapter_probe.parentNode;
+    var parent = button.parentNode;
     parent.removeChild(last_read_chapter_probe);
 }
 

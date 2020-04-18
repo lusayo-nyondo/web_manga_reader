@@ -86,6 +86,9 @@ class UserChapterHistoryEntry(models.Model):
         on_delete=models.CASCADE
     )
 
+    #Placeholder for some json serialization magic. This is horrible code.
+    chapter_obj = None
+
     added_on = models.DateTimeField(
         auto_now_add=True,
     )

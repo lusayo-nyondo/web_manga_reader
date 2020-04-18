@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.db.models import Count, Q
 
 from manga import session as manga_session
-from manga.models import Tag, Author
+from manga.models import Tag, Author, Chapter
 from manga.views.manga_list import queryset
 
 from users import session as user_session
@@ -35,6 +35,11 @@ def manga_page_json(request, page_number):
         tags_json = json.loads(serializers.serialize('json', tags))
 
         manga_json['tags'] = tags_json
+
+        if manga_model.history_entry:
+            manga_json['history_entry'] = json.loads(serializers.serialize('json', [ manga_model.history_entry ]))
+            chapter = Chapter.objects.get(id=manga_model.history_entry.chapter.id)
+            manga_json['history_entry'][0]['chapter'] = json.loads(serializers.serialize('json', [ chapter ]))
 
     context = {
         'num_pages': mangas.paginator.num_pages,

@@ -197,13 +197,9 @@ function get_bookmarked_chapter(button, manga_id) {
     });
 }
 
-function remove_bookmarked_chapter_probe(button, manga_id) {
-    var bookmarked_chapter_probe_id = 'bookmarked_chapter_probe_' + manga_id;
-
-    var bookmarked_chapter_probe = document.getElementById(bookmarked_chapter_probe_id);
-
-    var parent = bookmarked_chapter_probe.parentNode;
-    parent.removeChild(bookmarked_chapter_probe);
+function remove_bookmarked_chapter_probe(button, manga_id, chapter) {
+    var parent = button.parentNode;
+    parent.removeChild(button);
 }
 
 function update_bookmarked_chapter(button, manga_id, chapter) {

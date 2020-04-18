@@ -10,6 +10,24 @@ function is_user_authenticated() {
     }
 }
 
+function get_id_prefix(manga, section) {
+    var id_prefix = null;
+
+    var manga_id = manga.pk;
+    var section_id = section.id;
+
+    if (section.id == 'history') {
+        var chapter_id = manga.history_entry[0].fields.chapter;
+        var entry_id = manga.history_entry[0].pk;
+
+        id_prefix = 'manga_' + manga_id + '_chapter_' + chapter_id + '_entry_' + section_id + '_entry_' + entry_id;
+    } else {
+        id_prefix = 'manga_' + manga_id + '_section_' + section_id + '_';
+    }
+
+    return id_prefix;
+}
+
 function clear_div(div) {
     while(div.childNodes.length != 0) {
         div.removeChild(div.childNodes[0]);

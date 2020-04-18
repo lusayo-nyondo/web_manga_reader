@@ -474,15 +474,15 @@ function create_filter_item(item_type, item_id, item_text) {
     return filter_item;
 }
 
-function create_last_read_probing_element(manga_id) {
+function create_last_read_probing_element(manga_id, id_prefix) {
     var probe = document.createElement("p");
-    probe.id = "last_read_chapter_probe_" + manga_id;
+    probe.id = id_prefix + "last_read_chapter_probe";
     probe.className = "card-text small my-0 manga-chapter mt-auto";
 
     var button = document.createElement("button");
 
     button.type = "button";
-    button.id = "btn_manga_" + manga_id + "_last_read";
+    button.id = "btn_manga_" + id_prefix + "_last_read";
     button.className = "btn btn-link px-0 small manga-chapter";
 
     button.setAttribute('data-action', "get_last_read");
@@ -492,7 +492,7 @@ function create_last_read_probing_element(manga_id) {
     icon.className = 'fa fa-history';
 
     var span = document.createElement('span');
-    span.id = "span_manga_" + manga_id + "_last_read";
+    span.id = "span_manga_" + id_prefix + "_last_read";
 
     var padding_left = document.createElement("span");
     padding_left.innerHTML = "&nbsp";
@@ -519,15 +519,15 @@ function create_last_read_probing_element(manga_id) {
     return probe;
 }
 
-function create_bookmarked_probing_element(manga_id) {
+function create_bookmarked_probing_element(manga_id, id_prefix) {
     var probe = document.createElement("p");
-    probe.id = "bookmarked_chapter_probe_" + manga_id;
+    probe.id = id_prefix + "bookmarked_chapter_probe";
     probe.className = "card-text small my-0 manga-chapter mt-auto";
 
     var button = document.createElement("button");
 
     button.type = "button";
-    button.id = "btn_manga_" + manga_id + "_last_read";
+    button.id = "btn_manga_" + id_prefix + "_last_read";
     button.className = "btn btn-link px-0 small manga-chapter";
 
     button.setAttribute('data-action', "get_bookmarked");
@@ -537,7 +537,7 @@ function create_bookmarked_probing_element(manga_id) {
     icon.className = 'fa fa-bookmark';
 
     var span = document.createElement('span');
-    span.id = "span_manga_" + manga_id + "_bookmarked";
+    span.id = "span_manga_" + id_prefix + "_bookmarked";
 
     var padding_left = document.createElement("span");
     padding_left.innerHTML = "&nbsp";
@@ -560,6 +560,33 @@ function create_bookmarked_probing_element(manga_id) {
     button.appendChild(span);
 
     probe.appendChild(button);
+
+    return probe;
+}
+
+function create_history_entry_probing_element(manga_id, id_prefix, history_entry) {
+    var probe = document.createElement("p");
+    probe.id = id_prefix + "history_entry_chapter_probe";
+    probe.className = "card-text small my-0 manga-chapter mt-auto";
+
+    var link = document.createElement("a");
+    link.className = 'btn btn-link px-0 small manga-chapter';
+    link.id = 'btn_manga' + id_prefix + '_read';
+    link.className = "btn btn-link px-0 small manga-chapter";
+    link.href = '/manga/manga/' + manga_id + '/chapter/' + history_entry.chapter[0].fields.chapter_number;
+
+    var icon = document.createElement('i');
+    icon.className = 'fa fa-history';
+
+    var span = document.createElement('span');
+    span.id = "span_manga_" + id_prefix + "_read";
+
+    span.innerHTML = '&nbsp;You read chapter ' + history_entry.chapter[0].fields.chapter_number + ' on ' + history_entry.fields.added_on
+
+    link.appendChild(icon);
+    link.appendChild(span);
+
+    probe.appendChild(link);
 
     return probe;
 }

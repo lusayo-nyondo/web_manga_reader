@@ -361,10 +361,10 @@
                                                         </a>
                                                     </p>
                                                     {% if user.is_authenticated %}
-                                                    <p id="bookmarked_chapter_probe_{{ manga.id }}" class="card-text small my-0 manga-chapter mt-auto">
+                                                    <p id="bookmarked_chapter_probe_{{ manga.id }}_chapter_{{ manga.history_entry.chapter.id }}_entry_{{ manga.history_entry.id }}" class="card-text small my-0 manga-chapter mt-auto">
                                                         <button
                                                             type="button"
-                                                            id="btn_manga_{{ manga.id }}_bookmarked"
+                                                            id="btn_manga_{{ manga.id }}_chapter_{{ manga.history_entry.chapter.id }}_entry_{{ manga.history_entry.id }}_bookmarked"
                                                             class='btn btn-link px-0 small manga-chapter'
                                                             data-action="get_bookmarked"
                                                             data-manga='{{ manga.id }}'>
