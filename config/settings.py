@@ -32,8 +32,6 @@ LOGIN_URL = '/account/sign_in'
 
 ALLOWED_HOSTS = [
     'neetlord.pythonanywhere.com',
-    'localhost',
-    '127.0.0.1',
 ]
 
 

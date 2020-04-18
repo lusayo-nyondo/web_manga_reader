@@ -23,7 +23,7 @@ function get_last_read_chapter(button, manga_id) {
 
 function remove_last_read_chapter_probe(button, manga_id) {
     var parent = button.parentNode;
-    parent.removeChild(last_read_chapter_probe);
+    parent.removeChild(button);
 }
 
 function update_last_read_chapter(button, manga_id, chapter) {
