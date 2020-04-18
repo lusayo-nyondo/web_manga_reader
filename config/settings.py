@@ -88,14 +88,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        #'NAME': 'neetlord$mangapoint',
-        #'USER': 'neetlord',
-        #'HOST': 'neetlord.mysql.pythonanywhere-services.com',
-        #'PASSWORD': 'NyondoNyondo',
-        'NAME': 'mangapoint',
-        'USER': 'root',
-        'PASSWORD': '',
-        'PORT': '3306'
+        'NAME': 'neetlord$mangapoint',
+        'USER': 'neetlord',
+        'HOST': 'neetlord.mysql.pythonanywhere-services.com',
+        'PASSWORD': 'NyondoNyondo',
+        #'NAME': 'mangapoint',
+        #'USER': 'root',
+        #'PASSWORD': '',
+        #'PORT': '3306'
     }
 }
 
