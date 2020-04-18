@@ -39,8 +39,6 @@ def get_history_page(user, page_number, items_per_page, order_by):
         order_by=order_by
     )
 
-    print(mangas)
-
     history_manga_paginator = Paginator(
         mangas,
         items_per_page
@@ -58,35 +56,48 @@ def get_history_page_with_filters(
     tags=None,
     order_by=None
 ):
-    new_mangas_list = list()
-
     mangas = get_history_mangas(
         user=user,
         order_by=order_by
     )
 
+    new_mangas_list = mangas
+
     if tags is not None:
         tags = json.loads(tags)
         tags = tags['tags']
         
-        for manga in mangas:
-            if len(
-                manga.tags.filter(
-                    id__in=tags
-                )
-            ) > 0:
-                new_mangas_list.append(manga)
+        if len(tags) > 0:
+            new_mangas_list = list()
+
+            for manga in mangas:
+                print("filtering")
+                if len(
+                    manga.tags.filter(
+                        id__in=tags
+                    )
+                ) > 0:
+                    new_mangas_list.append(manga)
 
     if authors is not None:
         authors = json.loads(authors)
         authors = authors['authors']
 
-        for author_id in authors:
-            mangas = mangas.filter(
-                manga_author__id=str(author_id)
-            )
+        if len(authors) > 0:
+            new_mangas_list = list() if new_mangas_list == mangas else new_mangas_list
+            
+            for manga in mangas:
+                print("filtering authors")
+                if len(
+                    manga.manga_author.filter(
+                        id__in=authors,
+                    )
+                ) > 0:
+                    if not manga in new_mangas_list:
+                        new_mangas_list.append(manga)
 
-    if order_by:
+        
+    """if order_by:
         if order_by == 'chapter_count' or order_by == '-chapter_count':
             mangas = mangas.annotate(
                 chapter_count=Count('chapter')
@@ -95,15 +106,21 @@ def get_history_page_with_filters(
             )
         else:
             mangas = mangas.order_by(order_by)
-
+    """
     paginator = None
 
     if items_per_page:
         items_per_page = int(items_per_page)
-        paginator = Paginator(mangas, items_per_page)
-        mangas = paginator.get_page(page_number)
+        paginator = Paginator(
+            new_mangas_list,
+            items_per_page
+        )
 
-    return mangas
+        history_mangas_page = paginator.get_page(page_number)
+
+    print(history_mangas_page)
+    
+    return history_mangas_page
 
 def get_user_history(user):
     user_history = UserChapterHistoryEntry.objects.filter(
