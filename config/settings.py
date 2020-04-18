@@ -24,7 +24,7 @@ sys.path.append(SITE_APP_ROOT)
 SECRET_KEY = '5j1c=bf12)vhnu%qymy!2j9nt8a3$(2srgfxh_n*8qwpdq#ovs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 LIVE_HOST = 'localhost:8000'
 
