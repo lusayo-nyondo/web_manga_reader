@@ -1,20 +1,23 @@
 $(document).ready(function() {
-    trigger_document_level_events();
-    trigger_search_manga_events();
-    trigger_navigation_events();
-    trigger_quick_scrolling_events();
-    trigger_bookmark_events();
-    trigger_watchlist_events();
-    trigger_apply_ordering_rule_events();
-    trigger_apply_filters_events();
-    trigger_enable_inputs_events();
-    trigger_get_last_read_events();
-    trigger_get_bookmarked_events();
-    trigger_image_stub_events();
-    trigger_rate_manga_events();
+    register_document_level_events();
+    register_search_manga_events();
+    register_navigation_events();
+    register_quick_scrolling_events();
+    register_bookmark_events();
+    register_watchlist_events();
+    register_apply_ordering_rule_events();
+    register_apply_filters_events();
+    register_enable_inputs_events();
+    register_get_last_read_events();
+    register_get_bookmarked_events();
+    register_image_stub_events();
+    register_rate_manga_events();
+
+    register_select_reading_mode_events();
+    establish_reading_mode();
 });
 
-function trigger_document_level_events() {
+function register_document_level_events() {
     document.onclick = function(event) {
         hide_search_results();
         hide_tag_search_results();
@@ -22,7 +25,7 @@ function trigger_document_level_events() {
     };
 }
 
-function trigger_search_manga_events() {
+function register_search_manga_events() {
     $('[data-action="search_manga"]').on('keyup', function(event){
         var input = event.currentTarget;
         search_manga(input);
@@ -33,13 +36,13 @@ function trigger_search_manga_events() {
     });
 }
 
-function trigger_navigation_events() {
+function register_navigation_events() {
     $('.back-button').on('click', function() {
         history.back();
     });
 }
 
-function trigger_quick_scrolling_events() {
+function register_quick_scrolling_events() {
     $(window).scroll( function(event) {
         if(window.scrollY > 50) {
             document.getElementById('back-to-top-div').classList.remove('d-none');
@@ -49,21 +52,21 @@ function trigger_quick_scrolling_events() {
     });
 }
 
-function trigger_bookmark_events() {
+function register_bookmark_events() {
     var bookmark_toggler = $('[data-toggle="bookmark_state"]');
 
     if (bookmark_toggler)
         toggle_bookmark_state_button(bookmark_toggler);
 }
 
-function trigger_watchlist_events() {
+function register_watchlist_events() {
     var watchlist_toggler = $('[data-toggle="watchlist_state"]');
 
     if(watchlist_toggler)
         toggle_watchlist_state_button(watchlist_toggler); 
 }
 
-function trigger_enable_inputs_events() {
+function register_enable_inputs_events() {
     $('[data-toggle="enable_inputs"]').on('click', function(event) {
         var button = event.currentTarget;
         var targets = button.getAttribute('data-targets');
@@ -73,7 +76,7 @@ function trigger_enable_inputs_events() {
     });
 }
 
-function trigger_apply_filters_events() {
+function register_apply_filters_events() {
     $('[data-toggle="apply_filters"]').on('click', function(event) {
         var button = event.currentTarget;
 
@@ -84,7 +87,7 @@ function trigger_apply_filters_events() {
     });
 }
 
-function trigger_apply_ordering_rule_events() {
+function register_apply_ordering_rule_events() {
     $('[data-toggle="apply_ordering_rule"]').on('change', function(event) {
        var select = event.currentTarget;
 
@@ -95,7 +98,7 @@ function trigger_apply_ordering_rule_events() {
     });
 }
 
-function trigger_rate_manga_events() {
+function register_rate_manga_events() {
     $('[data-action="rate_manga"]').on('click', function(event) {
         var button = event.currentTarget;
 
@@ -106,7 +109,7 @@ function trigger_rate_manga_events() {
     });
 }
 
-function trigger_get_last_read_events() {
+function register_get_last_read_events() {
     $.each($('[data-action="get_last_read"]'), function(index, element) {
         var manga_id = element.getAttribute('data-manga');
 
@@ -114,7 +117,7 @@ function trigger_get_last_read_events() {
     });
 }
 
-function trigger_get_bookmarked_events() {
+function register_get_bookmarked_events() {
     $.each($('[data-action="get_bookmarked"]'), function(index, element) {
         var manga_id = element.getAttribute('data-manga');
 
@@ -122,9 +125,56 @@ function trigger_get_bookmarked_events() {
     });
 }
 
-function trigger_image_stub_events() {        
+function register_image_stub_events() {        
     $('[data-toggle="image_stub"]').each(function(index, element) {
         var el = document.getElementById(element.id);
         fetch_image(el);
     });
+}
+
+function register_select_reading_mode_events() {
+    $('[data-action="select_reading_mode"]').on('click', function(event) {
+        switch_reading_mode(event.currentTarget);
+    });
+}
+
+var scrollListener = function(event) {
+    load_visible_page_webtoon_format();
+};
+
+function register_global_event_listener_for_reader() {
+    document.addEventListener('scroll', scrollListener, true);
+}
+
+function unregister_global_event_listener_for_reader() {
+    document.removeEventListener('scroll', scrollListener, true);
+}
+
+function load_visible_page_webtoon_format() {
+    $('[data-action="view_manga_page"]').each(function(index, element) {
+        load_page_webtoon_format(element);
+    });
+}
+
+function establish_reading_mode() {
+    var select = document.getElementById('select_reading_mode');
+
+    if (select) {
+        var index = select.selectedIndex;
+        var option = select.options[index];
+
+        var reading_mode = option.value;
+
+        switch(reading_mode) {
+            case 'webtoon': {
+                register_global_event_listener_for_reader();
+                load_visible_page_webtoon_format();
+            } break;
+
+            case 'single_page': {
+                unregister_global_event_listener_for_reader();
+                load_page_single_page_format();
+            } break;
+        };
+    }
 }

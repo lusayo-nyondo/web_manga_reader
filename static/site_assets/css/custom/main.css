@@ -125,6 +125,7 @@
     .chapter-pages {
         max-width: 700px;
         background-color: white;
+        min-width: 320px;
     }
 }
 

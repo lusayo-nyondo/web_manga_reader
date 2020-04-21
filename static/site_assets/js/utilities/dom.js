@@ -1,3 +1,10 @@
+function is_element_in_view(element) {
+    var docViewTop = $(window).scrollTop();
+    var docViewBottom = docViewTop + $(window).height();
+    var elemTop = $('#' + element.id).offset().top;
+    return ((elemTop <= docViewBottom) && (elemTop >= docViewTop));
+}
+
 function is_user_authenticated() {
     var status_div = document.getElementById("user_authentication_status");
 

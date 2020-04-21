@@ -12,9 +12,12 @@
                             <div class="p-0 my-0 mx-2 h5 d-flex justify-content-center align-items-center" id="reader_options">
                                 <div class="form-group row mx-0 my-auto">
                                     <label class="label py-0 my-0"></label>
-                                    <select class="custom-select-sm">
+                                    <select
+                                        id="select_reading_mode"
+                                        data-action="select_reading_mode"
+                                        class="custom-select-sm">
                                         <option value="webtoon" selected>Webtoon</option>
-                                        <!--<option value="single_page">Single Page</option>-->
+                                        <option value="single_page">Single Page</option>
                                     </select>
                                 </div>
                             </div>
@@ -44,9 +47,11 @@
                             <div class="chapter-pages text-center px-0 px-md-2" id="chapter-pages">
                                 {% for page in pages %}
                                 <div
-                                    class="chapter-page scroll"
+                                    class="chapter-page scroll d-flex align-items-center justify-content-center"
                                     id="manga_{{ manga.id }}_chapter_page_{{ page.id }}_img_stub"
-                                    data-toggle="image_stub"
+                                    data-action="view_manga_page"
+                                    data-mode="webtoon"
+                                    data-status="unloaded"
                                     data-src="{{ page.source_image_url }}"
                                     data-resource-class="chapter-page scroll"
                                     data-resource-alternate="page {{ page.page_number }}"
@@ -56,11 +61,6 @@
                                         <i class="fa fa-spin fa-spinner"></i>
                                     </div>
                                 </div>
-                                <!--<img
-                                    src='{{ page.source_image_url }}'
-                                    class='chapter-page scroll'
-                                    id='{{ page.page_number }}'
-                                    alt='page {{ page.page_number }}'/>-->
                                 {% endfor %}
                             </div>
                             {% endif %}
