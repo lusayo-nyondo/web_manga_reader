@@ -3,14 +3,14 @@ $(document).ready(function() {
     register_search_manga_events();
     register_navigation_events();
     register_quick_scrolling_events();
-    register_bookmark_events();
-    register_watchlist_events();
+    trigger_bookmark_events();
+    trigger_watchlist_events();
     register_apply_ordering_rule_events();
     register_apply_filters_events();
     register_enable_inputs_events();
-    register_get_last_read_events();
-    register_get_bookmarked_events();
-    register_image_stub_events();
+    trigger_get_last_read_events();
+    trigger_get_bookmarked_events();
+    trigger_image_stub_events();
     register_rate_manga_events();
 
     register_select_reading_mode_events();
@@ -52,14 +52,14 @@ function register_quick_scrolling_events() {
     });
 }
 
-function register_bookmark_events() {
+function trigger_bookmark_events() {
     var bookmark_toggler = $('[data-toggle="bookmark_state"]');
 
     if (bookmark_toggler)
         toggle_bookmark_state_button(bookmark_toggler);
 }
 
-function register_watchlist_events() {
+function trigger_watchlist_events() {
     var watchlist_toggler = $('[data-toggle="watchlist_state"]');
 
     if(watchlist_toggler)
@@ -109,7 +109,7 @@ function register_rate_manga_events() {
     });
 }
 
-function register_get_last_read_events() {
+function trigger_get_last_read_events() {
     $.each($('[data-action="get_last_read"]'), function(index, element) {
         var manga_id = element.getAttribute('data-manga');
 
@@ -117,7 +117,7 @@ function register_get_last_read_events() {
     });
 }
 
-function register_get_bookmarked_events() {
+function trigger_get_bookmarked_events() {
     $.each($('[data-action="get_bookmarked"]'), function(index, element) {
         var manga_id = element.getAttribute('data-manga');
 
@@ -125,7 +125,7 @@ function register_get_bookmarked_events() {
     });
 }
 
-function register_image_stub_events() {        
+function trigger_image_stub_events() {        
     $('[data-toggle="image_stub"]').each(function(index, element) {
         var el = document.getElementById(element.id);
         fetch_image(el);
