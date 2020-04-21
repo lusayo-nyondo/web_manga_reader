@@ -33,6 +33,8 @@ function load_page_single_page_format(element) {
         element.setAttribute('data-status', 'loaded');
     }
 
+    update_select(element.getAttribute('data-page-number'));
+
     element.setAttribute('data-is-active', 'true');
     element.classList.remove('d-none');
 
@@ -68,4 +70,9 @@ function fetch_previous_page() {
     if (previous_page) {
         load_page_single_page_format(previous_page);
     }   
+}
+
+function update_select(page_number) {
+    var select = document.getElementById('select_page');
+    select.value = page_number;
 }
