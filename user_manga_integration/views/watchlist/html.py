@@ -30,8 +30,8 @@ def user_dashboard(request):
 
 @login_required
 def manga_list_watchlist_view(request):
-    authors_page = manga_session.get_authors_page(1, 15)
-    tags_page = manga_session.get_tags_page(1, 15)
+    authors_page = manga_session.get_authors_page(1, 10)
+    tags_page = manga_session.get_tags_page(1, 10)
 
     active_user = user_session.get_authenticated_user(request)
     

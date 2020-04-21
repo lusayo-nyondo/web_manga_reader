@@ -19,8 +19,8 @@ from user_manga_integration.session import history as user_history
 
 @login_required
 def manga_list_history_view(request):
-    authors_page = manga_session.get_authors_page(1, 15)
-    tags_page = manga_session.get_tags_page(1, 15)
+    authors_page = manga_session.get_authors_page(1, 10)
+    tags_page = manga_session.get_tags_page(1, 10)
 
     active_user = user_session.get_authenticated_user(request)
     
