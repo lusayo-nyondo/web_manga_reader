@@ -30,6 +30,7 @@ def manga_chapter_view(request, manga_id=0, chapter_number=0):
         'pages': pages,
         'manga': manga,
         'chapters': chapters,
+        'mode': 'single_page'
     }
 
     context = user_session.attach_active_user_to_context(context, request)

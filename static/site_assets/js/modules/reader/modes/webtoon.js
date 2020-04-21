@@ -1,3 +1,9 @@
+function load_visible_page_webtoon_format() {
+    $('[data-action="view_manga_page"]').each(function(index, element) {
+        load_page_webtoon_format(element);
+    });
+}
+
 function load_page_webtoon_format(element) {
     var status = element.getAttribute('data-status');
 

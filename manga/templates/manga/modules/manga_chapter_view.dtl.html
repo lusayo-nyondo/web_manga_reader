@@ -16,8 +16,8 @@
                                         id="select_reading_mode"
                                         data-action="select_reading_mode"
                                         class="custom-select-sm">
-                                        <option value="webtoon" selected>Webtoon</option>
-                                        <option value="single_page">Single Page</option>
+                                        <option value="webtoon" {% if mode == 'webtoon' %}selected{% endif %}>Webtoon</option>
+                                        <option value="single_page" {% if mode == 'single_page' %}selected{% endif %}>Single Page</option>
                                     </select>
                                 </div>
                             </div>
@@ -42,13 +42,15 @@
                         </h1>
                     </header>
                     <section class="position-relative">
-                        <div class="chapter-pages-wrapper d-flex justify-content-center pt-5">
-                            {% if pages %}
+                        {% if pages %}
+                        <div class="chapter-pages-wrapper d-flex justify-content-center pt-5">                            
                             <div class="chapter-pages text-center px-0 px-md-2" id="chapter-pages">
                                 {% for page in pages %}
                                 <div
-                                    class="chapter-page scroll d-flex align-items-center justify-content-center"
+                                    class="chapter-page scroll {% if mode == 'single_page' %}d-none{% endif %}"
                                     id="manga_{{ manga.id }}_chapter_page_{{ page.id }}_img_stub"
+                                    data-page-number="{{ page.page_number }}"
+                                    data-is-active="false"
                                     data-action="view_manga_page"
                                     data-mode="webtoon"
                                     data-status="unloaded"
@@ -56,15 +58,39 @@
                                     data-resource-class="chapter-page scroll"
                                     data-resource-alternate="page {{ page.page_number }}"
                                     data-resource-id="{{ page.id }}">
-                                    
-                                    <div id="manga_{{ manga.id }}_resource_overlay" class="w-100 h-100 d-flex justify-content-center align-items-center">
-                                        <i class="fa fa-spin fa-spinner"></i>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <div id="manga_{{ manga.id }}_resource_overlay" class="w-100 h-100 d-flex justify-content-center align-items-center">
+                                            <i class="fa fa-spin fa-spinner"></i>
+                                        </div>
                                     </div>
                                 </div>
                                 {% endfor %}
                             </div>
-                            {% endif %}
                         </div>
+                        <div class="pagination form-group my-0 {% if mode != 'single_page' %}d-none{% endif %}">
+                            <div class="mx-0 d-flex justify-content-end topnav-central-column flex-fill central-nav-content align-items-center btn-dark active" data-pgc-field="page-controls-area">
+                                <div class="d-flex justify-content-center px-2 flex-fill">
+                                    <div class="form-group form-inline d-flex w-100 mt-3">
+                                        <select class="custom-select flex-fill custom-select-sm" id="select_page" onchange="fetch_selected_page('{{ manga.id }}', this)">
+                                            {% for page in pages %}
+                                            <option value='{{ page.page_number }}'>{{ page.page_number }}</option>
+                                          {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_previous_page()'>
+                                        <i class="fas fa-angle-left"></i>
+                                        <span>Previous page</span>
+                                    </button>
+                                    <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_next_page()'>
+                                        <i class="fas fa-angle-right"></i>
+                                        <span>Next page</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
                         <div class="row w-100 mx-0 py-0 my-0">
                             <div class="mx-0 d-flex justify-content-end topnav-central-column flex-fill central-nav-content align-items-center btn-dark active" data-pgc-field="page-controls-area">
                                 <div class="d-flex justify-content-center px-2 flex-fill">
@@ -83,9 +109,11 @@
                                 <div class="d-flex">
                                     <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_previous_chapter()'>
                                         <i class="fas fa-angle-left"></i>
+                                        <span>Previous chapter</span>
                                     </button>
                                     <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_next_chapter()'>
                                         <i class="fas fa-angle-right"></i>
+                                        <span>Next chapter</span>
                                     </button>
                                 </div>
                             </div>
