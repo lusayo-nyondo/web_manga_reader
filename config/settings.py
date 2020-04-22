@@ -29,6 +29,12 @@ DEBUG = False
 LIVE_HOST = 'localhost:8000'
 
 LOGIN_URL = '/account/sign_in'
+LOGOUT_URL = '/account/logout'
+
+LOGIN_REDIRECT_URL = '/manga_list'
+
+SOCIAL_AUTH_GITHUB_KEY = '88ea351bc7fc238dae9f'
+SOCIAL_AUTH_GITHUB_SECRET = '2de7904bdefe32d315805d3b7daec7906cc0e9e7'
 
 ALLOWED_HOSTS = [
     'neetlord.pythonanywhere.com',
@@ -46,6 +52,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'social_django',
+
     'users',
     'manga',
     'user_manga_integration',
@@ -59,6 +68,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -74,6 +85,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',  # <--
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -147,3 +161,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 WORKSPACE_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '/workspaces/')
 
 AUTH_USER_MODEL = "users.SiteUser"
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
