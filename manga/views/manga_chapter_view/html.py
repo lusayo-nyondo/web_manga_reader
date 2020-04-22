@@ -30,7 +30,7 @@ def manga_chapter_view(request, manga_id=0, chapter_number=0):
         'pages': pages,
         'manga': manga,
         'chapters': chapters,
-        'mode': 'single_page'
+        'mode': None
     }
 
     context = user_session.attach_active_user_to_context(context, request)
@@ -47,7 +47,19 @@ def manga_chapter_view(request, manga_id=0, chapter_number=0):
 
     template = loader.get_template('manga/modules/manga_chapter_view.dtl.html')
 
+    try:
+        mode = request.GET.get('mode')
+        context['mode'] = mode
+    except KeyError:
+        try:
+            mode = request.COOKIES['mode']
+            context['mode'] = mode
+        except KeyError:
+            context['mode'] = 'single_page'
+
     response = HttpResponse(template.render(context, request))
+
+    response.set_cookie('mode', mode)
 
     if user:
         user_history.add_chapter_to_user_history(
@@ -55,4 +67,5 @@ def manga_chapter_view(request, manga_id=0, chapter_number=0):
             manga=manga,
             chapter=chapter,
         )
+    
     return response

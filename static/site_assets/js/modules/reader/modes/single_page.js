@@ -76,3 +76,16 @@ function update_select(page_number) {
     var select = document.getElementById('select_page');
     select.value = page_number;
 }
+
+function fetch_selected_page(val) {
+    var select = document.getElementById('select_page');
+
+    if (select) {
+        var index = select.selectedIndex;
+        var option = select.options[index];
+        var page_number = option.value;
+        
+        var page = $('[data-page-number="' + page_number +'"]')[0];
+        load_page_single_page_format(page);
+    }
+}

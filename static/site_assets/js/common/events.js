@@ -132,7 +132,7 @@ function trigger_image_stub_events() {
 }
 
 function register_select_reading_mode_events() {
-    $('[data-action="select_reading_mode"]').on('click', function(event) {
+    $('[data-action="select_reading_mode"]').on('change', function(event) {
         switch_reading_mode(event.currentTarget);
     });
 

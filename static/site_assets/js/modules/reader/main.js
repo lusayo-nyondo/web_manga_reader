@@ -20,3 +20,15 @@ function establish_reading_mode() {
         };
     }
 }
+
+function switch_reading_mode(select) {
+    var index = select.selectedIndex;
+    var option = select.options[index];
+    var value = option.value;
+    
+    var location = window.location.href.split('?')[0];
+
+    var url = location + '?mode=' + value;
+
+    window.location.assign(url);
+}
