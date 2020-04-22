@@ -34,7 +34,7 @@ LOGOUT_URL = '/account/logout'
 LOGIN_REDIRECT_URL = '/manga_list'
 
 SOCIAL_AUTH_GITHUB_KEY = '88ea351bc7fc238dae9f'
-SOCIAL_AUTH_GITHUB_SECRET = '2de7904bdefe32d315805d3b7daec7906cc0e9e7'
+SOCIAL_AUTH_GITHUB_SECRET = 'ef771cdde71445d7e0493699781baf864d4492c5'
 
 ALLOWED_HOSTS = [
     'neetlord.pythonanywhere.com',
