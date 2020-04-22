@@ -3,7 +3,7 @@ function fetch_selected_chapter(manga_id, select_input) {
 }
 
 function fetch_previous_chapter(manga_id) {
-    var select = document.getElementById('chapter-select');
+    var select = document.getElementById('chapter-select-bottom');
     current_chapter = select.selectedIndex;
 
     if(current_chapter < select.length - 1) {
@@ -14,7 +14,7 @@ function fetch_previous_chapter(manga_id) {
 }
 
 function fetch_next_chapter(manga_id) {
-    var select = document.getElementById('chapter-select');
+    var select = document.getElementById('chapter-select-bottom');
     current_chapter = select.selectedIndex;
 
     if(current_chapter > 0) {

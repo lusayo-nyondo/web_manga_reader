@@ -114,11 +114,11 @@
                                     </div>
                                 </div>
                                 <div class="d-flex">
-                                    <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_previous_chapter()'>
+                                    <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_previous_chapter("{{ manga.id }}")'>
                                         <i class="fas fa-angle-left"></i>
                                         <span>Previous chapter</span>
                                     </button>
-                                    <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_next_chapter()'>
+                                    <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_next_chapter("{{ manga.id }}")'>
                                         <i class="fas fa-angle-right"></i>
                                         <span>Next chapter</span>
                                     </button>
