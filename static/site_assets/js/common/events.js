@@ -14,6 +14,8 @@ $(document).ready(function() {
     register_rate_manga_events();
 
     register_select_reading_mode_events();
+
+    trigger_header_scrolling_events();
 });
 
 function register_document_level_events() {
@@ -149,4 +151,26 @@ function register_global_event_listener_for_reader() {
 
 function unregister_global_event_listener_for_reader() {
     document.removeEventListener('scroll', scrollListener, true);
+}
+
+function trigger_header_scrolling_events() {
+    var scroll_pos = 0;
+    var scroll_time;
+
+    document.addEventListener('scroll', function(event) {
+        clearTimeout(scroll_time);
+        var current_scroll = $(window).scrollTop();
+        var outer_height = $('#top_header').outerHeight();
+
+        if (current_scroll <= scroll_pos) {
+            $('#top_header').removeClass('d-none');    
+        }
+        else {
+            $('#top_header').addClass('d-none');  
+        }
+    
+        scroll_time = setTimeout(function() {
+            scroll_pos = $(window).scrollTop();
+        }, 100);
+    },true);
 }
