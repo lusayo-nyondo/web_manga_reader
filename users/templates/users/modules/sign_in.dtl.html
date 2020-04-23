@@ -23,16 +23,21 @@
 
             <hr>
 
-            <a class="btn btn-lg btn-block btn-dark" href="{% url 'social:begin' 'github' %}">
+            <a class="btn btn-block btn-dark" href="{% url 'social:begin' 'github' %}">
                 <i class="fas fa-github"></i>
                 <span>Login with Github</span>
             </a>
 
-            <a class="btn btn-lg btn-block btn-primary" href="{% url 'social:begin' 'facebook' %}">
+            <a class="btn btn-block btn-primary" href="{% url 'social:begin' 'facebook' %}">
                 <i class="fas fa-facebook"></i>
                 <span>Login with Facebook</span>
             </a>
             
+            <a class="btn btn-block btn-outline-warning" href="{% url 'social:begin' 'google-oauth2' %}">
+                <i class="fa fa-google"></i>
+                <span>Login with Google</span>
+            </a>
+
             <a class="btn-block btn-lg btn" href="/">I Just Want to Read Manga</a>
             <p class="mt-5 mb-3 text-muted">© Focal Point IO 2019</p>
             {% csrf_token %}

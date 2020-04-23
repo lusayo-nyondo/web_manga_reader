@@ -39,6 +39,11 @@ SOCIAL_AUTH_GITHUB_SECRET = 'ef771cdde71445d7e0493699781baf864d4492c5'
 SOCIAL_AUTH_FACEBOOK_KEY = '563892190925479'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'a38bea84f5e5e872a7588e1b1f80d9dd'
 
+SOCIAL_AUTH_GOOGLE_KEY = '931797996770-kah13hq4c4m1b0dv5g90p1ogj6te29qt.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_SECRET = 'XX5or9w-Aquw6qkjFL25AUvj'
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
 ALLOWED_HOSTS = [
     'neetlord.pythonanywhere.com',
     'localhost',
@@ -169,6 +174,6 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubOAuth2',
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
-
+    'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
