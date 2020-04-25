@@ -1,0 +1,8 @@
+from django.urls import path
+
+from . import views
+
+urlpatterns = [
+    path('post_comment', views.post_comment),
+    path('fetch_comments', views.fetch_comments),
+]

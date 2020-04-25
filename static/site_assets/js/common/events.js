@@ -15,7 +15,10 @@ $(document).ready(function() {
 
     register_select_reading_mode_events();
 
-    trigger_header_scrolling_events();
+    trigger_header_scrolling_events(); // This isn't doing its job right now BTW. TODO: Fix it. You know what I'm talking about.
+
+    register_add_post_events();
+    register_scroll_triggered_commenting_events();
 });
 
 function register_document_level_events() {
@@ -172,5 +175,18 @@ function trigger_header_scrolling_events() {
         scroll_time = setTimeout(function() {
             scroll_pos = $(window).scrollTop();
         }, 100);
+    },true);
+}
+
+function register_add_post_events() {
+    $('[data-action="add_post"]').on('click', function(event) {
+        var source_element = event.currentTarget;
+        add_post(source_element);
+    });
+}
+
+function register_scroll_triggered_commenting_events() {
+    document.addEventListener('scroll', function(event) {
+        load_comments_on_demand();
     },true);
 }
