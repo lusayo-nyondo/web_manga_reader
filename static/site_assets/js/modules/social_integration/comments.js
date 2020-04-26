@@ -27,6 +27,7 @@ function fetch_comments() {
         data: data,
         success: function(response) {
             update_comments_section(response, comments_section);
+            register_reply_and_like_events();
         },
         error: function(response) {
 
@@ -62,6 +63,7 @@ function build_post_html(post) {
 
     var div = document.createElement('div');
     div.className = 'post_wrapper d-flex';
+    div.id = 'post_wrapper_' + post.pk;
 
     var profile_image_div = document.createElement('div');
     profile_image_div.className = 'profile_image_div';
@@ -98,7 +100,7 @@ function build_post_html(post) {
     p.className = 'post';
     p.innerHTML = post.fields.text;
 
-    var actions_div = create_post_actions_div(post);
+    var actions_div = create_post_actions_div(post, user);
 
     content_div.appendChild(poster_details_div);
     content_div.appendChild(p);
@@ -111,9 +113,11 @@ function build_post_html(post) {
     return div;
 }
 
-function create_post_actions_div(post) {
+function create_post_actions_div(post, user) {
     var actions_div = document.createElement('p');
     actions_div.className = 'post_actions';
+
+    var counter_id = 'likes_count_post_' + post.pk;
 
     var like = document.createElement('button');
     like.className = 'btn btn-link';
@@ -121,7 +125,9 @@ function create_post_actions_div(post) {
 
     like.setAttribute('data-action', 'like_post');
     like.setAttribute('data-post', post.pk);
-
+    like.setAttribute('data-user', user.pk);
+    like.setAttribute('data-counter', counter_id);
+    
     var likes = document.createElement('span');
     likes.className = 'btn btn-link';
 
@@ -130,6 +136,7 @@ function create_post_actions_div(post) {
 
     var count = document.createElement('span');
     count.innerHTML = '0';
+    count.id = counter_id;
 
     likes.appendChild(count);
     likes.appendChild(icon);
@@ -140,6 +147,7 @@ function create_post_actions_div(post) {
 
     reply.setAttribute('data-action', 'reply_to_post');
     reply.setAttribute('data-post', post.pk);
+    reply.setAttribute('data-user', user.pk);
 
     actions_div.appendChild(reply);
     actions_div.appendChild(like);
@@ -217,9 +225,44 @@ function hide_load_more_comments_button() {
 }
 
 function like_post(button) {
+    var url = '/social_integration/submit_like';
+    
+    var post = button.getAttribute('data-post');
+    var user = button.getAttribute('data-user');
 
+    var data = {
+        post: post,
+        user: user,
+    };
+
+    $.ajax({
+        url: url,
+        method: 'GET',
+        data: data,
+        success: function(response) {
+            switch(response.status) {
+                case 'success': {
+                    update_number_of_likes(button, response.likes);
+                } break;
+
+                case 'failed': {
+
+                } break;
+            }
+        },
+        error: function(response) {
+
+        }
+    });
+}
+
+function update_number_of_likes(button, likes) {
+    var counter = button.getAttribute('data-counter');
+
+    var counter_el = document.getElementById(counter);
+    counter_el.innerHTML = likes;
 }
 
 function reply_to_post(button) {
-    
+
 }

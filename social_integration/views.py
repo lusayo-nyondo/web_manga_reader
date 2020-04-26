@@ -3,9 +3,10 @@ import json
 from django.http import JsonResponse
 from django.core import serializers, paginator
 
-from .models import Post
+from .models import Post, Like
 
 from users import session as user_session
+from users.models import SiteUser
 
 def post_comment(request):
     authenticated_user = user_session.get_authenticated_user(request)
@@ -67,7 +68,17 @@ def fetch_comments(request):
             serializers.serialize('json', [ user, ] )
         )
 
+        likes_json = json.loads(
+            serializers.serialize('json', comment.likes)
+        )
+
+        comments_json = json.loads(
+            serializers.serialize('json', comment.comments)
+        )
+
         post.setdefault('user', user_json)
+        post.setdefault('likes', likes_json)
+        post.setdefault('replies', comments_json)
 
     response = {
         'posts': posts,
@@ -75,5 +86,50 @@ def fetch_comments(request):
         'page_number': page_number,
         'number_of_pages': number_of_pages,
     }
+
+    return JsonResponse(response, safe=False)
+
+def submit_like(request):
+    response = None
+
+    try:
+        post_id = request.GET.get('post')
+        user_id = request.GET.get('user')
+
+        post = Post.objects.get(
+            id=post_id,
+        )
+
+        user = SiteUser.objects.get(
+            id=user_id,
+        )
+
+        like = Like(
+            post=post,
+            user=user
+        )
+
+        like.save()
+
+        response = {
+            'status': 'success',
+            'description': 'The like hath been updated successfully.',
+            'likes': len(post.likes),
+        }
+    except KeyError:
+        response = {
+            'status': 'failed',
+            'description': 'The request had missing keys. Either post or user.',
+        }
+    except Post.DoesNotExist:
+        response = {
+            'status': 'failed',
+            'description': 'No post exists with the ID provided.'
+        }
+    except SiteUser.DoesNotExist:
+        response = {
+            'status': 'failed',
+            'description': 'No user exists with the ID provided.'
+        }
 
     return JsonResponse(response, safe=False)

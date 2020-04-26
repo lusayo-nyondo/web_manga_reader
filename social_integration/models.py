@@ -25,3 +25,39 @@ class Post(models.Model):
     updated_on = models.DateTimeField(
         auto_now=True,
     )
+
+    @property
+    def comments(self):
+        comments = Post.objects.filter(
+            responding_to=self,
+        )
+
+        return comments
+
+    @property
+    def likes(self):
+        likes = Like.objects.filter(
+            post=self,
+        )
+
+        return likes
+
+class Like(models.Model):
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+    )
+
+    user = models.ForeignKey(
+       SiteUser,
+       on_delete=models.CASCADE, 
+    )
+
+    created_on = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    updated_on = models.DateTimeField(
+        auto_now=True,
+    )
+

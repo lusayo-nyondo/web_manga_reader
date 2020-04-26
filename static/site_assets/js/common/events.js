@@ -19,6 +19,7 @@ $(document).ready(function() {
 
     register_add_post_events();
     register_commenting_events();
+    register_reply_and_like_events();
 });
 
 function register_document_level_events() {
