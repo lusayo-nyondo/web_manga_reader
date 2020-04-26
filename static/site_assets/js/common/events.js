@@ -18,7 +18,7 @@ $(document).ready(function() {
     trigger_header_scrolling_events(); // This isn't doing its job right now BTW. TODO: Fix it. You know what I'm talking about.
 
     register_add_post_events();
-    register_scroll_triggered_commenting_events();
+    register_commenting_events();
 });
 
 function register_document_level_events() {
@@ -185,8 +185,18 @@ function register_add_post_events() {
     });
 }
 
-function register_scroll_triggered_commenting_events() {
+function register_commenting_events() {
     document.addEventListener('scroll', function(event) {
         load_comments_on_demand();
     },true);
+
+    $('[data-action="fetch_more_comments"]').on('click', function(event) {
+        fetch_comments();
+    });
 }
+
+$('#add_post').summernote({
+    placeholder: 'Add a comment',
+    tabsize: 2,
+    height: 100
+});

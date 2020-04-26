@@ -529,3 +529,13 @@
     font-size: 18px;
 }
 /* END FOOTER */
+
+.post img {
+    max-width: 300px !important;
+}
+
+#comments_section {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}

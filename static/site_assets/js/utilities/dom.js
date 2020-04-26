@@ -5,6 +5,13 @@ function is_element_in_view(element) {
     return ((elemTop <= docViewBottom) && (elemTop >= docViewTop));
 }
 
+function has_element_reached_scrolling_end(element) {
+    if (element.offsetHeight + element.scrollTop === element.scrollHeight)
+        return true;
+    else
+        return false;
+}
+
 function is_user_authenticated() {
     var status_div = document.getElementById("user_authentication_status");
 

@@ -13,6 +13,7 @@
         <link href="{% static 'site_assets/css/libs/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static 'site_assets/css/libs/font-awesome/css/all.min.css' %}" rel="stylesheet">
         <link href="{% static 'site_assets/css/custom/main.css' %}" rel="stylesheet">
+        <link href="{% static 'site_assets/js/libs/summernote/summernote-bs4.min.css' %}" rel="stylesheet">
     </head>
     <body class="w-100 vh-100">
         <div class="d-none" id="user_authentication_status" data-is-authenticated="{{ user.is_authenticated }}"></div>
@@ -153,6 +154,7 @@
         <script src="{% static 'site_assets/js/libs/popper.js' %}"></script>
         <script src="{% static 'site_assets/js/libs/bootstrap.min.js' %}"></script>
         <script src="{% static 'site_assets/js/libs/particles.js' %} "></script>
+        <script src="{% static 'site_assets/js/libs/summernote/summernote-bs4.min.js' %} "></script>
 
         <!-- Site Wide Scripts -->
         <script src="{% static 'site_assets/js/utilities/dom.js' %}"></script>
@@ -182,7 +184,6 @@
         <!-- Event Triggering Scripts -->
         <!-- Only load this after loading absolutely everything else -->
         <script src="{% static 'site_assets/js/common/events.js' %}"></script>
-
         {% block module_scripts %}
 
         {% endblock %}
