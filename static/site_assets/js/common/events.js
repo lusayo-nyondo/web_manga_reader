@@ -195,6 +195,16 @@ function register_commenting_events() {
     });
 }
 
+function register_reply_and_like_events() {
+    $('[data-action="like_post"]').on('click', function(event) {
+        like_post(event.currentTarget);
+    });
+
+    $('[data-action="reply_to_post"]').on('click', function(event) {
+        reply_to_post(event.currentTarget);
+    });
+}
+
 $('#add_post').summernote({
     placeholder: 'Add a comment',
     tabsize: 2,

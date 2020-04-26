@@ -38,7 +38,7 @@ function update_comments_section(response, comments_section) {
     var comments_count = document.getElementById('comments_count');
     comments_count.innerHTML = response.count;
 
-    if ((response.count * 1) == 0) {
+    if ((response.number_of_pages * 1) <= 1) {
         hide_load_more_comments_button();
     }
 
@@ -98,13 +98,54 @@ function build_post_html(post) {
     p.className = 'post';
     p.innerHTML = post.fields.text;
 
+    var actions_div = create_post_actions_div(post);
+
     content_div.appendChild(poster_details_div);
     content_div.appendChild(p);
+    content_div.appendChild(actions_div);
 
     div.appendChild(profile_image_div);
     div.appendChild(content_div);
 
+
     return div;
+}
+
+function create_post_actions_div(post) {
+    var actions_div = document.createElement('p');
+    actions_div.className = 'post_actions';
+
+    var like = document.createElement('button');
+    like.className = 'btn btn-link';
+    like.innerHTML = 'Like';
+
+    like.setAttribute('data-action', 'like_post');
+    like.setAttribute('data-post', post.pk);
+
+    var likes = document.createElement('span');
+    likes.className = 'btn btn-link';
+
+    var icon = document.createElement('i');
+    icon.className = 'fa fa-thumbs-up';
+
+    var count = document.createElement('span');
+    count.innerHTML = '0';
+
+    likes.appendChild(count);
+    likes.appendChild(icon);
+
+    var reply = document.createElement('button');
+    reply.className = 'btn btn-link';
+    reply.innerHTML = 'Reply';
+
+    reply.setAttribute('data-action', 'reply_to_post');
+    reply.setAttribute('data-post', post.pk);
+
+    actions_div.appendChild(reply);
+    actions_div.appendChild(like);
+    actions_div.appendChild(likes);
+
+    return actions_div;
 }
 
 function add_post(source_element) {
@@ -144,10 +185,16 @@ function load_comments_on_demand() {
     var comments_section = document.getElementById('comments_section');
     var page_number = comments_section.getAttribute('data-current-page');
 
+    var scroll_event_processed = comments_section.getAttribute('data-scroll-event-processed');
+
+    if (scroll_event_processed == 'True') {
+        return;
+    }
+
     if (parseInt(page_number) == -1) {
         if (is_element_in_view(comments_section)) {
             clear_div(comments_section);
-
+            comments_section.setAttribute('data-scroll-event-processed', 'True');
             fetch_comments();    
         }
     }
@@ -155,6 +202,9 @@ function load_comments_on_demand() {
 
 function reset_comment_section() {
     var comments_section = document.getElementById('comments_section');
+
+    clear_div(comments_section);
+    
     var current_page = comments_section.getAttribute('data-current-page') * 1;
     current_page -= 1;
 
@@ -164,4 +214,12 @@ function reset_comment_section() {
 function hide_load_more_comments_button() {
     var div = document.getElementById('fetch_comments_div');
     div.classList.add('d-none');
+}
+
+function like_post(button) {
+
+}
+
+function reply_to_post(button) {
+    
 }
