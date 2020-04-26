@@ -38,6 +38,10 @@ function update_comments_section(response, comments_section) {
     var comments_count = document.getElementById('comments_count');
     comments_count.innerHTML = response.count;
 
+    if ((response.count * 1) == 0) {
+        hide_load_more_comments_button();
+    }
+
     comments_section.setAttribute('data-current-page', response.page_number);
     comments_section.setAttribute('data-total-pages', response.number_of_pages);
     comments_section.setAttribute('data-page-end-reached', 'False');
