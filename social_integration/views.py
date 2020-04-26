@@ -76,9 +76,12 @@ def fetch_comments(request):
             serializers.serialize('json', comment.comments)
         )
 
+        user_likes_post = comment.does_user_like_post(user)
+
         post.setdefault('user', user_json)
         post.setdefault('likes', likes_json)
         post.setdefault('replies', comments_json)
+        post.setdefault('user_likes_post', user_likes_post)
 
     response = {
         'posts': posts,
@@ -110,9 +113,15 @@ def submit_like(request):
                 user=user
             )
 
+            like.delete()
+            
+            likes = post.likes
+            likes = len(likes)
+
             response = {
-                'status': 'failed',
-                'description': 'You like this already.'
+                'status': 'success',
+                'description': 'You have unliked this foul pestilence.',
+                'likes': likes,
             }
         except Like.DoesNotExist:
             like = Like(
@@ -122,10 +131,13 @@ def submit_like(request):
 
             like.save()
 
+            likes = post.likes
+            likes = len(likes)
+
             response = {
                 'status': 'success',
                 'description': 'The like hath been updated successfully.',
-                'likes': len(post.likes),
+                'likes': likes,
             }
     except KeyError:
         response = {

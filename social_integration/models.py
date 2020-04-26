@@ -42,6 +42,17 @@ class Post(models.Model):
 
         return likes
 
+    def does_user_like_post(self, user):
+        try:
+            like = Like.objects.get(
+                user=user,
+                post=self,
+            )
+
+            return True
+        except Like.DoesNotExist:
+            return False
+
 class Like(models.Model):
     post = models.ForeignKey(
         Post,

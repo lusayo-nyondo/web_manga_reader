@@ -122,7 +122,9 @@ function create_post_actions_div(post, user) {
     var like = document.createElement('button');
     like.id = 'btn_like_post_' + post.pk;
     like.className = 'btn btn-link';
-    like.innerHTML = 'Like';
+
+    var like_message = post.user_likes_post ==  true ? 'Unlike' : 'Like';
+    like.innerHTML = like_message;
 
     like.setAttribute('data-action', 'like_post');
     like.setAttribute('data-post', post.pk);
@@ -262,6 +264,8 @@ function update_number_of_likes(button, likes) {
 
     var counter_el = document.getElementById(counter);
     counter_el.innerHTML = likes;
+
+    button.innerHTML = button.innerHTML == 'Like' ? 'Unlike' : 'Like';
 }
 
 function reply_to_post(button) {
