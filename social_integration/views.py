@@ -104,31 +104,42 @@ def submit_like(request):
             id=user_id,
         )
 
-        like = Like(
-            post=post,
-            user=user
-        )
+        try:
+            like = Like.objects.get(
+                post=post,
+                user=user
+            )
 
-        like.save()
+            response = {
+                'status': 'failed',
+                'description': 'You like this already.'
+            }
+        except Like.DoesNotExist:
+            like = Like(
+                post=post,
+                user=user
+            )
 
-        response = {
-            'status': 'success',
-            'description': 'The like hath been updated successfully.',
-            'likes': len(post.likes),
-        }
+            like.save()
+
+            response = {
+                'status': 'success',
+                'description': 'The like hath been updated successfully.',
+                'likes': len(post.likes),
+            }
     except KeyError:
         response = {
-            'status': 'failed',
+            'status': 'fatal',
             'description': 'The request had missing keys. Either post or user.',
         }
     except Post.DoesNotExist:
         response = {
-            'status': 'failed',
+            'status': 'fatal',
             'description': 'No post exists with the ID provided.'
         }
     except SiteUser.DoesNotExist:
         response = {
-            'status': 'failed',
+            'status': 'fatal',
             'description': 'No user exists with the ID provided.'
         }
 

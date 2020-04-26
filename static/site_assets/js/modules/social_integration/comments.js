@@ -120,6 +120,7 @@ function create_post_actions_div(post, user) {
     var counter_id = 'likes_count_post_' + post.pk;
 
     var like = document.createElement('button');
+    like.id = 'btn_like_post_' + post.pk;
     like.className = 'btn btn-link';
     like.innerHTML = 'Like';
 
@@ -135,7 +136,7 @@ function create_post_actions_div(post, user) {
     icon.className = 'fa fa-thumbs-up';
 
     var count = document.createElement('span');
-    count.innerHTML = '0';
+    count.innerHTML = post.likes.length;
     count.id = counter_id;
 
     likes.appendChild(count);
@@ -246,7 +247,7 @@ function like_post(button) {
                 } break;
 
                 case 'failed': {
-
+                    notify_with_popup(button, response.description);
                 } break;
             }
         },
