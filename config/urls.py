@@ -8,5 +8,5 @@ urlpatterns = [
     path('manga/', include('manga.urls')),
     path('account/', include('users.urls')),
     path('manga_site/', include('user_manga_integration.urls')),
-    path('social_integration/', include('social_integration.urls'))
+    path('social_integration/', include('social_integration.urls')),
 ]

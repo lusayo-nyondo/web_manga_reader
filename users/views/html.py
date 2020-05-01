@@ -14,6 +14,12 @@ from users import session as user_session
 def index(request):
     return account_view(request)
 
+def privacy_policy(request):
+    template = loader.get_template('users/legal/privacy_policy.dtl.html')
+    context = {}
+    
+    return HttpResponse(template.render(context, request))
+
 def sign_in_view(request):
     username = request.POST.get('username')
     password = request.POST.get('password')

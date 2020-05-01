@@ -9,5 +9,7 @@ urlpatterns = [
     path('sign_in', account_html.sign_in_view),
     path('logout', account_html.logout_view),
 
-    path('edit', account_json.edit)
+    path('edit', account_json.edit),
+
+    path('privacy_policy', account_html.privacy_policy)
 ]
