@@ -42,7 +42,6 @@
                                         <i class="fa fa-spin fa-spinner"></i>
                                     </div>
                                 </div>
-                                <!--<img src="{{ manga.banner_image_url }}" alternate="Banner Image" class="img-thumbnail w-100 banner-image" id="banner_image">-->
                             </div>
                             <div class="col-md-8 col-12 col-xl-9">
                                 <h3 id="manga_name_heading" class="manga-name-heading">{{ manga.manga_name }}</h3>
@@ -81,7 +80,6 @@
                                             <a
                                                 href='/manga_list_filtered/1?order_by=-updated_on&items_per_page=24&section_id=manga_list&authors=%7B%22authors%22%3A%5B%22{{ author.id }}%22%5D%7D'
                                                 class='author'> {{ author.author_name }}</a>
-                                            <!--<a href="/authors/{{ author.id }}">{{ author.author_name }}</a>-->
                                         </p>
                                         {% endfor %}
                                     </div>
@@ -235,57 +233,80 @@
                         <!-- {% endif %} -->
                     </div>
                 </section>
-                <section class="comments_section">
-                    <header class="d-flex bg-dark p-3">
-                        <h3 class="text-white">
-                            <span>Comments</span>
-                            <span id="comments_count_wrapper" class="hidden">&nbsp;(<span id="comments_count"></span>)</span>
-                        </h3>
-                        <button class="ml-auto btn btn-outline-dark bg-white" data-toggle="modal" data-target="#add_comment_modal">
-                            <i class="fa fa-plus"></i>
-                            <span>Add Comment</span>
-                        </button>
-                    </header>
-                    <div class="modal fade" tabindex="-1" role="dialog" id="add_comment_modal">
-                        <div class="modal-dialog modal-dialog-centered " role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Add a Comment</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="w-100 h-100" id="add_post"></div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-dark" data-action="add_post" data-source-element-id="add_post" data-csrf-token='{{ csrf_token }}'>Post</button>
-                                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                <section>
+                    <section class="comments_section">
+                        <header class="d-flex bg-dark p-3">
+                            <h3 class="text-white">
+                                <span>Comments</span>
+                                <span id="comments_count_wrapper" class="hidden">&nbsp;(<span id="comments_count"></span>)</span>
+                            </h3>
+                            <button class="ml-auto btn btn-outline-dark bg-white" data-toggle="modal" data-target="#add_comment_modal">
+                                <i class="fa fa-plus"></i>
+                                <span>Add Comment</span>
+                            </button>
+                        </header>
+                        <div class="modal fade" tabindex="-1" role="dialog" id="add_comment_modal">
+                            <div class="modal-dialog modal-dialog-centered " role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Add a Comment</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="w-100 h-100" id="add_post"></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button id="btn_add_post" type="button" class="btn btn-dark" data-action="add_post" data-source-element-id="add_post" data-csrf-token='{{ csrf_token }}'>Post</button>
+                                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-                <section class="comments_section d-flex">
-                    <section id="comments_section" class="px-5 mx-5 py-2" id="comments" data-toggle="fetch_comments" data-scroll-event-processed="False" data-current-page="-1" data-total-pages="-1">
-                        <button type="button" class="btn btn-dark">Fetch comments</button>
-                        <div class="d-flex align-items-center justify-content-center">
-                            <i class="spinner spinner-border" style="font-size: 30px;"></i>
-                            <span>Fetching comments...</span>
+                    </section>
+                    <section class="comments_section d-flex">
+                        <section id="comments_section" class="px-5 mx-5 py-2" id="comments" data-toggle="fetch_comments" data-scroll-event-processed="False" data-current-page="-1" data-total-pages="-1">
+                            <button type="button" class="btn btn-dark">Fetch comments</button>
+                            <div class="d-flex align-items-center justify-content-center">
+                                <i class="spinner spinner-border" style="font-size: 30px;"></i>
+                                <span>Fetching comments...</span>
+                            </div>
+                        </section>
+                    </section>
+                    <section id="fetch_comments_div" class="fetch_comments_div text-center">
+                        <hr>
+                        <button
+                            id="btn_fetch_more_comments"
+                            type="button"
+                            class="btn btn-outline-dark"
+                            data-action="fetch_more_comments">
+                            <i class="fa fa-spinner"></i>
+                            <span>Load more comments</span>
+                        </button>
+                        <hr>
+                    </section>
+                    <section class="replies_section">
+                        <div class="modal fade" tabindex="-1" role="dialog" id="add_reply_modal">
+                            <div class="modal-dialog modal-dialog-centered " role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Reply</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="w-100 h-100" id="add_reply"></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button id="btn_add_reply" type="button" class="btn btn-dark" data-action="submit_reply" data-source-element-id="add_reply" data-csrf-token='{{ csrf_token }}'>Post</button>
+                                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </section>
-                </section>
-                <section id="fetch_comments_div" class="fetch_comments_div text-center">
-                    <hr>
-                    <button
-                        id="btn_fetch_more_comments"
-                        type="button"
-                        class="btn btn-outline-dark"
-                        data-action="fetch_more_comments">
-                        <i class="fa fa-spinner"></i>
-                        <span>Load more comments</span>
-                    </button>
-                    <hr>
                 </section>
             </div>
 {% endblock %}

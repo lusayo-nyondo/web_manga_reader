@@ -30,7 +30,7 @@ function fetch_comments() {
             register_reply_and_like_events();
         },
         error: function(response) {
-
+            console.log(response);
         }
     });
 }
@@ -52,18 +52,21 @@ function update_comments_section(response, comments_section) {
 
     for(; i < l; i++) {
         var post = posts[i];
-        var post_html = build_post_html(post);
+        var post_html = build_post_html(post, false);
 
         comments_section.appendChild(post_html);
     }
 }
 
-function build_post_html(post) {
+function build_post_html(post, is_reply) {
     var user = post.user[0];
 
     var div = document.createElement('div');
-    div.className = 'post_wrapper d-flex';
-    div.id = 'post_wrapper_' + post.pk;
+    div.className = 'post_div';
+
+    var post_wrapper = document.createElement('div');
+    post_wrapper.className = 'post_wrapper d-flex';
+    post_wrapper.id = 'post_wrapper_' + post.pk;
 
     var profile_image_div = document.createElement('div');
     profile_image_div.className = 'profile_image_div';
@@ -100,20 +103,43 @@ function build_post_html(post) {
     p.className = 'post';
     p.innerHTML = post.fields.text;
 
-    var actions_div = create_post_actions_div(post, user);
+    var actions_div = create_post_actions_div(post, user, is_reply);
 
     content_div.appendChild(poster_details_div);
     content_div.appendChild(p);
     content_div.appendChild(actions_div);
 
-    div.appendChild(profile_image_div);
-    div.appendChild(content_div);
+    var replies_div = create_replies_div(post, user);
 
+    post_wrapper.appendChild(profile_image_div);
+    post_wrapper.appendChild(content_div);
+    
+    div.appendChild(post_wrapper);
+    div.appendChild(replies_div);
 
     return div;
 }
 
-function create_post_actions_div(post, user) {
+function create_replies_div(post, user) {
+
+    var div = document.createElement('div');
+    div.className = 'replies_div ml-5';
+
+    var replies = post.replies;
+
+    if (post.replies) {
+        var i = 0, l = replies.length;
+
+        for(; i < l; i++) {
+            var reply_html = build_post_html(replies[i], true);
+            div.appendChild(reply_html);
+        }
+    }
+
+    return div;
+}
+
+function create_post_actions_div(post, user, is_reply) {
     var actions_div = document.createElement('p');
     actions_div.className = 'post_actions';
 
@@ -123,19 +149,26 @@ function create_post_actions_div(post, user) {
     like.id = 'btn_like_post_' + post.pk;
     like.className = 'btn btn-link';
 
-    var like_message = post.user_likes_post ==  true ? 'Unlike' : 'Like';
-    like.innerHTML = like_message;
+    var like_message_span_id = 'btn_like_post_span_' + post.pk;
+
+    var like_message_span = document.createElement('span');
+    like_message_span.id = like_message_span_id;
+    like_message_span.innerHTML = post.user_likes_post ==  true ? 'Unlike' : 'Like';
 
     like.setAttribute('data-action', 'like_post');
     like.setAttribute('data-post', post.pk);
     like.setAttribute('data-user', user.pk);
     like.setAttribute('data-counter', counter_id);
+    like.setAttribute('data-like-message-span', like_message_span_id);
+
+    var icon = document.createElement('i');
+    icon.className = 'fa fa-thumbs-up small';
+
+    like.appendChild(icon);
+    like.appendChild(like_message_span);
     
     var likes = document.createElement('span');
     likes.className = 'btn btn-link';
-
-    var icon = document.createElement('i');
-    icon.className = 'fa fa-thumbs-up';
 
     var count = document.createElement('span');
     count.innerHTML = post.likes.length;
@@ -144,15 +177,19 @@ function create_post_actions_div(post, user) {
     likes.appendChild(count);
     likes.appendChild(icon);
 
-    var reply = document.createElement('button');
-    reply.className = 'btn btn-link';
-    reply.innerHTML = 'Reply';
+    if(!is_reply) {
+        var reply = document.createElement('button');
+        reply.className = 'btn btn-link';
+        reply.innerHTML = 'Reply';
 
-    reply.setAttribute('data-action', 'reply_to_post');
-    reply.setAttribute('data-post', post.pk);
-    reply.setAttribute('data-user', user.pk);
+        reply.setAttribute('data-action', 'add_reply');
+        reply.setAttribute('data-post', post.pk);
+        reply.setAttribute('data-user', user.pk);
+        reply.setAttribute('data-summernote-id', 'add_reply');
+        
+        actions_div.appendChild(reply);
+    }
 
-    actions_div.appendChild(reply);
     actions_div.appendChild(like);
     actions_div.appendChild(likes);
 
@@ -182,9 +219,17 @@ function add_post(source_element) {
         headers: headers,
         data: data,
         success: function(response) {
-            reset_comment_section();
-            fetch_comments();
-            $('#add_comment_modal').modal('hide');
+            switch(response.status) {
+                case 'success': {
+                    reset_comment_section();
+                    fetch_comments();
+                    $('#add_comment_modal').modal('hide');
+                } break;
+
+                case 'failed': {
+                    notify_with_popup(source_element, response.description);
+                } break;
+            }
         },
         error: function(response) {
             console.log(response);
@@ -254,7 +299,7 @@ function like_post(button) {
             }
         },
         error: function(response) {
-
+            console.log(response);
         }
     });
 }
@@ -265,9 +310,64 @@ function update_number_of_likes(button, likes) {
     var counter_el = document.getElementById(counter);
     counter_el.innerHTML = likes;
 
-    button.innerHTML = button.innerHTML == 'Like' ? 'Unlike' : 'Like';
+    var like_message_span = document.getElementById(button.getAttribute('data-like-message-span'));
+
+    like_message_span.innerHTML = like_message_span.innerHTML == 'Like' ? 'Unlike' : 'Like';
 }
 
 function reply_to_post(button) {
+    var reply_button = document.getElementById('btn_add_reply');
+    
+    var post = button.getAttribute('data-post');
+    var user = button.getAttribute('data-user');
 
+    reply_button.setAttribute('data-post', post);
+    reply_button.setAttribute('data-user', user);
+
+    $('#add_reply_modal').modal('show');
+}
+
+function submit_reply(source_element) {
+    var summer_note_id = source_element.getAttribute('data-source-element-id');
+    var text = $('#' + summer_note_id).summernote('code');
+    var csrf_token = source_element.getAttribute('data-csrf-token');
+    var post = source_element.getAttribute('data-post');
+    var user = source_element.getAttribute('data-user');
+
+    var current_location = window.location.href.split('?')[0].split('#')[0];
+    var url = current_location;
+
+    var data = {
+        'location': url,
+        'reply': text,
+        'post': post,
+        'user': user,
+    };
+
+    var headers = {
+        'X-CSRFToken': csrf_token,
+    }
+
+    $.ajax({
+        url: '/social_integration/submit_reply',
+        method: 'POST',
+        headers: headers,
+        data: data,
+        success: function(response) {
+            switch(response.status) {
+                case 'success': {
+                    reset_comment_section();
+                    fetch_comments();
+                    $('#add_reply_modal').modal('hide');
+                } break;
+
+                case 'failed': {
+                    notify_with_popup(source_element, response.description);
+                } break;
+            }
+        },
+        error: function(response) {
+            console.log(response);
+        }
+    });   
 }

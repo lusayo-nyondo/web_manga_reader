@@ -20,6 +20,7 @@ $(document).ready(function() {
     register_add_post_events();
     register_commenting_events();
     register_reply_and_like_events();
+    register_reply_initializer_events();
 });
 
 function register_document_level_events() {
@@ -196,17 +197,29 @@ function register_commenting_events() {
     });
 }
 
+function register_reply_initializer_events() {
+    $('[data-action="submit_reply"]').on('click', function(event) {
+        submit_reply(event.currentTarget);
+    });
+}
+
 function register_reply_and_like_events() {
     $('[data-action="like_post"]').on('click', function(event) {
         like_post(event.currentTarget);
     });
 
-    $('[data-action="reply_to_post"]').on('click', function(event) {
+    $('[data-action="add_reply"]').on('click', function(event) {
         reply_to_post(event.currentTarget);
     });
 }
 
 $('#add_post').summernote({
+    placeholder: 'Add a post',
+    tabsize: 2,
+    height: 100
+});
+
+$('#add_reply').summernote({
     placeholder: 'Add a comment',
     tabsize: 2,
     height: 100
