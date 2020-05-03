@@ -8,6 +8,8 @@ from .models import Post, Like
 from users import session as user_session
 from users.models import SiteUser
 
+from config.settings import DATA_UPLOAD_MAX_MEMORY_SIZE
+
 def post_comment(request):
     authenticated_user = user_session.get_authenticated_user(request)
     response = None
@@ -16,18 +18,24 @@ def post_comment(request):
         url = request.POST.get('location')
         text = request.POST.get('post')
 
-        post = Post(
-            user=authenticated_user,
-            url=url,
-            text=text
-        )
+        if int(request.META.get('CONTENT_LENGTH')) > DATA_UPLOAD_MAX_MEMORY_SIZE:
+            response = {
+                'status': 'failed',
+                'description': 'Your post is too large for our teeny weeny database.'
+            }
+        else:    
+            post = Post(
+                user=authenticated_user,
+                url=url,
+                text=text
+            )
 
-        post.save()
+            post.save()
 
-        response = {
-            'status': 'success',
-            'description': 'The post has been added successfully.',
-        }
+            response = {
+                'status': 'success',
+                'description': 'The post has been added successfully.',
+            }
     else:
         response = {
             'status': 'failed',
@@ -118,27 +126,33 @@ def submit_reply(request):
         reply = request.POST.get('reply')
         url = request.POST.get('location')
 
-        post = Post.objects.get(
-            id=post_id,
-        )
+        if int(request.META.get('CONTENT_LENGTH')) > DATA_UPLOAD_MAX_MEMORY_SIZE:
+            response = {
+                'status': 'failed',
+                'description': 'Your post is too large for our teeny weeny database.'
+            }
+        else:
+            post = Post.objects.get(
+                id=post_id,
+            )
 
-        user = SiteUser.objects.get(
-            id=user_id,
-        )
+            user = SiteUser.objects.get(
+                id=user_id,
+            )
 
-        reply_obj = Post(
-            url=url,
-            user=user,
-            responding_to=post,
-            text=reply
-        )
+            reply_obj = Post(
+                url=url,
+                user=user,
+                responding_to=post,
+                text=reply
+            )
 
-        reply_obj.save()
+            reply_obj.save()
 
-        response = {
-            'status': 'success',
-            'description': 'Your response hath been accepted by Akasha.',
-        }
+            response = {
+                'status': 'success',
+                'description': 'Your response hath been accepted by Akasha.',
+            }
     except KeyError:
         response = {
             'status': 'fatal',

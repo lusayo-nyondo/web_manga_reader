@@ -223,6 +223,7 @@ function add_post(source_element) {
                 case 'success': {
                     reset_comment_section();
                     fetch_comments();
+                    $('#' + summer_note_id).summernote('reset');
                     $('#add_comment_modal').modal('hide');
                 } break;
 
@@ -358,6 +359,7 @@ function submit_reply(source_element) {
                 case 'success': {
                     reset_comment_section();
                     fetch_comments();
+                    $('#' + summer_note_id).summernote('reset');
                     $('#add_reply_modal').modal('hide');
                 } break;
 

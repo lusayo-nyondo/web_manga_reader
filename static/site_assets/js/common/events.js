@@ -216,11 +216,31 @@ function register_reply_and_like_events() {
 $('#add_post').summernote({
     placeholder: 'Add a post',
     tabsize: 2,
-    height: 100
+    height: 200,
+    toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'underline', 'clear']],
+        ['fontname', ['fontname']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video']],
+        ['view', ['fullscreen']],
+    ]
 });
 
 $('#add_reply').summernote({
     placeholder: 'Add a comment',
     tabsize: 2,
-    height: 100
+    height: 200,
+    toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'underline', 'clear']],
+        ['fontname', ['fontname']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['']],
+        ['insert', ['link', 'picture', 'video']],
+        ['view', ['fullscreen']],
+    ]
 });
