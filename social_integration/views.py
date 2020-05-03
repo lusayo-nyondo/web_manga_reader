@@ -2,6 +2,7 @@ import json
 
 from django.http import JsonResponse
 from django.core import serializers, paginator
+from django.core.exceptions import RequestDataTooBig
 
 from .models import Post, Like
 
@@ -11,37 +12,42 @@ from users.models import SiteUser
 from config.settings import DATA_UPLOAD_MAX_MEMORY_SIZE
 
 def post_comment(request):
-    authenticated_user = user_session.get_authenticated_user(request)
-    response = None
+    try:
+        authenticated_user = user_session.get_authenticated_user(request)
+        response = None
 
-    if authenticated_user is not None:
-        url = request.POST.get('location')
-        text = request.POST.get('post')
+        if authenticated_user is not None:
+            url = request.POST.get('location')
+            text = request.POST.get('post')
 
-        if int(request.META.get('CONTENT_LENGTH')) > DATA_UPLOAD_MAX_MEMORY_SIZE:
+            if int(request.META.get('CONTENT_LENGTH')) > DATA_UPLOAD_MAX_MEMORY_SIZE:
+                response = {
+                    'status': 'failed',
+                    'description': 'Your post is too large for our teeny weeny database.'
+                }
+            else:    
+                post = Post(
+                    user=authenticated_user,
+                    url=url,
+                    text=text
+                )
+
+                post.save()
+
+                response = {
+                    'status': 'success',
+                    'description': 'The post has been added successfully.',
+                }
+        else:
             response = {
                 'status': 'failed',
-                'description': 'Your post is too large for our teeny weeny database.'
+                'description': 'You need to login to get this functionality.',
             }
-        else:    
-            post = Post(
-                user=authenticated_user,
-                url=url,
-                text=text
-            )
-
-            post.save()
-
-            response = {
-                'status': 'success',
-                'description': 'The post has been added successfully.',
-            }
-    else:
+    except RequestDataTooBig:
         response = {
             'status': 'failed',
-            'description': 'You need to login to get this functionality.',
+            'description': 'Your post is too large for our teeny weeny database.'
         }
-
     return JsonResponse(response, safe=False)
 
 def fetch_comments(request):
