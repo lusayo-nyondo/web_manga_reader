@@ -17,7 +17,6 @@ def submit_rating(request):
             id=manga_id
         )
 
-
         user = user_session.get_authenticated_user(request)
         
         if user:
