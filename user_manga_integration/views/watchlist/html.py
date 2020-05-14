@@ -47,15 +47,16 @@ def manga_list_watchlist_view(request):
     context = {
         'sections': (
             {
-                'section_id': 'watchlist',
-                'section_name': 'My Watchlist',
+                'section_id': 'library',
+                'section_name': 'My Library',
                 'section_order': 'manga_name',
+                'section_description': 'This is where you should place manga that you want notifications for (both on the site and off).',
                 'section_items_per_page': 12,
                 'section_content': watchlist_mangas,
                 'pages': range(1, watchlist_mangas.paginator.num_pages + 1)
             },
         ),
-        'filterable_section': 'watchlist',
+        'filterable_section': 'library',
         'filterable_section_items_per_page': 12,
         'all_authors': authors_page,
         'author_pages': range(1, authors_page.paginator.num_pages + 1),

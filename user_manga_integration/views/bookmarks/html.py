@@ -38,6 +38,7 @@ def manga_list_bookmarks_view(request):
             {
                 'section_id': 'bookmarks',
                 'section_name': 'Bookmarks',
+                'section_description': 'This is where you can keep up with your reading progress.',
                 'section_order': 'manga_name',
                 'section_items_per_page': 12,
                 'section_content': bookmarked_mangas,

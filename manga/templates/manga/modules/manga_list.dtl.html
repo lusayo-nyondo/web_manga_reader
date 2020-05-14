@@ -302,7 +302,18 @@
             {% for section in sections %}
             <div class="row mx-0 mangalist-section" id="{{ section.section_id }}_section">
                 <header class="col-12 content-section d-flex flex-row py-2">
-                    <h2 class="d-inline-block h5">{{ section.section_name }}</h2>
+                    <h2 class="d-inline-block h5">
+                        <span>{{ section.section_name }}</span>
+                        <span>
+                            <button
+                                id="btn_section_help"
+                                type="button"
+                                class="btn btn-link"
+                                onclick='notify_with_popup(this, "{{ section.section_description }}")'>
+                                <i class="fa fa-question-circle"></i>
+                            </button>
+                        </span>
+                    </h2>
                     <!--<button onclick="get_first_visible_child(document.getElementById('{{ section.section_id }}_section', 'mangalist-section').getElementsByClassName('carousel-inner')[0])">Test Get</button>-->
                     <button onclick="get_first_visible_child(document.getElementById('all-content-container'))" class="btn btn-outline-dark mx-2 d-none">Get visible section</button>
                     <span class="d-flex flex-row flex-nowrap align-items-center ml-auto"> <button type="button" class="btn" onclick="get_previous_manga_page('{{ section.section_id }}', '{{ section.section_id }}_current_page', '{{ section.section_id}}_num_pages', '{{ section.section_order }}', '{{ section.section_items_per_page}}')">

@@ -38,6 +38,7 @@ def manga_list_favorites_view(request):
             {
                 'section_id': 'favorites',
                 'section_name': 'My Favorites',
+                'section_description': 'This is where manga that you have rated goes, just to help you keep up with what caught your attention generally.',
                 'section_order': 'updated_on',
                 'section_items_per_page': 12,
                 'section_content': favorites_mangas,

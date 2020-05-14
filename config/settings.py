@@ -24,7 +24,7 @@ sys.path.append(SITE_APP_ROOT)
 SECRET_KEY = '5j1c=bf12)vhnu%qymy!2j9nt8a3$(2srgfxh_n*8qwpdq#ovs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440
 
@@ -116,13 +116,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'neetlord$mangapoint',
-        'USER': 'neetlord',
-        'HOST': 'neetlord.mysql.pythonanywhere-services.com',
-        'PASSWORD': 'NyondoNyondo',
-        #'NAME': 'mangapoint',
-        #'USER': 'root',
-        #'PASSWORD': '',
+        #'NAME': 'neetlord$mangapoint',
+        #'USER': 'neetlord',
+        #'HOST': 'neetlord.mysql.pythonanywhere-services.com',
+        #'PASSWORD': 'NyondoNyondo',
+        'NAME': 'mangapoint',
+        'USER': 'root',
+        'PASSWORD': '',
         'PORT': '3306'
     }
 }

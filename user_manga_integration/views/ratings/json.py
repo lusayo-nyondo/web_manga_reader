@@ -34,6 +34,7 @@ def submit_rating(request):
                     'status': 'success',
                     'rating': rating,
                     'valid_ratings': valid_ratings,
+                    'description': 'Thanks for your vote! You can now find this manga (with your personal rating) at "MY FAVORITES".'
                 }
             except EnvironmentError:
                 response = {

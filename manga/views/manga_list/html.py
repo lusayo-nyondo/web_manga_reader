@@ -24,6 +24,7 @@ def manga_list_all_view(request):
             {
                 'section_id': 'manga_list_section',
                 'section_name': 'Manga List',
+                'section_description': 'This is the general catalogue for manga.',
                 'section_order': 'manga_name',
                 'section_items_per_page': 24,
                 'section_content': manga_list,
@@ -82,6 +83,7 @@ def manga_list_filtered_view(request, page_number):
             {
                 'section_id': 'manga_list_section',
                 'section_name': 'Manga List',
+                'section_description': 'This is the general catalogue for manga.',
                 'section_order': 'manga_name',
                 'section_items_per_page': 24,
                 'section_content': manga_list,

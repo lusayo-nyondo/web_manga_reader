@@ -71,7 +71,10 @@
                         <div class="pagination form-group my-0 {% if mode != 'single_page' %}d-none{% endif %}">
                             <div class="mx-0 d-flex justify-content-end topnav-central-column flex-fill central-nav-content align-items-center btn-dark active" data-pgc-field="page-controls-area">
                                 <div class="d-flex justify-content-center px-2 flex-fill">
-                                    <div class="form-group form-inline d-flex w-100 mt-3">
+                                    <div class="form-group form-inline d-flex flex-nowrap w-100 mt-3">
+                                        <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_previous_page()'>
+                                            <i class="fas fa-angle-left"></i>
+                                        </button>
                                         <select
                                             id="select_page"
                                             class="custom-select flex-fill custom-select-sm" 
@@ -80,17 +83,10 @@
                                             <option value='{{ page.page_number }}'>{{ page.page_number }}</option>
                                           {% endfor %}
                                         </select>
+                                        <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_next_page()'>
+                                            <i class="fas fa-angle-right"></i>
+                                        </button>
                                     </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_previous_page()'>
-                                        <i class="fas fa-angle-left"></i>
-                                        <span>Previous page</span>
-                                    </button>
-                                    <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_next_page()'>
-                                        <i class="fas fa-angle-right"></i>
-                                        <span>Next page</span>
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -98,7 +94,11 @@
                         <div class="row w-100 mx-0 py-0 my-0">
                             <div class="mx-0 d-flex justify-content-end topnav-central-column flex-fill central-nav-content align-items-center btn-dark active" data-pgc-field="page-controls-area">
                                 <div class="d-flex justify-content-center px-2 flex-fill">
-                                    <div class="form-group form-inline d-flex w-100 mt-3">
+                                    <div class="form-group form-inline d-flex flex-nowrap w-100 mt-3">
+                                        <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_previous_chapter("{{ manga.id }}")'>
+                                            <i class="fas fa-angle-left"></i>
+                                        </button>
+                                        
                                         <select
                                             id="chapter-select-bottom"
                                             class="custom-select flex-fill custom-select-sm"
@@ -111,17 +111,11 @@
                                             {% endif %}
                                           {% endfor %}
                                         </select>
+
+                                        <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_next_chapter("{{ manga.id }}")'>
+                                            <i class="fas fa-angle-right"></i>
+                                        </button>
                                     </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_previous_chapter("{{ manga.id }}")'>
-                                        <i class="fas fa-angle-left"></i>
-                                        <span>Previous chapter</span>
-                                    </button>
-                                    <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_next_chapter("{{ manga.id }}")'>
-                                        <i class="fas fa-angle-right"></i>
-                                        <span>Next chapter</span>
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -132,15 +126,6 @@
                                 </a>
                                 <span class='flex-fill text-center'>{{ manga.manga_name }}</span>
                             </h1>
-                        </header>
-                    </section>
-                    <section class="comments_section">
-                        <header class="d-flex bg-dark">
-                            <h3 class="text-white">Comments</h3>
-                            <button class="ml-auto btn btn-outline-dark">
-                                <i class="fa fa-plus"></i>
-                                <span>Add Comment</span>
-                            </button>
                         </header>
                     </section>
                 </section>

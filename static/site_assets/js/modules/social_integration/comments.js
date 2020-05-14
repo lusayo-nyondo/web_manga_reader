@@ -161,12 +161,14 @@ function create_post_actions_div(post, user, is_reply) {
     like.setAttribute('data-counter', counter_id);
     like.setAttribute('data-like-message-span', like_message_span_id);
 
-    var icon = document.createElement('i');
-    icon.className = 'fa fa-thumbs-up small';
+    var left_bracket = document.createElement('span');
+    left_bracket.innerHTML = '(';
 
-    like.appendChild(icon);
+    var right_bracket = document.createElement('span');
+    right_bracket.innerHTML = ')';
+
     like.appendChild(like_message_span);
-    
+
     var likes = document.createElement('span');
     likes.className = 'btn btn-link';
 
@@ -174,8 +176,9 @@ function create_post_actions_div(post, user, is_reply) {
     count.innerHTML = post.likes.length;
     count.id = counter_id;
 
+    likes.appendChild(left_bracket);
     likes.appendChild(count);
-    likes.appendChild(icon);
+    likes.appendChild(right_bracket);
 
     if(!is_reply) {
         var reply = document.createElement('button');
@@ -240,6 +243,11 @@ function add_post(source_element) {
 
 function load_comments_on_demand() {
     var comments_section = document.getElementById('comments_section');
+
+    if(!comments_section) {
+        return;
+    }
+    
     var page_number = comments_section.getAttribute('data-current-page');
 
     var scroll_event_processed = comments_section.getAttribute('data-scroll-event-processed');

@@ -13,6 +13,8 @@ function submit_rating(button, manga_id, rating) {
                 var valid_ratings = response.valid_ratings;
 
                 update_rating(manga_id, rating, valid_ratings);
+
+                notify_with_popup(button, response.description);
             } else if (response.status == "failed") {
                 notify_with_popup(button, response.description);
             } else {
@@ -56,6 +58,7 @@ function create_rating_star(manga_id, rating, current_star) {
     var button = document.createElement("button");
     button.type = "button";
     button.className = "btn text-warning";
+    button.id = 'rating_' + current_star;
     
     button.setAttribute("data-action", "rate_manga");
     button.setAttribute("data-manga", manga_id);
