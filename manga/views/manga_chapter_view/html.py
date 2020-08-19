@@ -5,6 +5,8 @@ from manga.models import Manga, Chapter, Page
 
 from users import session as user_session
 
+from user_manga_integration.models import UserMangaReadingSettings
+
 from user_manga_integration.session import bookmarks as user_bookmarks
 from user_manga_integration.session import history as user_history
 
@@ -43,23 +45,19 @@ def manga_chapter_view(request, manga_id=0, chapter_number=0):
         chapter=chapter,
     )
 
+    preferences = UserMangaReadingSettings.objects.get_or_create(
+        user=user,
+        manga=manga
+    )[0]
+
+    reading_mode = preferences.reading_mode
+
     context['is_manga_chapter_in_user_bookmarks'] = is_manga_chapter_in_bookmarks
+    context['reading_mode'] = reading_mode.lower()
 
     template = loader.get_template('manga/modules/manga_chapter_view.dtl.html')
 
-    try:
-        mode = request.GET.get('mode')
-        context['mode'] = mode
-    except KeyError:
-        try:
-            mode = request.COOKIES['mode']
-            context['mode'] = mode
-        except KeyError:
-            context['mode'] = 'single_page'
-
     response = HttpResponse(template.render(context, request))
-
-    response.set_cookie('mode', mode)
 
     if user:
         user_history.add_chapter_to_user_history(

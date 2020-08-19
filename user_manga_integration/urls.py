@@ -11,6 +11,7 @@ from user_manga_integration.views.watchlist import json as watchlist_json
 from user_manga_integration.views.bookmarks import json as bookmarks_json
 from user_manga_integration.views.history import json as history_json
 from user_manga_integration.views.ratings import json as ratings_json
+from user_manga_integration.views.preferences import json as preferences_json
 
 urlpatterns = [
     path('', dashboard_html.user_dashboard),
@@ -44,7 +45,11 @@ urlpatterns = [
     path('my_favorites', favorites_html.manga_list_favorites_view),
     
     path('submit_rating', ratings_json.submit_rating),
-    ### END RATING RELATED URLS
+    ### END RATING RELATED URLS##
+
+    ### START PREFERENCE RELATED URLS
+    path('set_manga_reading_mode', preferences_json.set_manga_reading_mode),
+    ### END PREFERENCE RELATED URLS
 ]
 
 

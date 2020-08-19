@@ -245,3 +245,40 @@ class UserNotificationEvent(models.Model):
         auto_now=True,
     )
 
+
+READING_MODES = [
+    ['SINGLE_PAGE', 'SINGLE_PAGE'],
+    ['WEBTOON', 'WEBTOON']
+]
+
+READING_THEMES = [
+    ['DEFAULT', 'DEFAULT']
+]
+
+class UserMangaReadingSettings(models.Model):
+    user = models.OneToOneField(
+        SiteUser,
+        on_delete=models.CASCADE
+    )
+
+    manga = models.OneToOneField(
+        Manga,
+        on_delete=models.CASCADE
+    )
+
+    reading_mode = models.CharField(
+        max_length = 12,
+        choices=READING_MODES
+    )
+
+    theme = models.CharField(
+        max_length=12,
+        choices=READING_THEMES,
+        default='DEFAULT'
+    )
+
+    def __str__(self):
+        return '{user} prefers to read in {reading_mode}'.format(
+            user=self.user.__str__(),
+            reading_mode=reading_mode
+        )

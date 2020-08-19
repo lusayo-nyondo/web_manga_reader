@@ -15,10 +15,11 @@
                                     <select
                                         id="select_reading_mode"
                                         data-action="select_reading_mode"
-                                        data-initialization-status="{{ mode }}"
+                                        data-initialization-status="{{ reading_mode }}"
+                                        data-manga="{{ manga.id }}"
                                         class="custom-select custom-select-sm">
-                                        <option value="webtoon" {% if mode == 'webtoon' %}selected="selected"{% endif %}>Webtoon</option>
-                                        <option value="single_page" {% if mode == 'single_page' %}selected="selected"{% endif %}>Single Page</option>
+                                        <option value="webtoon" {% if reading_mode == 'webtoon' %}selected="selected"{% endif %}>Webtoon</option>
+                                        <option value="single_page" {% if reading_mode == 'single_page' %}selected="selected"{% endif %}>Single Page</option>
                                     </select>
                                 </div>
                             </div>

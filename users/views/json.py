@@ -3,9 +3,9 @@ from django.http import JsonResponse
 
 from django.contrib.auth.decorators import login_required
 
+from users import session as user_session
 from users.models import SiteUser
 
-from users import session as user_session
 
 @login_required
 def edit(request):

@@ -142,7 +142,6 @@ def is_manga_chapter_in_user_bookmarks(user, manga, chapter):
     except UserChapterBookmarkEntry.DoesNotExist:
         return False
 
-
 def remove_manga_chapter_from_user_bookmarks(user, manga, chapter):
     try:
         bookmark_entry = UserChapterBookmarkEntry.objects.get(
