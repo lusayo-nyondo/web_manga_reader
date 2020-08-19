@@ -17,7 +17,7 @@ function establish_reading_mode() {
                 unregister_global_event_listener_for_reader();
                 load_first_page_single_page_format();
             } break;
-        };
+        }
     }
 }
 

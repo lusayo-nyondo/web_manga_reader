@@ -256,12 +256,12 @@ READING_THEMES = [
 ]
 
 class UserMangaReadingSettings(models.Model):
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         SiteUser,
         on_delete=models.CASCADE
     )
 
-    manga = models.OneToOneField(
+    manga = models.ForeignKey(
         Manga,
         on_delete=models.CASCADE
     )
