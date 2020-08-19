@@ -214,7 +214,7 @@ function add_post(source_element) {
 
     var headers = {
         'X-CSRFToken': csrf_token,
-    }
+    };
 
     $.ajax({
         url: '/social_integration/post_comment',
@@ -355,7 +355,7 @@ function submit_reply(source_element) {
 
     var headers = {
         'X-CSRFToken': csrf_token,
-    }
+    };
 
     $.ajax({
         url: '/social_integration/submit_reply',
