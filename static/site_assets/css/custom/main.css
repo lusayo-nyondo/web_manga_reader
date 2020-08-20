@@ -545,3 +545,13 @@
     box-sizing: border-box;
     padding-left: 1px;
 }
+
+.bl-0 {
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+
+.br-0 {
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}

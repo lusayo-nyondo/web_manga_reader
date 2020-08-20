@@ -63,7 +63,7 @@ function create_btn_toggle_bookmark_state(user_id, manga_id, chapter_id, csrf_to
 
     switch(bookmark_state) {
         case "add_to_bookmarks": {
-            button.className = "btn btn-warning";
+            button.className = "btn btn-sm btn-warning";
             button.setAttribute("data-is-chapter-bookmarked", "False");
 
             button.onclick = function() {
@@ -72,7 +72,7 @@ function create_btn_toggle_bookmark_state(user_id, manga_id, chapter_id, csrf_to
         } break;
 
         case "remove_from_bookmarks": {
-            button.className = "btn btn-danger";
+            button.className = "btn btn-sm btn-danger";
             button.setAttribute("data-is-chapter-bookmarked", "True");
 
             button.onclick = function() {

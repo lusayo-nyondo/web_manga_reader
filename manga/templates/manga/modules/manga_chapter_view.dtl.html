@@ -3,7 +3,7 @@
                 <section class="content-area" data-pgc-field="manga_chapters_overview">
                     <header>
                         <h1 id="top_header" class='d-flex p-2 m-0'>
-                            <a href="/manga/manga/{{ manga.id }}">
+                            <a href="/manga/manga/{{ manga.id }}" class="d-flex align-items-center">
                                 <i class="fa fa-arrow-left content-top-link text-dark"></i>
                             </a>
                             <a href="/manga/manga/{{ manga.id }}" class='flex-fill text-center text-dark'>
@@ -27,7 +27,7 @@
                                 <button
                                     type="button"
                                     tooltip="Bookmark this chapter."
-                                    class="btn btn-warning"
+                                    class="btn btn-sm btn-warning"
                                     id="btn_toggle_bookmark_state"
                                     {% if user %}
                                     data-user="{{ user.id }}"
@@ -69,22 +69,22 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="pagination form-group my-0 {% if mode != 'single_page' %}d-none{% endif %}">
+                        <div class="pagination form-group my-0 {% if reading_mode != 'single_page' %}d-none{% endif %}">
                             <div class="mx-0 d-flex justify-content-end topnav-central-column flex-fill central-nav-content align-items-center btn-dark active" data-pgc-field="page-controls-area">
                                 <div class="d-flex justify-content-center px-2 flex-fill">
                                     <div class="form-group form-inline d-flex flex-nowrap w-100 mt-3">
-                                        <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_previous_page()'>
+                                        <button type="button" class="btn btn-sm btn-light mx-0 px-4 br-0 form-control-sm" onclick='fetch_previous_page()'>
                                             <i class="fas fa-angle-left"></i>
                                         </button>
                                         <select
                                             id="select_page"
-                                            class="custom-select flex-fill custom-select-sm" 
+                                            class="custom-select flex-fill custom-select-sm br-0 bl-0" 
                                             onchange="fetch_selected_page(this)">
                                             {% for page in pages %}
                                             <option value='{{ page.page_number }}'>{{ page.page_number }}</option>
                                           {% endfor %}
                                         </select>
-                                        <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_next_page()'>
+                                        <button type="button" class="btn btn-sm btn-light mx-0 px-4 bl-0 form-control-sm" onclick='fetch_next_page()'>
                                             <i class="fas fa-angle-right"></i>
                                         </button>
                                     </div>
@@ -96,13 +96,13 @@
                             <div class="mx-0 d-flex justify-content-end topnav-central-column flex-fill central-nav-content align-items-center btn-dark active" data-pgc-field="page-controls-area">
                                 <div class="d-flex justify-content-center px-2 flex-fill">
                                     <div class="form-group form-inline d-flex flex-nowrap w-100 mt-3">
-                                        <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_previous_chapter("{{ manga.id }}")'>
+                                        <button type="button" class="btn btn-sm br-0 btn-light mx-0 px-4 form-control-sm" onclick='fetch_previous_chapter("{{ manga.id }}")'>
                                             <i class="fas fa-angle-left"></i>
                                         </button>
                                         
                                         <select
                                             id="chapter-select-bottom"
-                                            class="custom-select flex-fill custom-select-sm"
+                                            class="custom-select flex-fill custom-select-sm br-0 bl-0"
                                             onchange="fetch_selected_chapter('{{ manga.id }}', this)">
                                             {% for chap in chapters %}
                                             {% if chap.chapter_number == chapter.chapter_number %}
@@ -113,7 +113,7 @@
                                           {% endfor %}
                                         </select>
 
-                                        <button type="button" class="btn btn-light mx-1 form-control-sm" onclick='fetch_next_chapter("{{ manga.id }}")'>
+                                        <button type="button" class="btn btn-sm btn-light mx-0 px-4 form-control-sm bl-0" onclick='fetch_next_chapter("{{ manga.id }}")'>
                                             <i class="fas fa-angle-right"></i>
                                         </button>
                                     </div>
