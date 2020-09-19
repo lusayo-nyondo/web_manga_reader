@@ -1,3 +1,6 @@
 *__pycache__*
 *staticfiles*
 *.vscode*
+*settings*production.py
+*settings*testing*
+*settings*accesstokens*
