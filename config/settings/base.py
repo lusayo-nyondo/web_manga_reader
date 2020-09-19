@@ -7,7 +7,7 @@ import os
 import django
 import sys
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = '/home/clickmanga/webapps/mangapoint'
+BASE_DIR = '/home/clickmanga/webapp/mangapoint'
 sys.path.append(BASE_DIR)
 
 # Add the site application root to the import path here, because django seems to disobey regular python
