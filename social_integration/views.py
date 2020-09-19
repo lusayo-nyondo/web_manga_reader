@@ -9,7 +9,7 @@ from .models import Post, Like
 from users import session as user_session
 from users.models import SiteUser
 
-from config.settings import DATA_UPLOAD_MAX_MEMORY_SIZE
+from config.settings.base import DATA_UPLOAD_MAX_MEMORY_SIZE
 
 def post_comment(request):
     try:
