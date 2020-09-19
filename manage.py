@@ -13,7 +13,7 @@ def main():
     if not SITE_APP_ROOT in sys.path:
         sys.path.append(SITE_APP_ROOT)
 
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.development')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

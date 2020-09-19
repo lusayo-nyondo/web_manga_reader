@@ -6,7 +6,6 @@ For this branch, it is suited towards neetlord.pythonanywhere.com.
 import os
 import django
 import sys
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,41 +19,20 @@ sys.path.append(SITE_APP_ROOT)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5j1c=bf12)vhnu%qymy!2j9nt8a3$(2srgfxh_n*8qwpdq#ovs'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
+from .accesstokens import *
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440
 
 LIVE_HOST = 'localhost:8000'
 
+LOGIN_REDIRECT_URL = '/manga_list'
+
 LOGIN_URL = '/account/sign_in'
 LOGOUT_URL = '/account/logout'
 
-LOGIN_REDIRECT_URL = '/manga_list'
-
-SOCIAL_AUTH_GITHUB_KEY = '88ea351bc7fc238dae9f'
-SOCIAL_AUTH_GITHUB_SECRET = 'ef771cdde71445d7e0493699781baf864d4492c5'
-
-SOCIAL_AUTH_FACEBOOK_KEY = '563892190925479'
-SOCIAL_AUTH_FACEBOOK_SECRET = 'a38bea84f5e5e872a7588e1b1f80d9dd'
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '931797996770-93hjribfjpvrv66bkgceu63rpibk93vb.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'rNvzHxJ9XrQSzV4Ywa9hHdze'
-
-SOCIAL_AUTH_TWITTER_KEY = 'FE5xC0zsOTquRdnFyHvjhetjN'
-SOCIAL_AUTH_TWITTER_SECRET = 'zi3oYJUVKZfGsWVohqtyCtb0KiZiueJjF61qwF230fa3iMGQyk'
-
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
-
-ALLOWED_HOSTS = [
-    'neetlord.pythonanywhere.com',
-    'localhost',
-    '127.0.0.1',
-]
-
 
 # Application definition
 
@@ -108,28 +86,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        #'NAME': 'neetlord$mangapoint',
-        #'USER': 'neetlord',
-        #'HOST': 'neetlord.mysql.pythonanywhere-services.com',
-        #'PASSWORD': 'NyondoNyondo',
-        'NAME': 'mangapoint',
-        'USER': 'root',
-        'PASSWORD': '',
-        'PORT': '3306'
-    }
-}
-
-
-# Password validation
-# https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
