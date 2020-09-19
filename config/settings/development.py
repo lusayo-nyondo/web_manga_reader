@@ -10,7 +10,7 @@ ALLOWED_HOSTS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'clickmanga',
+        'NAME': 'mangapoint',
         'USER': 'root',
         'PASSWORD': '',
     }

@@ -7,7 +7,13 @@ import os
 import django
 import sys
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(
+    os.path.dirname(
+        os.path.dirname(
+            os.path.abspath(__file__)
+        )
+    )
+)
 
 sys.path.append(BASE_DIR)
 
@@ -128,7 +134,9 @@ STATICFILES_DIRS = (
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-WORKSPACE_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '/workspaces/')
+WORKSPACE_ROOT = os.path.join(
+    os.path.dirname(BASE_DIR), '/workspaces/'
+)
 
 AUTH_USER_MODEL = "users.SiteUser"
 
