@@ -1,6 +1,6 @@
 # NOTE: THIS FILE IS NOT TRACKED SO ACTUAL TESTING DETAILS ARE DIFFERENT
 
-from .base import *
+from config.settings.base import *
 
 DEBUG = True
 
