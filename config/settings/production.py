@@ -16,4 +16,3 @@ ALLOWED_HOSTS = [
 ]
 
 DEBUG = False
-asdfasd
