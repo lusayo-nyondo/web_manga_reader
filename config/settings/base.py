@@ -6,21 +6,17 @@ For this branch, it is suited towards neetlord.pythonanywhere.com.
 import os
 import django
 import sys
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 BASE_DIR = '/home/clickmanga/webapp/mangapoint'
 sys.path.append(BASE_DIR)
 
 # Add the site application root to the import path here, because django seems to disobey regular python
 # import rules.
 SITE_APP_ROOT = os.path.dirname(BASE_DIR)
-sys.path.append(SITE_APP_ROOT)
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
+from config.settings.accesstokens import *
 
-# SECURITY WARNING: don't run with debug turned on in production!
-
-from .accesstokens import *
+SECURE_SSL_REDIRECT = True
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440
 

@@ -1,3 +1,7 @@
+file = open('/home/clickmanga/public_html/proc_log.txt', 'a')
+file.write('\nopening manga list\n')
+file.close()
+
 import json
 
 from django.http import HttpResponse
