@@ -15,3 +15,5 @@ DATABASES = {
         'PASSWORD': '',
     }
 }
+
+SECURE_SSL_REDIRECT = False
