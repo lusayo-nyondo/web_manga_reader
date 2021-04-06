@@ -14,5 +14,5 @@ ALLOWED_HOSTS = [
     'clickmanga.xyz',
 ]
 
-DEBUG = True
-
+DEBUG = False
+SSH_WELL_KNOWN = '/home/clickmanga/public_html/.well-known/'
