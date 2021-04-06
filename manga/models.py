@@ -3,8 +3,6 @@ from django.utils import timezone
 
 from datetime import timedelta
 
-# Create your models here.
-
 
 class Author(models.Model):
     STATUS_STRINGS = [
@@ -16,8 +14,14 @@ class Author(models.Model):
     ]
 
     author_name = models.TextField()
-    author_status = models.TextField(choices=STATUS_STRINGS)
-    author_url = models.URLField(blank=True)
+    
+    author_status = models.TextField(
+        choices=STATUS_STRINGS
+    )
+
+    author_url = models.URLField(
+        blank=True
+    )
 
     def __str__(self):
         return self.author_name
