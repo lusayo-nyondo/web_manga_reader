@@ -1,17 +1,4 @@
-# users/admin.py
-from django.contrib import admin
-from django.contrib.auth import get_user_model
-from django.contrib.auth.admin import UserAdmin
+from django.apps import AppConfig
 
-from .forms import SiteUserCreationForm, SiteUserChangeForm
-from .models import SiteUser
-
-
-class SiteUserAdmin(UserAdmin):
-    add_form = SiteUserCreationForm
-    form = SiteUserChangeForm
-    model = SiteUser
-    list_display = ['email', 'username',]
-
-
-admin.site.register(SiteUser, SiteUserAdmin)
+class UsersConfig(AppConfig):
+    name = 'users'

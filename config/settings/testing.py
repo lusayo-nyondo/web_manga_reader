@@ -5,7 +5,7 @@ from config.settings.base import *
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'neetlord.pythonanywhere.com',
+    'lusayonyondo.pythonanywhere.com',
 ]
 
 DATABASES = {

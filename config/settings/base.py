@@ -7,7 +7,14 @@ import os
 import django
 import sys
 
-BASE_DIR = '/home/clickmanga/webapp/mangapoint'
+BASE_DIR = os.path.dirname(
+    os.path.dirname(
+        os.path.dirname(
+            os.path.abspath(__file__)
+        )
+    )
+)
+
 sys.path.append(BASE_DIR)
 
 # Add the site application root to the import path here, because django seems to disobey regular python
@@ -20,7 +27,7 @@ SECURE_SSL_REDIRECT = True
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440
 
-LIVE_HOST = 'localhost:8000'
+LIVE_HOST = 'localhost:9000'
 
 LOGIN_REDIRECT_URL = '/manga_list'
 
@@ -134,6 +141,5 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.google.GoogleOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
-    'sslserver'
+    'django.contrib.auth.backends.ModelBackend'
 )
