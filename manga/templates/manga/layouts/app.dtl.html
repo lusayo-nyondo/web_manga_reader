@@ -8,7 +8,7 @@
         <meta name="description" content="A manga website that gives you a truly personalized user experience.">
         <meta name="author" content="Lusayo Nyondo">
 
-        <title>Click Manga</title>
+        <title>Web Manga Reader</title>
 
         <link href="{% static 'site_assets/css/libs/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static 'site_assets/css/libs/font-awesome/css/all.min.css' %}" rel="stylesheet">
@@ -128,8 +128,8 @@
                 <!-- Start Central Content Layout -->
                 <div class="flex-fill d-flex flex-column vh-100" id="central_content">
                     <!-- Start Module Content Layout -->
-                    <div class="module-content flex-fill overflow-y-scroll">
-                        <div id="module_content" >
+                    <div class="module-content flex-fill overflow-y-scroll d-flex flex-column">
+                        <div id="module_content" class="flex-fill">
                         {% block module_content %}
 
                         {% endblock %}

@@ -76,7 +76,7 @@ def get_mangas_with_chapters_and_pages():
     mangas = Manga.objects.filter(
         id__in=manga_ids
     )
-
+    
     return mangas
 
 def get_mangas_page(page_number, n, order_by):

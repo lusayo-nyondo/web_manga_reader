@@ -17,7 +17,9 @@ def manga_list_all_view(request):
     tags_page = manga_session.get_tags_page(1, 10)
 
     manga_list = manga_session.get_mangas_page(1, 24, 'updated_on')
-
+    
+    print("Printing manga list")
+    print(len(manga_list))
     template = loader.get_template('manga/modules/manga_list.dtl.html')
     context = {
         'sections': (
@@ -39,7 +41,12 @@ def manga_list_all_view(request):
         'tag_pages': range(1, tags_page.paginator.num_pages + 1)
     }
 
-    return HttpResponse(template.render(context, request))
+    return HttpResponse(
+        template.render(
+            context,
+            request
+        )
+    )
 
 def manga_list_filtered_view(request, page_number):
     authors_page = manga_session.get_authors_page(1, 10)
@@ -112,6 +119,7 @@ def manga_list_default_view(request):
     recently_updated_list = manga_session.get_mangas_page(1, 12, '-updated_on')
 
     template = loader.get_template('manga/modules/manga_list.dtl.html')
+    
     context = {
         'sections': (
             {
